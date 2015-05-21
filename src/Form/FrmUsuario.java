@@ -127,7 +127,6 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jRSim = new javax.swing.JRadioButton();
         jRNao = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
-        jTCodigo = new javax.swing.JTextField();
         jBExcluir = new javax.swing.JButton();
         jBNovo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -221,8 +220,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                                 .addComponent(jLConfirmaSenhaCadastro)
                                 .addComponent(jLUsuarioCadastro))
                             .addGroup(jPEditarLayout.createSequentialGroup()
-                                .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23)
+                                .addGap(69, 69, 69)
                                 .addComponent(jLNomeCadastro)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,8 +253,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLNomeCadastro)
-                    .addComponent(jTCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLNomeCadastro))
                 .addGap(18, 18, 18)
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -458,7 +455,6 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jRNao;
     private javax.swing.JRadioButton jRSim;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTCodigo;
     private javax.swing.JTextField jTNome;
     private javax.swing.JTextField jTUsuario;
     private javax.swing.JTable jTabelaUsuario;
