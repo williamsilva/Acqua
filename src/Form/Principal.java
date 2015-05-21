@@ -14,9 +14,6 @@ public class Principal {
     }
     public static String computador;
 
-    static Object getInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     Connection conexao;
     PreparedStatement prepared;
     ResultSet result;
