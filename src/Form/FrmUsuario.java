@@ -7,9 +7,7 @@ package Form;
 
 import DAO.*;
 import MODELO.ModeloTabela;
-import java.awt.Color;
-import java.awt.HeadlessException;
-import java.sql.*;
+import MODELO.modelUsuario;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -21,21 +19,21 @@ import javax.swing.ListSelectionModel;
  */
 public final class FrmUsuario extends javax.swing.JInternalFrame {
 
-    ConectaBanco conecta = new ConectaBanco();
+    ConectionFactory conecta = new ConectionFactory();
     String usuario = "";
+    String usuarioSenha = "";
 
     /**
      * Creates new form FrmUsuario
      */
     public FrmUsuario() {
         init();
-               
+
         conecta.conexao();
         preencherTabela();
         jBExcluir.setEnabled(false);
         jPEditar.setVisible(false);
-        jLUsuario1.setVisible(true);
-        jTdataHora.setVisible(true);
+       
     }
 
     private void init() {
@@ -43,28 +41,18 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         timer1.start();
     }
 
-    FrmUsuario(String usuarioFrm) {
-        init();
-        usuario = usuarioFrm;
-        jTUsuarioCadastrado.setText(usuario);    
-
-        JOptionPane.showMessageDialog(null, usuario);
-
-    }
-
     public void intensSelecionado() {
         int seleciona = jTabelaUsuario.getSelectedRow();
         jTNome.setText(jTabelaUsuario.getModel().getValueAt(seleciona, 0).toString());
         jTUsuario.setText(jTabelaUsuario.getModel().getValueAt(seleciona, 1).toString());
+
     }
 
-    public void mostraDtaHora() {
-        jTdataHora.setText(ClassUtiuls.mostraHoraData());
-           }
 
     public void preencherTabela() {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Nome", "Login", "Data Castro", "Última Auteração", "Ativo"};
+        String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Auteração", "Ativo"};
+
         conecta.executaSQL("select * from login order by Nome");
         try {
             conecta.rs.first();
@@ -75,7 +63,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                     conecta.rs.getString("data_Cadastro"),
                     conecta.rs.getString("ultima_Auteracao"),
                     conecta.rs.getString("Ativo"),
-                conecta.rs.getString("Senha")});
+                    conecta.rs.getString("Senha")});
 
             } while (conecta.rs.next());
         } catch (Exception e) {
@@ -84,7 +72,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaUsuario.setModel(modelo);
 
-        jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(290);
+        jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(300);
         jTabelaUsuario.getColumnModel().getColumn(0).setResizable(false);
 
         jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(180);
@@ -111,7 +99,6 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
         rBStatus = new javax.swing.ButtonGroup();
         timer1 = new org.netbeans.examples.lib.timerbean.Timer();
-        jLUsuario1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabelaUsuario = new javax.swing.JTable();
@@ -130,10 +117,10 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jRNao = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jBEditar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jBExcluir = new javax.swing.JButton();
         jBNovo = new javax.swing.JButton();
-        jTdataHora = new javax.swing.JTextField();
-        jTUsuarioCadastrado = new javax.swing.JTextField();
 
         timer1.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
             public void onTime(java.awt.event.ActionEvent evt) {
@@ -141,10 +128,10 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setIconifiable(true);
-
-        jLUsuario1.setText("usuario");
+        setResizable(true);
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -171,11 +158,11 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 981, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
         );
 
         jPEditar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -222,6 +209,20 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton1.setText("Definir Senha");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Teste");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPEditarLayout = new javax.swing.GroupLayout(jPEditar);
         jPEditar.setLayout(jPEditarLayout);
         jPEditarLayout.setHorizontalGroup(
@@ -231,21 +232,24 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPEditarLayout.createSequentialGroup()
                         .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLSenhaCadastro)
-                                .addComponent(jLConfirmaSenhaCadastro)
-                                .addComponent(jLUsuarioCadastro))
                             .addGroup(jPEditarLayout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(jLNomeCadastro)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPConfirmeSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPEditarLayout.createSequentialGroup()
-                        .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLSenhaCadastro)
+                                        .addComponent(jLConfirmaSenhaCadastro)
+                                        .addComponent(jLUsuarioCadastro))
+                                    .addGroup(jPEditarLayout.createSequentialGroup()
+                                        .addGap(69, 69, 69)
+                                        .addComponent(jLNomeCadastro)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPConfirmeSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPEditarLayout.createSequentialGroup()
+                                        .addComponent(jPSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(62, 62, 62)
+                                        .addComponent(jButton1))))
                             .addGroup(jPEditarLayout.createSequentialGroup()
                                 .addComponent(jRSim)
                                 .addGap(18, 18, 18)
@@ -253,13 +257,16 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                                 .addGap(31, 31, 31)
                                 .addComponent(jBEditar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBSalvar))
-                            .addGroup(jPEditarLayout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(jLabel1)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jBCancelar)))
-                .addContainerGap(275, Short.MAX_VALUE))
+                                .addComponent(jBSalvar)
+                                .addGap(18, 18, 18)
+                                .addComponent(jBCancelar)))
+                        .addContainerGap(45, Short.MAX_VALUE))
+                    .addGroup(jPEditarLayout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(61, 61, 61))))
         );
         jPEditarLayout.setVerticalGroup(
             jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,7 +282,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLSenhaCadastro))
+                    .addComponent(jLSenhaCadastro)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLConfirmaSenhaCadastro)
@@ -289,7 +297,9 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                             .addComponent(jBCancelar)))
                     .addGroup(jPEditarLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
+                        .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jRNao)
@@ -324,17 +334,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 159, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTdataHora, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLUsuario1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(114, 114, 114))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTUsuarioCadastrado, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addGap(60, 401, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -346,84 +346,57 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                     .addComponent(jBExcluir)
                     .addComponent(jBNovo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTUsuarioCadastrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(jTdataHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(jLUsuario1)
-                        .addGap(40, 40, 40))
-                    .addComponent(jPEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        pack();
+        setBounds(0, 0, 989, 485);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalvarActionPerformed
-        try {
-            PreparedStatement pst = conecta.conn.prepareStatement("insert into login (Nome,Login,Senha,data_cadastro,ultima_auteracao,ativo)"
-                    + " values (?,?,?,?,?,?)");
-            pst.setString(1, jTNome.getText());
-            pst.setString(2, jTUsuario.getText());
-            pst.setString(3, jPSenha.getText());
-            pst.setString(4, "Em " + jTdataHora.getText() + " Por " + jTUsuarioCadastrado.getText());
-            pst.setString(5, "Em " + jTdataHora.getText() + " Por " + jTUsuarioCadastrado.getText());
+
+        if (!jTNome.getText().equals("") && !jTUsuario.getText().equals("") && !new String(jPSenha.getPassword()).equals("")) {
+
+            modelUsuario usuarioTemp = new modelUsuario();
+            usuarioTemp.setSenha(new String(jPSenha.getPassword()));
+            usuarioTemp.setNome(jTNome.getText());
+            usuarioTemp.setUsuario(jTUsuario.getText());
+            usuarioTemp.setUltima_auteracao("Em "+ClassUtiuls.mostraHoraData()+" Por ");
+            usuarioTemp.setData_cadastro("Em "+ClassUtiuls.mostraHoraData()+" Por ");
 
             if (jRSim.isSelected()) {
-                pst.setString(6, "Sim");
+                usuarioTemp.setAtivo("Sim");
             } else if (jRNao.isSelected()) {
-                pst.setString(6, "Nao");
+                usuarioTemp.setAtivo("Não");
             }
-            if (!jTNome.getText().equals("") && !jTUsuario.getText().equals("") && !new String(jPSenha.getPassword()).equals("")) {
+            if (new String(jPSenha.getPassword()).equals(new String(jPConfirmeSenha.getPassword()))) {
+                usuarioDao dao = new usuarioDao();
+                dao.cadastrarUsuario(usuarioTemp);
+                limparCanpos();
+                jPEditar.setVisible(false);
+                jBNovo.setEnabled(true);
+                jBExcluir.setEnabled(false);
+                preencherTabela();
 
-                if (new String(jPSenha.getPassword()).equals(new String(jPConfirmeSenha.getPassword()))) {
-
-                    pst.executeUpdate();
-                    limparCanpos();
-
-                    jPEditar.setVisible(false);
-                    jBNovo.setEnabled(true);
-                    jBExcluir.setEnabled(false);
-
-                    preencherTabela();
-
-                    JOptionPane.showMessageDialog(rootPane, "Dados Gravados com Sucesso");
-                } else {
-                    JOptionPane.showMessageDialog(null, "As Senhas não são iguais:");
-                }
             } else {
-                jLConfirmaSenhaCadastro.setBackground(Color.red);
-                jLNomeCadastro.setBackground(Color.red);
-                jLSenhaCadastro.setBackground(Color.red);
-                jLUsuarioCadastro.setBackground(Color.red);
-                JOptionPane.showMessageDialog(null, "Preencha os campos corretamente!");
+                JOptionPane.showMessageDialog(null, "As senhas não são iguais!");
             }
-
-        } catch (SQLException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + e);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
         }
     }//GEN-LAST:event_jBSalvarActionPerformed
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-        try {
-            PreparedStatement pst = conecta.conn.prepareStatement("Delete from login where Login = ?");
-            pst.setString(1, jTUsuario.getText());
-            pst.execute();
-            jPEditar.setVisible(false);
-            jBNovo.setEnabled(true);
-            jBExcluir.setEnabled(false);
-            
-            JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
-            
-            preencherTabela();
-            limparCanpos();
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao Excluir!\n Erro" + e.getMessage());
-        }
+        modelUsuario usuarioTemp = new modelUsuario();
+        usuarioTemp.setUsuario(jTUsuario.getText());
+        usuarioDao dao = new usuarioDao();
+        dao.deletar(usuarioTemp);
 
-
+        jPEditar.setVisible(false);
+        jBNovo.setEnabled(true);
+        jBExcluir.setEnabled(false);
+        preencherTabela();
+        limparCanpos();
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     private void jBNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoActionPerformed
@@ -459,31 +432,47 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
 
-        try {
+//        try {
+//
+//            PreparedStatement pst = conecta.conn.prepareStatement("update login set  nome =?,senha = ?,ativo=?,ultima_auteracao =?,login = ?");
+//
+//            pst.setString(1, jTNome.getText());
+//            if (new String(jPSenha.getPassword()).equals(new String(jPConfirmeSenha.getPassword()))) {
+//                pst.setString(2, new String(jPSenha.getPassword()));
+//            } else {
+//                JOptionPane.showMessageDialog(null, "As senhas não corresponde");
+//            }
+//            if (jRSim.isSelected()) {
+//                pst.setString(3, "Sim");
+//            } else if (jRNao.isSelected()) {
+//                pst.setString(3, "Nao");
+//            }
+//            pst.setString(4, "Em " + jTdataHora.getText() + "Por " + jLUsuario1.getText());
+//            pst.setString(5, jTUsuario.getText());
+//
+//            pst.execute();
+//            JOptionPane.showMessageDialog(null, "Dados Atualizados com sucesso!");
+//            preencherTabela();
+//        } catch (SQLException e) {
+//            JOptionPane.showMessageDialog(null, "Erro ao Atualizar!\n Erro: " + e.getMessage());
+//
+//        }
+        modelUsuario usuarioTemp = new modelUsuario();
+        //usuarioTemp.setSenha(new String(jPSenha.getPassword()));
+        usuarioTemp.setNome(jTNome.getText());
+        usuarioTemp.setUsuario(jTUsuario.getText());
+        // usuarioTemp.setUltima_auteracao("Em "+ClassUtiuls.mostraHoraData()+" Por ");
 
-            PreparedStatement pst = conecta.conn.prepareStatement("update login set  nome =?,senha = ?,ativo=?,ultima_auteracao =?,login = ?");
-            
-            pst.setString(1, jTNome.getText());
-            if (new String(jPSenha.getPassword()).equals(new String (jPConfirmeSenha.getPassword()))){
-                pst.setString(2,new String(jPSenha.getPassword()));
-            }else{
-                JOptionPane.showMessageDialog(null,"As senhas não corresponde");
-            }
-            if (jRSim.isSelected()) {
-                pst.setString(3, "Sim");
-            } else if (jRNao.isSelected()) {
-                pst.setString(3, "Nao");
-            }
-            pst.setString(4, "Em "+jTdataHora.getText()+"Por "+jLUsuario1.getText());
-            pst.setString(5, jTUsuario.getText());
-            
-            pst.execute();
-            JOptionPane.showMessageDialog(null,"Dados Atualizados com sucesso!");
-            preencherTabela();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,"Erro ao Atualizar!\n Erro: "+e.getMessage());
-
+        if (jRSim.isSelected()) {
+            usuarioTemp.setAtivo("Sim");
+        } else if (jRNao.isSelected()) {
+            usuarioTemp.setAtivo("Nao");
         }
+
+        usuarioDao dao = new usuarioDao();
+        dao.atualizar(usuarioTemp);
+        limparCanpos();
+        preencherTabela();
 
         jPEditar.setVisible(false);
         jBNovo.setVisible(true);
@@ -495,9 +484,18 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBEditarActionPerformed
 
     private void timer1OnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timer1OnTime
-        mostraDtaHora();
-        
+       
+
     }//GEN-LAST:event_timer1OnTime
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FrmDefinirSenha senha = new FrmDefinirSenha();
+        senha.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -506,10 +504,11 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBExcluir;
     private javax.swing.JButton jBNovo;
     private javax.swing.JButton jBSalvar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLConfirmaSenhaCadastro;
     private javax.swing.JLabel jLNomeCadastro;
     private javax.swing.JLabel jLSenhaCadastro;
-    private javax.swing.JLabel jLUsuario1;
     private javax.swing.JLabel jLUsuarioCadastro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField jPConfirmeSenha;
@@ -521,9 +520,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTNome;
     private javax.swing.JTextField jTUsuario;
-    private javax.swing.JTextField jTUsuarioCadastrado;
     private javax.swing.JTable jTabelaUsuario;
-    private javax.swing.JTextField jTdataHora;
     private javax.swing.ButtonGroup rBStatus;
     private org.netbeans.examples.lib.timerbean.Timer timer1;
     // End of variables declaration//GEN-END:variables

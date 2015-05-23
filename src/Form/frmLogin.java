@@ -39,7 +39,7 @@ public final class frmLogin extends javax.swing.JFrame {
                 this.dispose();
 
             } else {
-                JOptionPane.showMessageDialog(null, "Usuário ou senha Invalido!", "Falha No Login", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Usuário ou senha Invalidos!", "Falha No Login", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum Campo pode ser vazio!", "Falha No Login", JOptionPane.INFORMATION_MESSAGE);

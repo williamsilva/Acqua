@@ -12,7 +12,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author WILLIAM
  */
-public class ModeloTabela extends AbstractTableModel {
+public final class ModeloTabela extends AbstractTableModel {
 
     private ArrayList linhas = null;
     private String[] colunas = null;
@@ -38,18 +38,22 @@ public class ModeloTabela extends AbstractTableModel {
         colunas = nomes;
     }
 
+    @Override
     public int getColumnCount() {
         return colunas.length;
     }
 
+    @Override
     public int getRowCount() {
         return linhas.size();
     }
 
+    @Override
     public String getColumnName(int numCol) {
         return colunas[numCol];
     }
 
+    @Override
     public Object getValueAt(int numLin, int numCol) {
         Object[] linha = (Object[]) getLinhas().get(numLin);
         return linha[numCol];
