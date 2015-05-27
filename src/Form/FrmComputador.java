@@ -7,7 +7,10 @@ package Form;
 
 import DAO.*;
 import MODELO.*;
+import java.beans.PropertyVetoException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -23,9 +26,15 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     /**
      * Creates new form FrmComputador
      */
-    public FrmComputador() {
+    public FrmComputador()  {
         initComponents();
-        conecta.conexao();
+        try {
+            this.setMaximum(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(FrmComputador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conecta.conexao();      
+        
         preencherTabela();
         jPComputador.setVisible(false);
         jBExcluir.setEnabled(false);
@@ -231,17 +240,18 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
 
         modelComputador computadorTemp = new modelComputador();
-        
+
         computadorTemp.setComputador(jTNomeCoputador.getText());
         computadorTemp.setMac(jTMacCoputador.getText());
         computadorTemp.setId(Integer.parseInt(jTId.getText()));
-        computadorTemp.setUltima_auteracao("Em "+ClassUtiuls.mostraHoraData()+" Por ");
-        
+        computadorTemp.setUltima_auteracao("Em " + ClassUtiuls.mostraHoraData() + " Por ");
+
         computadorDao dao = new computadorDao();
         dao.atualizar(computadorTemp);
+        
         limparCampos();
         preencherTabela();
-        
+
         jPComputador.setVisible(false);
         jBNovo.setEnabled(true);
         jBExcluir.setEnabled(false);
@@ -254,8 +264,8 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
             computadorTemp.setComputador(jTNomeCoputador.getText());
             computadorTemp.setMac(jTMacCoputador.getText());
-            computadorTemp.setUltima_auteracao("Em "+ClassUtiuls.mostraHoraData()+" Por ");
-            computadorTemp.setData_cadastro("Em "+ClassUtiuls.mostraHoraData()+" Por ");
+            computadorTemp.setUltima_auteracao("Em " + ClassUtiuls.mostraHoraData() + " Por ");
+            computadorTemp.setData_cadastro("Em " + ClassUtiuls.mostraHoraData() + " Por ");
 
             computadorDao dao = new computadorDao();
             dao.cadastrarComputador(computadorTemp);
@@ -267,6 +277,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
         } else {
             JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
+            repaint();
         }
     }//GEN-LAST:event_jBSalvarActionPerformed
 
@@ -305,7 +316,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     public void itensSelecionados() {
         int seleciona = jTabelaComputador.getSelectedRow();
         jTId.setText(jTabelaComputador.getModel().getValueAt(seleciona, 0).toString());
-        jTNomeCoputador.setText(jTabelaComputador.getModel().getValueAt(seleciona,1).toString());
+        jTNomeCoputador.setText(jTabelaComputador.getModel().getValueAt(seleciona, 1).toString());
         jTMacCoputador.setText(jTabelaComputador.getModel().getValueAt(seleciona, 2).toString());
 
     }

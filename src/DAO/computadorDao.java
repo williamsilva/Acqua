@@ -39,7 +39,7 @@ public class computadorDao {
 
     public void atualizar(modelComputador atualizar) {
 
-        sql = "update from computador nome_computador = ? mac_computador = ? ultima_auteracao where id_computador = ?";
+        sql =("update from computador nome_computador = ?, mac_computador = ?, ultima_auteracao where id_computador = ?");
 
         try {
             stms = conexao.prepareStatement(sql);

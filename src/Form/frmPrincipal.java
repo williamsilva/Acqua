@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public final class frmPrincipal extends javax.swing.JFrame {
 
     String usuarioBloqueio = "";
-//    String usuarioFrm = "";
+
     public frmPrincipal() throws InterruptedException {
         init();
     }
@@ -23,7 +23,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
         initComponents();
         confirmaFechamento();
-
         Principal principal = new Principal();
         String computador = principal.verificaMac().toUpperCase();
         jLComputador.setText("Logado em: " + computador);
@@ -41,8 +40,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     frmPrincipal(modelUsuario usuarioTemp) throws InterruptedException {
         init();
         String usuario = usuarioTemp.getNome().toUpperCase();
-         usuarioBloqueio = usuarioTemp.getUsuario().toUpperCase();
-       // String usuarioFrm = usuarioTemp.getNome().toUpperCase();
+        usuarioBloqueio = usuarioTemp.getUsuario().toUpperCase();
         jLUsuario.setText("Usúario Logado: " + usuario);
     }
 
@@ -64,9 +62,16 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jMBloquear = new javax.swing.JMenuItem();
         jMDesconectar = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuICadastroBens = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMUsuario = new javax.swing.JMenuItem();
         jMComputadores = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         timer1.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
             public void onTime(java.awt.event.ActionEvent evt) {
@@ -186,6 +191,32 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jmArquivo);
 
+        jMenu1.setText("Bens");
+
+        jMenuICadastroBens.setText("Cadastro de Bens");
+        jMenuICadastroBens.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuICadastroBensActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuICadastroBens);
+
+        jMenuItem2.setText("Cadastro de Manutenção");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Reservas");
+        jMenuBar1.add(jMenu4);
+
+        jMenu3.setText("Relatorios");
+        jMenuBar1.add(jMenu3);
+
         jMenu2.setText("Sistema");
 
         jMUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
@@ -207,6 +238,13 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jMenu2.add(jMComputadores);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu5.setText("Ajuda");
+
+        jMenuItem5.setText("Sobre");
+        jMenu5.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -285,16 +323,35 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jInternalComputador();
     }//GEN-LAST:event_jMComputadoresActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuICadastroBensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuICadastroBensActionPerformed
+        jInternalCadastroBens();
+    }//GEN-LAST:event_jMenuICadastroBensActionPerformed
+
     FrmUsuario frmUsuarios;
     FrmComputador frmComputador;
-    public void jInternalComputador(){
-        if(frmComputador == null){
+    FrmBens bens;
+
+    public void jInternalComputador() {
+        if (frmComputador == null) {
             frmComputador = new FrmComputador();
-            frmComputador.setLocation(260,0);
-            frmComputador.setSize(1100,660);
-           // frmComputador.setResizable(true);
+           // frmComputador.setLocation(260, 0);
+           // frmComputador.setSize(1100,660);            
             this.jPPrincipal.add(frmComputador);
             try {
+                frmComputador.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if(frmComputador!=null){
+           frmComputador.dispose();
+           frmComputador = null;
+           frmComputador = new FrmComputador();
+           this.jPPrincipal.add(frmComputador);
+           try {
                 frmComputador.setMaximum(true);
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
@@ -302,11 +359,28 @@ public final class frmPrincipal extends javax.swing.JFrame {
         }
         frmComputador.setVisible(true);
     }
+
+    private void jInternalCadastroBens() {
+
+        if (bens == null) {
+            bens = new FrmBens();
+            bens.setSize(1100,660);
+            bens.setLocation(260,0);
+            bens.setVisible(true);
+            this.jPPrincipal.add(bens);
+            try {
+                bens.setMaximum(true);
+            } catch (Exception e) {
+            }
+        }
+        bens.setVisible(true);
+    }
+
     private void jInternalUsuarios() {
 
         if (frmUsuarios == null) {
             frmUsuarios = new FrmUsuario();
-            frmUsuarios.setLocation(260, 0);
+           frmUsuarios.setLocation(260, 0);
             frmUsuarios.setSize(1100, 660);
             frmUsuarios.setResizable(true);
 
@@ -332,9 +406,16 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMComputadores;
     private javax.swing.JMenuItem jMDesconectar;
     private javax.swing.JMenuItem jMUsuario;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuICadastroBens;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPPrincipal;
     private javax.swing.JPanel jPSecundario;
     private javax.swing.JPanel jPStatusBar;

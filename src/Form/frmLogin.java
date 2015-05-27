@@ -1,4 +1,5 @@
 package Form;
+
 import DAO.*;
 import java.sql.ResultSet;
 import MODELO.*;
@@ -12,8 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public final class frmLogin extends javax.swing.JFrame {
-   // private final int contTentativa = 0;
-        
+
     public frmLogin() {
         initComponents();
         this.setResizable(false);
@@ -23,7 +23,7 @@ public final class frmLogin extends javax.swing.JFrame {
     modelUsuario usuarioTemp = new modelUsuario();
     usuarioDao dao = new usuarioDao();
 
-    public void logar() throws SQLException, InterruptedException {
+    public String logar() throws SQLException, InterruptedException {
         ResultSet result = null;
         usuarioTemp = new modelUsuario();
         if (!jTUsuario.getText().equals("") || jTUsuario.getText().equals(result)
@@ -44,9 +44,9 @@ public final class frmLogin extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum Campo pode ser vazio!", "Falha No Login", JOptionPane.INFORMATION_MESSAGE);
         }
+        return usuarioTemp.getNome();
     }
-    
-   
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -186,9 +186,9 @@ public final class frmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jtSenhaKeyPressed
 
     private void jTUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTUsuarioKeyPressed
-       if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-           jtSenha.requestFocus();
-       }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jtSenha.requestFocus();
+        }
     }//GEN-LAST:event_jTUsuarioKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -204,18 +204,18 @@ public final class frmLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField jtSenha;
     // End of variables declaration//GEN-END:variables
 
-public void confirmaFechamento(){
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);  
-        addWindowListener(new WindowAdapter(){  
+    public void confirmaFechamento() {
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {  
-                int i = JOptionPane.showConfirmDialog(null ,"Tem certeza que deseja sair?", "Saída",JOptionPane.YES_NO_OPTION);  
-                if (i == JOptionPane.YES_OPTION) {  
-                    System.exit(0);  
-                } else {  
-                    repaint();  
-                }  
-            }  
+            public void windowClosing(WindowEvent e) {
+                int i = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Saída", JOptionPane.YES_NO_OPTION);
+                if (i == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                } else {
+                    repaint();
+                }
+            }
         });
     }
 

@@ -32,8 +32,4 @@ public class ClassUtiuls {
         String hora = (formatador.format(calendar.getTime()));
         return hora;
     }
-
-    public static void main(String[] args) {
-
-    }
 }

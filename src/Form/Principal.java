@@ -7,7 +7,10 @@ import javax.swing.*;
 
 public class Principal {
 
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+    public static void main(String[] args) throws ClassNotFoundException,
+            InstantiationException, IllegalAccessException,
+            UnsupportedLookAndFeelException {
+
         Principal principal = new Principal();
         principal.chamar();
 
@@ -28,8 +31,8 @@ public class Principal {
         String verifica = "";
         try {
             NetworkInterface network = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
-            byte [] mac = network.getHardwareAddress();            
-            
+            byte[] mac = network.getHardwareAddress();
+
             if (mac != null) {
                 for (int i = 0; i < mac.length; i++) {
                     sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "" : ""));
@@ -53,10 +56,10 @@ public class Principal {
             prepared = conexao.prepareStatement(sql);
             prepared.setString(1, mac);
             result = prepared.executeQuery();
-            if (result.next()) {                
+            if (result.next()) {
                 nome = result.getString("nome_computador");
-            }else{
-                nome= "";
+            } else {
+                nome = "";
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -67,8 +70,8 @@ public class Principal {
     public void chamar() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         String macComputador = getMac();
         String macBanco = verificaMac();
-        if (!"".equals(macComputador)&& !"".equals(macBanco)) {
-            
+        if (!"".equals(macComputador) && !"".equals(macBanco)) {
+
             if (macComputador != null || equals(macBanco)) {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 SpleshScreen splesh = new SpleshScreen();
@@ -78,10 +81,10 @@ public class Principal {
             } else {
                 JOptionPane.showMessageDialog(null, "Computador não Autorizado");
             }
-        } else if(macBanco.equals("")) {
+        } else if (macBanco.equals("")) {
             JOptionPane.showMessageDialog(null, "Computador não Autorizado", "Falha no Login", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-           JOptionPane.showMessageDialog(null, "Erro ao Verificar MAC", "Falha na Verifação", JOptionPane.INFORMATION_MESSAGE); 
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao Verificar MAC", "Falha na Verifação", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }
