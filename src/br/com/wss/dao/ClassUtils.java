@@ -1,4 +1,4 @@
-package DAO;
+package br.com.wss.dao;
 
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -6,7 +6,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-public class ClassUtiuls {
+public class ClassUtils {
+    private static String usuarioLogado;
+    
+    public static void setUsuarioLogado(String usuario){
+        usuarioLogado = usuario;
+    }
+    public static String buscaUsuarioLogado(){
+               
+        return usuarioLogado;
+    }
 
     public static String mostraData() {
 

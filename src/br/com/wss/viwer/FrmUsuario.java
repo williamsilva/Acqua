@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Form;
+package br.com.wss.viwer;
 
-import DAO.*;
-import MODELO.ModeloTabela;
-import MODELO.modelUsuario;
+import br.com.wss.dao.ClassUtils;
+import br.com.wss.dao.UsuarioDao;
+import br.com.wss.modelo.Tabela;
+import br.com.wss.modelo.TabelaUsuario;
+import br.com.wss.modelo.Usuario;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -19,7 +21,7 @@ import javax.swing.ListSelectionModel;
  */
 public final class FrmUsuario extends javax.swing.JInternalFrame {
 
-    ConectionFactory conecta = new ConectionFactory();
+    ArrayList<Usuario> dados;
     String usuario = "";
     String usuarioSenha = "";
 
@@ -28,48 +30,35 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
      */
     public FrmUsuario() {
         init();
-
-        conecta.conexao();
         preencherTabela();
         jBExcluir.setEnabled(false);
         jPEditar.setVisible(false);
-       
+
     }
 
     private void init() {
         initComponents();
         timer1.start();
+        jLid.setVisible(false);
+        jTId.setVisible(false);
     }
 
     public void intensSelecionado() {
         int seleciona = jTabelaUsuario.getSelectedRow();
-        jTNome.setText(jTabelaUsuario.getModel().getValueAt(seleciona, 0).toString());
-        jTUsuario.setText(jTabelaUsuario.getModel().getValueAt(seleciona, 1).toString());
+
+        jTId.setText(String.valueOf(dados.get(seleciona).getCodigo()));
+        jTNome.setText(dados.get(seleciona).getNome());
+        jTUsuario.setText(dados.get(seleciona).getUsuario());
 
     }
 
-
     public void preencherTabela() {
-        ArrayList dados = new ArrayList();
+
         String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Auteração", "Ativo"};
 
-        conecta.executaSQL("select * from login order by Nome");
-        try {
-            conecta.rs.first();
-            do {
-                dados.add(new Object[]{
-                    conecta.rs.getString("Nome"),
-                    conecta.rs.getString("Login"),
-                    conecta.rs.getString("data_Cadastro"),
-                    conecta.rs.getString("ultima_Auteracao"),
-                    conecta.rs.getString("Ativo"),
-                    conecta.rs.getString("Senha")});
-
-            } while (conecta.rs.next());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        UsuarioDao usuarioDao = new UsuarioDao();
+        dados = usuarioDao.listar();
+        Tabela modelo = new TabelaUsuario(dados, Colunas);
         jTabelaUsuario.setModel(modelo);
 
         jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(300);
@@ -109,16 +98,13 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jBCancelar = new javax.swing.JButton();
         jTUsuario = new javax.swing.JTextField();
         jTNome = new javax.swing.JTextField();
-        jLSenhaCadastro = new javax.swing.JLabel();
-        jLConfirmaSenhaCadastro = new javax.swing.JLabel();
-        jPConfirmeSenha = new javax.swing.JPasswordField();
-        jPSenha = new javax.swing.JPasswordField();
         jRSim = new javax.swing.JRadioButton();
         jRNao = new javax.swing.JRadioButton();
-        jLabel1 = new javax.swing.JLabel();
         jBEditar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jLUsuarioCadastro1 = new javax.swing.JLabel();
+        jTId = new javax.swing.JTextField();
+        jLid = new javax.swing.JLabel();
         jBExcluir = new javax.swing.JButton();
         jBNovo = new javax.swing.JButton();
 
@@ -162,7 +148,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
         );
 
         jPEditar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -187,20 +173,14 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        jLSenhaCadastro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLSenhaCadastro.setText("Senha:");
-
-        jLConfirmaSenhaCadastro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLConfirmaSenhaCadastro.setText("Confirme Senha:");
-
         rBStatus.add(jRSim);
+        jRSim.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jRSim.setSelected(true);
-        jRSim.setText("Sim");
+        jRSim.setText("Ativo");
 
         rBStatus.add(jRNao);
-        jRNao.setText("Não");
-
-        jLabel1.setText("Status Usuário");
+        jRNao.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jRNao.setText("Bloqueado");
 
         jBEditar.setText("Editar");
         jBEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -216,57 +196,53 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton2.setText("Teste");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        jLUsuarioCadastro1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLUsuarioCadastro1.setText("Status Usuário:");
+
+        jTId.setEditable(false);
+
+        jLid.setText("Id Cadastrado");
 
         javax.swing.GroupLayout jPEditarLayout = new javax.swing.GroupLayout(jPEditar);
         jPEditar.setLayout(jPEditarLayout);
         jPEditarLayout.setHorizontalGroup(
             jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPEditarLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPEditarLayout.createSequentialGroup()
                         .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLUsuarioCadastro)
                             .addGroup(jPEditarLayout.createSequentialGroup()
-                                .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLSenhaCadastro)
-                                        .addComponent(jLConfirmaSenhaCadastro)
-                                        .addComponent(jLUsuarioCadastro))
-                                    .addGroup(jPEditarLayout.createSequentialGroup()
-                                        .addGap(69, 69, 69)
-                                        .addComponent(jLNomeCadastro)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPConfirmeSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPEditarLayout.createSequentialGroup()
-                                        .addComponent(jPSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(62, 62, 62)
-                                        .addComponent(jButton1))))
-                            .addGroup(jPEditarLayout.createSequentialGroup()
-                                .addComponent(jRSim)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRNao)
-                                .addGap(31, 31, 31)
-                                .addComponent(jBEditar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBSalvar)
-                                .addGap(18, 18, 18)
-                                .addComponent(jBCancelar)))
-                        .addContainerGap(45, Short.MAX_VALUE))
+                                .addGap(11, 11, 11)
+                                .addComponent(jLNomeCadastro)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPEditarLayout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel1)
+                        .addComponent(jLUsuarioCadastro1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRSim)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRNao)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPEditarLayout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPEditarLayout.createSequentialGroup()
+                        .addComponent(jLid)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(61, 61, 61))))
+                        .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPEditarLayout.createSequentialGroup()
+                        .addComponent(jBEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBSalvar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBCancelar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(28, 28, 28))
         );
         jPEditarLayout.setVerticalGroup(
             jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,30 +257,24 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                     .addComponent(jLUsuarioCadastro))
                 .addGap(18, 18, 18)
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLSenhaCadastro)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLUsuarioCadastro1)
+                    .addComponent(jRSim)
+                    .addComponent(jRNao))
+                .addGap(29, 29, 29)
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLConfirmaSenhaCadastro)
-                    .addComponent(jPConfirmeSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jBSalvar)
+                    .addComponent(jBEditar)
+                    .addComponent(jBCancelar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPEditarLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addComponent(jButton1)
+                        .addGap(24, 24, 24))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPEditarLayout.createSequentialGroup()
                         .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBSalvar)
-                            .addComponent(jBEditar)
-                            .addComponent(jBCancelar)))
-                    .addGroup(jPEditarLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jButton2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPEditarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRNao)
-                            .addComponent(jRSim))))
-                .addContainerGap())
+                            .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLid))
+                        .addContainerGap())))
         );
 
         jBExcluir.setText("Excluir");
@@ -325,17 +295,18 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jBNovo)
-                .addGap(50, 50, 50)
-                .addComponent(jBExcluir)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 401, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jBNovo)
+                        .addGap(50, 50, 50)
+                        .addComponent(jBExcluir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,32 +325,27 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void jBSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalvarActionPerformed
 
-        if (!jTNome.getText().equals("") && !jTUsuario.getText().equals("") && !new String(jPSenha.getPassword()).equals("")) {
+        if (!jTNome.getText().equals("") && !jTUsuario.getText().equals("")) {
 
-            modelUsuario usuarioTemp = new modelUsuario();
-            usuarioTemp.setSenha(new String(jPSenha.getPassword()));
+            Usuario usuarioTemp = new Usuario();
             usuarioTemp.setNome(jTNome.getText());
             usuarioTemp.setUsuario(jTUsuario.getText());
-            usuarioTemp.setUltima_auteracao("Em "+ClassUtiuls.mostraHoraData()+" Por ");
-            usuarioTemp.setData_cadastro("Em "+ClassUtiuls.mostraHoraData()+" Por ");
+            usuarioTemp.setUltima_auteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            usuarioTemp.setData_cadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
             if (jRSim.isSelected()) {
                 usuarioTemp.setAtivo("Sim");
             } else if (jRNao.isSelected()) {
                 usuarioTemp.setAtivo("Não");
             }
-            if (new String(jPSenha.getPassword()).equals(new String(jPConfirmeSenha.getPassword()))) {
-                usuarioDao dao = new usuarioDao();
-                dao.cadastrarUsuario(usuarioTemp);
-                limparCanpos();
-                jPEditar.setVisible(false);
-                jBNovo.setEnabled(true);
-                jBExcluir.setEnabled(false);
-                preencherTabela();
+            UsuarioDao dao = new UsuarioDao();
+            dao.cadastrarUsuario(usuarioTemp);
+            limparCanpos();
+            jPEditar.setVisible(false);
+            jBNovo.setEnabled(true);
+            jBExcluir.setEnabled(false);
+            preencherTabela();
 
-            } else {
-                JOptionPane.showMessageDialog(null, "As senhas não são iguais!");
-            }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
         }
@@ -387,16 +353,24 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
 
-        modelUsuario usuarioTemp = new modelUsuario();
-        usuarioTemp.setUsuario(jTUsuario.getText());
-        usuarioDao dao = new usuarioDao();
-        dao.deletar(usuarioTemp);
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja Excluir?", "Exclusão", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            Usuario usuarioTemp = new Usuario();
+            usuarioTemp.setUsuario(jTUsuario.getText());
+            UsuarioDao dao = new UsuarioDao();
+            dao.deletar(usuarioTemp);
 
-        jPEditar.setVisible(false);
-        jBNovo.setEnabled(true);
-        jBExcluir.setEnabled(false);
-        preencherTabela();
-        limparCanpos();
+            jPEditar.setVisible(false);
+            jBNovo.setEnabled(true);
+            jBExcluir.setEnabled(false);
+            preencherTabela();
+            limparCanpos();
+
+        } else {
+            repaint();
+        }
+
+
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     private void jBNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoActionPerformed
@@ -431,37 +405,12 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTabelaUsuarioMouseClicked
 
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
+        Usuario usuarioTemp = new Usuario();
 
-//        try {
-//
-//            PreparedStatement pst = conecta.conn.prepareStatement("update login set  nome =?,senha = ?,ativo=?,ultima_auteracao =?,login = ?");
-//
-//            pst.setString(1, jTNome.getText());
-//            if (new String(jPSenha.getPassword()).equals(new String(jPConfirmeSenha.getPassword()))) {
-//                pst.setString(2, new String(jPSenha.getPassword()));
-//            } else {
-//                JOptionPane.showMessageDialog(null, "As senhas não corresponde");
-//            }
-//            if (jRSim.isSelected()) {
-//                pst.setString(3, "Sim");
-//            } else if (jRNao.isSelected()) {
-//                pst.setString(3, "Nao");
-//            }
-//            pst.setString(4, "Em " + jTdataHora.getText() + "Por " + jLUsuario1.getText());
-//            pst.setString(5, jTUsuario.getText());
-//
-//            pst.execute();
-//            JOptionPane.showMessageDialog(null, "Dados Atualizados com sucesso!");
-//            preencherTabela();
-//        } catch (SQLException e) {
-//            JOptionPane.showMessageDialog(null, "Erro ao Atualizar!\n Erro: " + e.getMessage());
-//
-//        }
-        modelUsuario usuarioTemp = new modelUsuario();
-        //usuarioTemp.setSenha(new String(jPSenha.getPassword()));
         usuarioTemp.setNome(jTNome.getText());
         usuarioTemp.setUsuario(jTUsuario.getText());
-        // usuarioTemp.setUltima_auteracao("Em "+ClassUtiuls.mostraHoraData()+" Por ");
+        usuarioTemp.setCodigo(jTId.getText());
+        usuarioTemp.setUltima_auteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
         if (jRSim.isSelected()) {
             usuarioTemp.setAtivo("Sim");
@@ -469,7 +418,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             usuarioTemp.setAtivo("Nao");
         }
 
-        usuarioDao dao = new usuarioDao();
+        UsuarioDao dao = new UsuarioDao();
         dao.atualizar(usuarioTemp);
         limparCanpos();
         preencherTabela();
@@ -484,7 +433,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBEditarActionPerformed
 
     private void timer1OnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timer1OnTime
-       
+
 
     }//GEN-LAST:event_timer1OnTime
 
@@ -492,10 +441,6 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         FrmDefinirSenha senha = new FrmDefinirSenha();
         senha.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -505,19 +450,16 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBNovo;
     private javax.swing.JButton jBSalvar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLConfirmaSenhaCadastro;
     private javax.swing.JLabel jLNomeCadastro;
-    private javax.swing.JLabel jLSenhaCadastro;
     private javax.swing.JLabel jLUsuarioCadastro;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPasswordField jPConfirmeSenha;
+    private javax.swing.JLabel jLUsuarioCadastro1;
+    private javax.swing.JLabel jLid;
     private javax.swing.JPanel jPEditar;
-    private javax.swing.JPasswordField jPSenha;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRNao;
     private javax.swing.JRadioButton jRSim;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTId;
     private javax.swing.JTextField jTNome;
     private javax.swing.JTextField jTUsuario;
     private javax.swing.JTable jTabelaUsuario;
@@ -528,7 +470,5 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     public void limparCanpos() {
         jTNome.setText("");
         jTUsuario.setText("");
-        jPConfirmeSenha.setText("");
-        jPSenha.setText("");
     }
 }

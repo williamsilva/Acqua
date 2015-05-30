@@ -1,6 +1,6 @@
-package Form;
+package br.com.wss.viwer;
 
-import DAO.ConectionFactory;
+import br.com.wss.dao.ConectionFactory;
 import java.net.*;
 import java.sql.*;
 import javax.swing.*;
@@ -23,7 +23,7 @@ public class Principal {
     String sql;
 
     public Principal() {
-        conexao = ConectionFactory.conectaBd();
+        conexao = ConectionFactory.getConnection();
     }
 
     public static String getMac() {
@@ -69,7 +69,7 @@ public class Principal {
 
     public void chamar() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         String macComputador = getMac();
-        String macBanco = verificaMac();
+        String macBanco = verificaMac(); 
         if (!"".equals(macComputador) && !"".equals(macBanco)) {
 
             if (macComputador != null || equals(macBanco)) {

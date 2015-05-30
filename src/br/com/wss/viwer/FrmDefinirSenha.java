@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Form;
+package br.com.wss.viwer;
 
 import java.util.Arrays;
 import java.util.logging.Level;

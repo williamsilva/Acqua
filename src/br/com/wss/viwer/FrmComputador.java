@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Form;
+package br.com.wss.viwer;
 
-import DAO.*;
-import MODELO.*;
-import java.beans.PropertyVetoException;
+import br.com.wss.dao.ClassUtils;
+import br.com.wss.dao.ComputadorDao;
+import br.com.wss.modelo.TabelaComputador;
+import br.com.wss.modelo.Tabela;
+import br.com.wss.modelo.Computador;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -21,20 +22,16 @@ import javax.swing.ListSelectionModel;
  */
 public final class FrmComputador extends javax.swing.JInternalFrame {
 
-    ConectionFactory conecta = new ConectionFactory();
+    ArrayList<Computador> dados;
 
     /**
      * Creates new form FrmComputador
      */
-    public FrmComputador()  {
+    public FrmComputador() {
         initComponents();
-        try {
-            this.setMaximum(true);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(FrmComputador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        conecta.conexao();      
-        
+        jLid.setVisible(false);
+        jTId.setVisible(false);
+
         preencherTabela();
         jPComputador.setVisible(false);
         jBExcluir.setEnabled(false);
@@ -62,11 +59,12 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jTMacCoputador = new javax.swing.JTextField();
         jTId = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        jLid = new javax.swing.JLabel();
         jBEditar = new javax.swing.JButton();
 
+        setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
-        setIconifiable(true);
+        setEnabled(false);
 
         jTabelaComputador.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -122,7 +120,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
         jTId.setEditable(false);
 
-        jLabel3.setText("Id Cadastrado");
+        jLid.setText("Id Cadastrado");
 
         jBEditar.setText("Editar");
         jBEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -136,25 +134,26 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         jPComputadorLayout.setHorizontalGroup(
             jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPComputadorLayout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jBEditar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBCancelar)
-                .addContainerGap(306, Short.MAX_VALUE))
-            .addGroup(jPComputadorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTMacCoputador, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                    .addComponent(jTNomeCoputador))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPComputadorLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(jBEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBCancelar))
+                    .addGroup(jPComputadorLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addComponent(jLid))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTMacCoputador, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                            .addComponent(jTNomeCoputador))))
+                .addContainerGap(285, Short.MAX_VALUE))
         );
         jPComputadorLayout.setVerticalGroup(
             jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,7 +169,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLid))
                 .addGap(18, 18, 18)
                 .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBCancelar)
@@ -192,12 +191,12 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
                         .addComponent(jBNovo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBExcluir)))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNovo)
@@ -239,16 +238,16 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
 
-        modelComputador computadorTemp = new modelComputador();
+        Computador computadorTemp = new Computador();
 
         computadorTemp.setComputador(jTNomeCoputador.getText());
         computadorTemp.setMac(jTMacCoputador.getText());
         computadorTemp.setId(Integer.parseInt(jTId.getText()));
-        computadorTemp.setUltima_auteracao("Em " + ClassUtiuls.mostraHoraData() + " Por ");
+        computadorTemp.setUltima_auteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
-        computadorDao dao = new computadorDao();
+        ComputadorDao dao = new ComputadorDao();
         dao.atualizar(computadorTemp);
-        
+
         limparCampos();
         preencherTabela();
 
@@ -260,14 +259,14 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     private void jBSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalvarActionPerformed
         if (!jTNomeCoputador.getText().equals("") && !jTMacCoputador.getText().equals("")) {
 
-            modelComputador computadorTemp = new modelComputador();
+            Computador computadorTemp = new Computador();
 
             computadorTemp.setComputador(jTNomeCoputador.getText());
             computadorTemp.setMac(jTMacCoputador.getText());
-            computadorTemp.setUltima_auteracao("Em " + ClassUtiuls.mostraHoraData() + " Por ");
-            computadorTemp.setData_cadastro("Em " + ClassUtiuls.mostraHoraData() + " Por ");
+            computadorTemp.setUltima_auteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            computadorTemp.setData_cadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
-            computadorDao dao = new computadorDao();
+            ComputadorDao dao = new ComputadorDao();
             dao.cadastrarComputador(computadorTemp);
             limparCampos();
             jBEditar.setVisible(false);
@@ -282,17 +281,20 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBSalvarActionPerformed
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-        modelComputador computadorTemp = new modelComputador();
-        computadorTemp.setId(Integer.parseInt(jTId.getText()));
-        computadorDao dao = new computadorDao();
 
-        dao.deletar(computadorTemp);
-        jPComputador.setVisible(false);
-        jBEditar.setVisible(false);
-        jBNovo.setEnabled(true);
-        jBExcluir.setEnabled(false);
-        preencherTabela();
-        limparCampos();
+        
+            Computador computadorTemp = new Computador();
+            computadorTemp.setId(Integer.parseInt(jTId.getText()));
+            ComputadorDao dao = new ComputadorDao();
+
+            dao.deletar(computadorTemp);
+            jPComputador.setVisible(false);
+            jBEditar.setVisible(false);
+            jBNovo.setEnabled(true);
+            jBExcluir.setEnabled(false);
+            preencherTabela();
+            limparCampos();
+       
     }//GEN-LAST:event_jBExcluirActionPerformed
 
 
@@ -304,7 +306,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLid;
     private javax.swing.JPanel jPComputador;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTId;
@@ -315,48 +317,33 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
     public void itensSelecionados() {
         int seleciona = jTabelaComputador.getSelectedRow();
-        jTId.setText(jTabelaComputador.getModel().getValueAt(seleciona, 0).toString());
-        jTNomeCoputador.setText(jTabelaComputador.getModel().getValueAt(seleciona, 1).toString());
-        jTMacCoputador.setText(jTabelaComputador.getModel().getValueAt(seleciona, 2).toString());
+
+        jTId.setText(String.valueOf(dados.get(seleciona).getId()));
+        jTNomeCoputador.setText(dados.get(seleciona).getComputador());
+        jTMacCoputador.setText(dados.get(seleciona).getMac());
 
     }
 
     public void preencherTabela() {
-        ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Id", "Computador", "Endereço Mac", "Data Cadastro", "Última Auteração"};
 
-        conecta.executaSQL("select * from computador order by nome_computador");
-        try {
-            conecta.rs.first();
-            do {
-                dados.add(new Object[]{
-                    conecta.rs.getString("id_computador"),
-                    conecta.rs.getString("nome_computador"),
-                    conecta.rs.getString("mac_computador"),
-                    conecta.rs.getString("data_Cadastro"),
-                    conecta.rs.getString("ultima_Auteracao")});
+        String[] Colunas = new String[]{"Computador", "Endereço Mac", "Data Cadastro", "Última Auteração"};
 
-            } while (conecta.rs.next());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        ComputadorDao computadorDao = new ComputadorDao();
+        dados = computadorDao.listar();
+        Tabela modelo = new TabelaComputador(dados, Colunas);
         jTabelaComputador.setModel(modelo);
 
-        jTabelaComputador.getColumnModel().getColumn(0).setPreferredWidth(40);
+        jTabelaComputador.getColumnModel().getColumn(0).setPreferredWidth(250);
         jTabelaComputador.getColumnModel().getColumn(0).setResizable(false);
 
-        jTabelaComputador.getColumnModel().getColumn(1).setPreferredWidth(250);
+        jTabelaComputador.getColumnModel().getColumn(1).setPreferredWidth(180);
         jTabelaComputador.getColumnModel().getColumn(1).setResizable(false);
 
-        jTabelaComputador.getColumnModel().getColumn(2).setPreferredWidth(180);
+        jTabelaComputador.getColumnModel().getColumn(2).setPreferredWidth(315);
         jTabelaComputador.getColumnModel().getColumn(2).setResizable(false);
 
         jTabelaComputador.getColumnModel().getColumn(3).setPreferredWidth(315);
         jTabelaComputador.getColumnModel().getColumn(3).setResizable(false);
-
-        jTabelaComputador.getColumnModel().getColumn(4).setPreferredWidth(315);
-        jTabelaComputador.getColumnModel().getColumn(4).setResizable(false);
 
         jTabelaComputador.getTableHeader().setReorderingAllowed(false);
         jTabelaComputador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

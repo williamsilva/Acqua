@@ -1,6 +1,6 @@
-package MODELO;
+package br.com.wss.modelo;
 
-public class modelUsuario {
+public class Usuario {
      String nome;
     String senha;
     String usuario;
@@ -9,11 +9,11 @@ public class modelUsuario {
     String ultima_auteracao;
     String ativo;
   
-    public modelUsuario(){
+    public Usuario(){
         
     }
 
-    public modelUsuario(String nome, String senha, String usuario, String codigo, String data_cadastro, String ultima_auteracao, String ativo) {
+    public Usuario(String nome, String senha, String usuario, String codigo, String data_cadastro, String ultima_auteracao, String ativo) {
         this.nome = nome;
         this.senha = senha;
         this.usuario = usuario;

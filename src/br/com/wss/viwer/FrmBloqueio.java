@@ -1,7 +1,7 @@
-package Form;
+package br.com.wss.viwer;
 
-import DAO.usuarioDao;
-import MODELO.modelUsuario;
+import br.com.wss.dao.UsuarioDao;
+import br.com.wss.modelo.Usuario;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -21,8 +21,8 @@ public class FrmBloqueio extends javax.swing.JDialog {
     }
 
     private void desbloqueioTela() {
-        modelUsuario usuarioTemp = new modelUsuario();
-        usuarioDao dao = new usuarioDao();
+        Usuario usuarioTemp = new Usuario();
+        UsuarioDao dao = new UsuarioDao();
         ResultSet rs = null;
         if (!jTUsuario.getText().equals("") || jTUsuario.getText().equals(rs)
                 && !jPSenha.getPassword().equals("") || jPSenha.getPassword().equals(rs)) {

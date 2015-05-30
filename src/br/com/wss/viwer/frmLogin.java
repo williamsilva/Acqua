@@ -1,8 +1,8 @@
-package Form;
+package br.com.wss.viwer;
 
-import DAO.*;
+import br.com.wss.dao.UsuarioDao;
+import br.com.wss.modelo.Usuario;
 import java.sql.ResultSet;
-import MODELO.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,17 +20,20 @@ public final class frmLogin extends javax.swing.JFrame {
         confirmaFechamento();
     }
 
-    modelUsuario usuarioTemp = new modelUsuario();
-    usuarioDao dao = new usuarioDao();
+    Usuario usuarioTemp = new Usuario();
+    UsuarioDao dao = new UsuarioDao();
 
-    public String logar() throws SQLException, InterruptedException {
+    public void logar() throws SQLException, InterruptedException {
+        
         ResultSet result = null;
-        usuarioTemp = new modelUsuario();
+        usuarioTemp = new Usuario();
+        
         if (!jTUsuario.getText().equals("") || jTUsuario.getText().equals(result)
                 && !jtSenha.getPassword().equals("") || jtSenha.getPassword().equals(result)) {
 
             usuarioTemp.setUsuario(jTUsuario.getText());
             usuarioTemp.setSenha(new String(jtSenha.getPassword()));
+            
             usuarioTemp = dao.logar(usuarioTemp);
 
             if (usuarioTemp != null) {
@@ -44,8 +47,9 @@ public final class frmLogin extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum Campo pode ser vazio!", "Falha No Login", JOptionPane.INFORMATION_MESSAGE);
         }
-        return usuarioTemp.getNome();
+        
     }
+   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

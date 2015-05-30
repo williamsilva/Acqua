@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package MODELO;
+package br.com.wss.modelo;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
@@ -12,12 +12,12 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author WILLIAM
  */
-public final class ModeloTabela extends AbstractTableModel {
+public abstract class Tabela extends AbstractTableModel {
 
-    private ArrayList linhas = null;
-    private String[] colunas = null;
+    protected ArrayList linhas = null;
+    protected String[] colunas = null;
 
-    public ModeloTabela(ArrayList lin, String[] col) {
+    public Tabela(ArrayList lin, String[] col) {
         setLinhas(lin);
         setColunas(col);
     }
@@ -54,8 +54,5 @@ public final class ModeloTabela extends AbstractTableModel {
     }
 
     @Override
-    public Object getValueAt(int numLin, int numCol) {
-        Object[] linha = (Object[]) getLinhas().get(numLin);
-        return linha[numCol];
-    }
+    public abstract Object getValueAt(int numLin, int numCol);
 }

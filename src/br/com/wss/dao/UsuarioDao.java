@@ -1,22 +1,23 @@
-package DAO;
+package br.com.wss.dao;
 
-import MODELO.*;
+import br.com.wss.modelo.Usuario;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
-public class usuarioDao {
+public class UsuarioDao {
 
     Connection conexao;
     PreparedStatement stms;
     ResultSet result;
     String sql;
 
-    public usuarioDao() {
-        conexao = ConectionFactory.conectaBd();
+    public UsuarioDao() {
+        conexao = ConectionFactory.getConnection();
     }
 
-    public modelUsuario logar(modelUsuario login) {
-        modelUsuario usuario = null;
+    public Usuario logar(Usuario login) {
+        Usuario usuario = null;
         try {
             sql = "select * from login where login = ? and senha = ?";
             stms = conexao.prepareStatement(sql);
@@ -28,7 +29,7 @@ public class usuarioDao {
                 result = stms.executeQuery();
 
                 if (result.next()) {
-                    usuario = new modelUsuario();
+                    usuario = new Usuario();
                     usuario.setUsuario(result.getString("login"));
                     usuario.setSenha(result.getString("senha"));
                     usuario.setNome(result.getString("nome"));
@@ -41,7 +42,7 @@ public class usuarioDao {
         return usuario;
     }
 
-    public void cadastrarUsuario(modelUsuario usuario) {
+    public void cadastrarUsuario(Usuario usuario) {
 
         sql = "insert into login (Nome,Login,Senha,data_cadastro,ultima_auteracao,ativo) values (?,?,?,?,?,?)";
         try {
@@ -63,15 +64,17 @@ public class usuarioDao {
 
     }
 
-    public void atualizar(modelUsuario atualizar) {
+    public void atualizar(Usuario atualizar) {
 
-        sql = "Update login set nome = ?, login = ?,ativo = ?";
+        sql = "update login set nome = ?, login = ?, ultima_auteracao = ?,ativo = ? where idlogin = ?";
 
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, atualizar.getNome());
             stms.setString(2, atualizar.getUsuario());
-            stms.setString(3, atualizar.getAtivo());
+            stms.setString(3,atualizar.getUltima_auteracao());
+            stms.setString(4, atualizar.getAtivo());
+            stms.setString(5,atualizar.getCodigo());
 
             stms.execute();
             stms.close();
@@ -81,7 +84,7 @@ public class usuarioDao {
         }
     }
 
-    public void deletar(modelUsuario deletar) {
+    public void deletar(Usuario deletar) {
         sql = "Delete from login where Login = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -92,12 +95,38 @@ public class usuarioDao {
                 stms.close();
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
 
-            } else {
-               // repaint();
             }
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
         }
+    }
+
+    public ArrayList<Usuario> listar() {
+        ArrayList<Usuario> lista;
+        lista = new ArrayList<>();
+
+        Usuario usuarioTemp;
+
+        try {
+            Statement stms = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = stms.executeQuery("select * from login order by Nome");
+            rs.first();
+            do {
+                usuarioTemp = new Usuario();
+                usuarioTemp.setCodigo(rs.getString("idLogin"));
+                usuarioTemp.setNome(rs.getString("nome"));
+                usuarioTemp.setUsuario(rs.getString("login"));
+                usuarioTemp.setData_cadastro(rs.getString("data_cadastro"));
+                usuarioTemp.setUltima_auteracao(rs.getString("ultima_auteracao"));
+                usuarioTemp.setAtivo(rs.getString("ativo"));
+
+                lista.add(usuarioTemp);
+            } while (rs.next());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+        return lista;
     }
 }

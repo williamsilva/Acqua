@@ -1,4 +1,4 @@
-package Form;
+package br.com.wss.viwer;
 
 import com.sun.awt.AWTUtilities;
 import java.awt.event.ActionEvent;
@@ -69,7 +69,7 @@ public class SpleshScreen extends javax.swing.JFrame {
 
         jLImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Screen.jpg"))); // NOI18N
         getContentPane().add(jLImg);
-        jLImg.setBounds(0, 0, 478, 307);
+        jLImg.setBounds(0, 0, 478, 0);
 
         setBounds(0, 0, 478, 307);
     }// </editor-fold>//GEN-END:initComponents

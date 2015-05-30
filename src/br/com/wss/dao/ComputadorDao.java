@@ -1,26 +1,56 @@
-package DAO;
+package br.com.wss.dao;
 
-import MODELO.modelComputador;
-import MODELO.modelUsuario;
+import br.com.wss.modelo.Computador;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-public class computadorDao {
+public class ComputadorDao {
 
     Connection conexao;
     PreparedStatement stms;
     ResultSet result;
     String sql;
 
-    public computadorDao() {
-        conexao = ConectionFactory.conectaBd();
+
+    public ComputadorDao() {
+        conexao = ConectionFactory.getConnection();
+
     }
 
-    public void cadastrarComputador(modelComputador computador) {
+    public ArrayList<Computador> listar() {
+        ArrayList<Computador> lista;
+        lista = new ArrayList<>();
+
+        Computador computadorTemp;
+        
+        try {
+             Statement stms = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = stms.executeQuery("select * from computador order by nome_computador");
+            rs.first();
+            do {
+                computadorTemp = new Computador();
+                computadorTemp.setId(rs.getInt("id_computador"));
+                computadorTemp.setComputador(rs.getString("nome_computador"));
+                computadorTemp.setMac(rs.getString("mac_computador"));
+                computadorTemp.setData_cadastro(rs.getString("data_Cadastro"));
+                computadorTemp.setUltima_auteracao(rs.getString("ultima_Auteracao"));
+
+                lista.add(computadorTemp);
+            } while (rs.next());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+        return lista;
+    }
+
+    public void cadastrarComputador(Computador computador) {
         sql = ("insert into computador (nome_computador,mac_computador,data_cadastro,ultima_auteracao)values (?,?,?,?)");
         try {
             stms = conexao.prepareStatement(sql);
@@ -37,26 +67,29 @@ public class computadorDao {
         }
     }
 
-    public void atualizar(modelComputador atualizar) {
+    public void atualizar(Computador atualizar) {
 
-        sql =("update from computador nome_computador = ?, mac_computador = ?, ultima_auteracao where id_computador = ?");
+        sql = ("update computador set nome_computador = ?, mac_computador = ?, ultima_auteracao = ? where id_computador = ?");
 
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, atualizar.getComputador());
             stms.setString(2, atualizar.getMac());
             stms.setString(3, atualizar.getUltima_auteracao());
-            stms.setInt(4,atualizar.getId());
+            stms.setInt(4, atualizar.getId());
 
             stms.execute();
             stms.close();
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
+            error.printStackTrace();
         }
     }
 
-    public void deletar(modelComputador deletar) {
+    public void deletar(Computador deletar) {
+       
+        
         sql = "Delete from computador where id_computador = ?";
         try {
             stms = conexao.prepareStatement(sql);

@@ -1,6 +1,6 @@
-package MODELO;
+package br.com.wss.modelo;
 
-public class modelComputador {
+public class Computador {
 
     String computador;
     String mac;
@@ -10,11 +10,11 @@ public class modelComputador {
 
     
     
-    public modelComputador() {
+    public Computador() {
 
     }
 
-    public modelComputador(String computador, String mac, String data_cadastro, String ultima_auteracao, int id) {
+    public Computador(String computador, String mac, String data_cadastro, String ultima_auteracao, int id) {
         this.computador = computador;
         this.mac = mac;
         this.data_cadastro = data_cadastro;
