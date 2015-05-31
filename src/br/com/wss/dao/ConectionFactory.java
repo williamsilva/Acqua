@@ -18,9 +18,9 @@ public class ConectionFactory {
 
         if (conn == null) {
             try {
-                String url = "jdbc:mysql://localhost:3306/teste";
+                String url = "jdbc:mysql://localhost:3306/acqua_dados";
                 String usuario = "root";
-                String senha = "123456789";
+                String senha = "wssmty";
 
                 Class.forName("com.mysql.jdbc.Driver");
 

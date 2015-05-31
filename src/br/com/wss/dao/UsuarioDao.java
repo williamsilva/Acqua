@@ -32,7 +32,7 @@ public class UsuarioDao {
                     usuario = new Usuario();
                     usuario.setUsuario(result.getString("login"));
                     usuario.setSenha(result.getString("senha"));
-                    usuario.setNome(result.getString("nome"));
+                   // usuario.setNome(result.getString("nome"));
                 }
                 stms.close();
             }

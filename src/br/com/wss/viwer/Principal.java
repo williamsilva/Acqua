@@ -51,13 +51,13 @@ public class Principal {
     public String verificaMac() {
         String nome = "";
         String mac = getMac();
-        sql = "select * from computador where mac_computador = ?";
+        sql = "select * from computador where macComputador = ?";
         try {
             prepared = conexao.prepareStatement(sql);
             prepared.setString(1, mac);
             result = prepared.executeQuery();
             if (result.next()) {
-                nome = result.getString("nome_computador");
+                nome = result.getString("nomeComputador");
             } else {
                 nome = "";
             }

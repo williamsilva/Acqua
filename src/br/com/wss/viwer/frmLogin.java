@@ -64,7 +64,7 @@ public final class frmLogin extends javax.swing.JFrame {
         jbSair = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLImagen = new javax.swing.JLabel();
+        jLabelIMG = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TELE LOGIN");
@@ -140,9 +140,10 @@ public final class frmLogin extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(280, 230, 150, 13);
 
-        jLImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Trend.jpg"))); // NOI18N
-        getContentPane().add(jLImagen);
-        jLImagen.setBounds(0, 0, 450, 320);
+        jLabelIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/wss/img/Trend.jpg"))); // NOI18N
+        jLabelIMG.setText("jLabel2");
+        getContentPane().add(jLabelIMG);
+        jLabelIMG.setBounds(0, 0, 450, 320);
 
         pack();
         setLocationRelativeTo(null);
@@ -196,12 +197,12 @@ public final class frmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jTUsuarioKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLImagen;
     private javax.swing.JLabel jLSenha;
     private javax.swing.JLabel jLUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabelIMG;
     private javax.swing.JTextField jTUsuario;
     private javax.swing.JButton jbLogar;
     private javax.swing.JButton jbSair;

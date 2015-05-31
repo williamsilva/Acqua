@@ -40,10 +40,10 @@ public final class frmPrincipal extends javax.swing.JFrame {
     frmPrincipal(Usuario usuarioTemp) throws InterruptedException {
         init();
 
-        String usuario = usuarioTemp.getNome().toUpperCase();
-        ClassUtils.setUsuarioLogado(usuario);
+      //  String usuario = usuarioTemp.getNome().toUpperCase();
+       // ClassUtils.setUsuarioLogado(usuario);
         usuarioBloqueio = usuarioTemp.getUsuario().toUpperCase();
-        jLUsuario.setText("Usúario Logado: " + usuario);
+      //  jLUsuario.setText("Usúario Logado: " + usuario);
     }
 
     @SuppressWarnings("unchecked")
