@@ -32,7 +32,7 @@ public class UsuarioDao {
                     usuario = new Usuario();
                     usuario.setUsuario(result.getString("login"));
                     usuario.setSenha(result.getString("senha"));
-                   // usuario.setNome(result.getString("nome"));
+                    usuario.setNome(result.getString("nome"));
                 }
                 stms.close();
             }
@@ -44,14 +44,14 @@ public class UsuarioDao {
 
     public void cadastrarUsuario(Usuario usuario) {
 
-        sql = "insert into login (Nome,Login,Senha,data_cadastro,ultima_auteracao,ativo) values (?,?,?,?,?,?)";
+        sql = "insert into login (Nome,Login,Senha,dataCadastro,ultimaAlteracao,ativo) values (?,?,?,?,?,?)";
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, usuario.getNome());
             stms.setString(2, usuario.getUsuario());
             stms.setString(3, usuario.getSenha());
-            stms.setString(4, usuario.getData_cadastro());
-            stms.setString(5, usuario.getUltima_auteracao());
+            stms.setString(4, usuario.getDataCadastro());
+            stms.setString(5, usuario.getUltimaAlteracao());
             stms.setString(6, usuario.getAtivo());
 
             stms.execute();
@@ -66,13 +66,13 @@ public class UsuarioDao {
 
     public void atualizar(Usuario atualizar) {
 
-        sql = "update login set nome = ?, login = ?, ultima_auteracao = ?,ativo = ? where idlogin = ?";
+        sql = "update login set nome = ?, login = ?, ultimaAlteracao = ?,ativo = ? where idlogin = ?";
 
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, atualizar.getNome());
             stms.setString(2, atualizar.getUsuario());
-            stms.setString(3,atualizar.getUltima_auteracao());
+            stms.setString(3,atualizar.getUltimaAlteracao());
             stms.setString(4, atualizar.getAtivo());
             stms.setString(5,atualizar.getCodigo());
 
@@ -109,17 +109,18 @@ public class UsuarioDao {
         Usuario usuarioTemp;
 
         try {
-            Statement stms = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = stms.executeQuery("select * from login order by Nome");
+            Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = statmen.executeQuery("select * from Login order by Nome");
             rs.first();
             do {
                 usuarioTemp = new Usuario();
                 usuarioTemp.setCodigo(rs.getString("idLogin"));
                 usuarioTemp.setNome(rs.getString("nome"));
                 usuarioTemp.setUsuario(rs.getString("login"));
-                usuarioTemp.setData_cadastro(rs.getString("data_cadastro"));
-                usuarioTemp.setUltima_auteracao(rs.getString("ultima_auteracao"));
+                usuarioTemp.setDataCadastro(rs.getString("dataCadastro"));
+                usuarioTemp.setUltimaAlteracao(rs.getString("ultimaAlteracao"));
                 usuarioTemp.setAtivo(rs.getString("ativo"));
+                usuarioTemp.setSenha(rs.getString("senha"));
 
                 lista.add(usuarioTemp);
             } while (rs.next());

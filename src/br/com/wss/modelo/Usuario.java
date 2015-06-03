@@ -1,25 +1,26 @@
 package br.com.wss.modelo;
 
 public class Usuario {
-     String nome;
-    String senha;
+
+    String nome;
     String usuario;
-    String codigo;    
-    String data_cadastro;
-    String ultima_auteracao;
+    String codigo;
+    String dataCadastro;
+    String ultimaAlteracao;
     String ativo;
-  
-    public Usuario(){
-        
+    String senha;
+
+    public Usuario() {
+
     }
 
-    public Usuario(String nome, String senha, String usuario, String codigo, String data_cadastro, String ultima_auteracao, String ativo) {
+    public Usuario(String nome, String senha, String usuario, String codigo, String dataCadastro, String ultimaAlteracao, String ativo) {
         this.nome = nome;
         this.senha = senha;
         this.usuario = usuario;
         this.codigo = codigo;
-        this.data_cadastro = data_cadastro;
-        this.ultima_auteracao = ultima_auteracao;
+        this.dataCadastro = dataCadastro;
+        this.ultimaAlteracao = ultimaAlteracao;
         this.ativo = ativo;
     }
 
@@ -55,20 +56,20 @@ public class Usuario {
         this.codigo = codigo;
     }
 
-    public String getData_cadastro() {
-        return data_cadastro;
+    public String getDataCadastro() {
+        return dataCadastro;
     }
 
-    public void setData_cadastro(String data_cadastro) {
-        this.data_cadastro = data_cadastro;
+    public void setDataCadastro(String dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
-    public String getUltima_auteracao() {
-        return ultima_auteracao;
+    public String getUltimaAlteracao() {
+        return ultimaAlteracao;
     }
 
-    public void setUltima_auteracao(String ultima_auteracao) {
-        this.ultima_auteracao = ultima_auteracao;
+    public void setUltimaAlteracao(String ultimaAlteracao) {
+        this.ultimaAlteracao = ultimaAlteracao;
     }
 
     public String getAtivo() {
@@ -78,6 +79,6 @@ public class Usuario {
     public void setAtivo(String ativo) {
         this.ativo = ativo;
     }
-
     
+
 }

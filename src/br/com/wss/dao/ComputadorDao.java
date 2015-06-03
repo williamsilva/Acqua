@@ -17,7 +17,6 @@ public class ComputadorDao {
     ResultSet result;
     String sql;
 
-
     public ComputadorDao() {
         conexao = ConectionFactory.getConnection();
 
@@ -28,18 +27,18 @@ public class ComputadorDao {
         lista = new ArrayList<>();
 
         Computador computadorTemp;
-        
+
         try {
-             Statement stms = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = stms.executeQuery("select * from computador order by nome_computador");
+            Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ResultSet rs = statmen.executeQuery("select * from computador order by nomeComputador");
             rs.first();
             do {
                 computadorTemp = new Computador();
-                computadorTemp.setId(rs.getInt("id_computador"));
-                computadorTemp.setComputador(rs.getString("nome_computador"));
-                computadorTemp.setMac(rs.getString("mac_computador"));
-                computadorTemp.setData_cadastro(rs.getString("data_Cadastro"));
-                computadorTemp.setUltima_auteracao(rs.getString("ultima_Auteracao"));
+                computadorTemp.setId(rs.getInt("idComputador"));
+                computadorTemp.setComputador(rs.getString("nomeComputador"));
+                computadorTemp.setMac(rs.getString("macComputador"));
+                computadorTemp.setDataCadastro(rs.getString("dataCadastro"));
+                computadorTemp.setUltimaAlteracao(rs.getString("ultimaAlteracao"));
 
                 lista.add(computadorTemp);
             } while (rs.next());
@@ -51,46 +50,44 @@ public class ComputadorDao {
     }
 
     public void cadastrarComputador(Computador computador) {
-        sql = ("insert into computador (nome_computador,mac_computador,data_cadastro,ultima_auteracao)values (?,?,?,?)");
+        sql = ("insert into computador (nomeComputador,macComputador,dataCadastro,ultimaAlteracao)values (?,?,?,?)");
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, computador.getComputador());
             stms.setString(2, computador.getMac());
-            stms.setString(3, computador.getData_cadastro());
-            stms.setString(4, computador.getUltima_auteracao());
+            stms.setString(3, computador.getDataCadastro());
+            stms.setString(4, computador.getUltimaAlteracao());
 
             stms.execute();
             stms.close();
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         } catch (SQLException | HeadlessException error) {
             JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + error);
-        }
+                   }
     }
 
     public void atualizar(Computador atualizar) {
 
-        sql = ("update computador set nome_computador = ?, mac_computador = ?, ultima_auteracao = ? where id_computador = ?");
+        sql = ("update computador set nomeComputador = ?, macComputador = ?, ultimaAlteracao = ? where idComputador = ?");
 
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, atualizar.getComputador());
             stms.setString(2, atualizar.getMac());
-            stms.setString(3, atualizar.getUltima_auteracao());
+            stms.setString(3, atualizar.getUltimaAlteracao());
             stms.setInt(4, atualizar.getId());
 
             stms.execute();
             stms.close();
 
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
-            error.printStackTrace();
-        }
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
+            }
     }
 
     public void deletar(Computador deletar) {
-       
-        
-        sql = "Delete from computador where id_computador = ?";
+
+        sql = "Delete from computador where idComputador = ?";
         try {
             stms = conexao.prepareStatement(sql);
             stms.setInt(1, deletar.getId());

@@ -5,11 +5,8 @@
  */
 package br.com.wss.viwer;
 
-import br.com.wss.dao.ClassUtils;
-import br.com.wss.dao.UsuarioDao;
-import br.com.wss.modelo.Tabela;
-import br.com.wss.modelo.TabelaUsuario;
-import br.com.wss.modelo.Usuario;
+import br.com.wss.dao.*;
+import br.com.wss.modelo.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -49,28 +46,29 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jTId.setText(String.valueOf(dados.get(seleciona).getCodigo()));
         jTNome.setText(dados.get(seleciona).getNome());
         jTUsuario.setText(dados.get(seleciona).getUsuario());
+        jPasswordTetsSenha.setText(dados.get(seleciona).getSenha());
 
     }
 
     public void preencherTabela() {
 
-        String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Auteração", "Ativo"};
+        String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Alteração", "Ativo"};
 
         UsuarioDao usuarioDao = new UsuarioDao();
         dados = usuarioDao.listar();
         Tabela modelo = new TabelaUsuario(dados, Colunas);
         jTabelaUsuario.setModel(modelo);
 
-        jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(300);
+        jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(315);
         jTabelaUsuario.getColumnModel().getColumn(0).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(180);
+        jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(190);
         jTabelaUsuario.getColumnModel().getColumn(1).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(2).setPreferredWidth(255);
+        jTabelaUsuario.getColumnModel().getColumn(2).setPreferredWidth(275);
         jTabelaUsuario.getColumnModel().getColumn(2).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(3).setPreferredWidth(255);
+        jTabelaUsuario.getColumnModel().getColumn(3).setPreferredWidth(275);
         jTabelaUsuario.getColumnModel().getColumn(3).setResizable(false);
 
         jTabelaUsuario.getColumnModel().getColumn(4).setPreferredWidth(55);
@@ -107,6 +105,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jLid = new javax.swing.JLabel();
         jBExcluir = new javax.swing.JButton();
         jBNovo = new javax.swing.JButton();
+        jPasswordTetsSenha = new javax.swing.JLabel();
 
         timer1.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
             public void onTime(java.awt.event.ActionEvent evt) {
@@ -291,6 +290,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        jPasswordTetsSenha.setText("Senha");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -305,8 +306,10 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                         .addComponent(jBExcluir))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jPEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)
+                        .addComponent(jPasswordTetsSenha)))
+                .addGap(0, 383, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,8 +319,13 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBExcluir)
                     .addComponent(jBNovo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jPasswordTetsSenha))))
         );
 
         setBounds(0, 0, 989, 485);
@@ -330,8 +338,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             Usuario usuarioTemp = new Usuario();
             usuarioTemp.setNome(jTNome.getText());
             usuarioTemp.setUsuario(jTUsuario.getText());
-            usuarioTemp.setUltima_auteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-            usuarioTemp.setData_cadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            usuarioTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
             if (jRSim.isSelected()) {
                 usuarioTemp.setAtivo("Sim");
@@ -410,7 +418,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         usuarioTemp.setNome(jTNome.getText());
         usuarioTemp.setUsuario(jTUsuario.getText());
         usuarioTemp.setCodigo(jTId.getText());
-        usuarioTemp.setUltima_auteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+        usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
         if (jRSim.isSelected()) {
             usuarioTemp.setAtivo("Sim");
@@ -456,6 +464,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLid;
     private javax.swing.JPanel jPEditar;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jPasswordTetsSenha;
     private javax.swing.JRadioButton jRNao;
     private javax.swing.JRadioButton jRSim;
     private javax.swing.JScrollPane jScrollPane1;
@@ -471,4 +480,5 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jTNome.setText("");
         jTUsuario.setText("");
     }
+    
 }

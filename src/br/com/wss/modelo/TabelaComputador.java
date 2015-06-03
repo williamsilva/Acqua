@@ -23,8 +23,8 @@ public class TabelaComputador extends Tabela{
         Object[] linha = new String[colunas.length];
         linha[0] = computador.getComputador();
         linha[1] = computador.getMac();
-        linha[2] = computador.getData_cadastro();
-        linha[3] = computador.getUltima_auteracao();
+        linha[2] = computador.getDataCadastro();
+        linha[3] = computador.getUltimaAlteracao();
         return linha[numCol];
     }
     

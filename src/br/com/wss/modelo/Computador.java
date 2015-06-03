@@ -4,30 +4,14 @@ public class Computador {
 
     String computador;
     String mac;
-    String data_cadastro;
-    String ultima_auteracao;
+    String dataCadastro;
+    String ultimaAlteracao;
     int id;
 
-    
-    
     public Computador() {
 
     }
 
-    public Computador(String computador, String mac, String data_cadastro, String ultima_auteracao, int id) {
-        this.computador = computador;
-        this.mac = mac;
-        this.data_cadastro = data_cadastro;
-        this.ultima_auteracao = ultima_auteracao;
-        this.id = id;
-    }
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
     public String getComputador() {
         return computador;
     }
@@ -44,22 +28,36 @@ public class Computador {
         this.mac = mac;
     }
 
-    public String getData_cadastro() {
-        return data_cadastro;
+    public String getDataCadastro() {
+        return dataCadastro;
     }
 
-    public void setData_cadastro(String data_cadastro) {
-        this.data_cadastro = data_cadastro;
+    public void setDataCadastro(String dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
-    public String getUltima_auteracao() {
-        return ultima_auteracao;
+    public String getUltimaAlteracao() {
+        return ultimaAlteracao;
     }
 
-    public void setUltima_auteracao(String ultima_auteracao) {
-        this.ultima_auteracao = ultima_auteracao;
+    public void setUltimaAlteracao(String ultimaAlteracao) {
+        this.ultimaAlteracao = ultimaAlteracao;
     }
 
-    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Computador(String computador, String mac, String dataCadastro, String ultimaAlteracao, int id) {
+        this.computador = computador;
+        this.mac = mac;
+        this.dataCadastro = dataCadastro;
+        this.ultimaAlteracao = ultimaAlteracao;
+        this.id = id;
+    }
 
 }

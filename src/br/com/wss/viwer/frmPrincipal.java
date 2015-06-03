@@ -4,7 +4,6 @@ import br.com.wss.dao.ClassUtils;
 import br.com.wss.modelo.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -40,10 +39,10 @@ public final class frmPrincipal extends javax.swing.JFrame {
     frmPrincipal(Usuario usuarioTemp) throws InterruptedException {
         init();
 
-      //  String usuario = usuarioTemp.getNome().toUpperCase();
-       // ClassUtils.setUsuarioLogado(usuario);
+        String usuario = usuarioTemp.getNome().toUpperCase();
+        ClassUtils.setUsuarioLogado(usuario);
         usuarioBloqueio = usuarioTemp.getUsuario().toUpperCase();
-      //  jLUsuario.setText("Usúario Logado: " + usuario);
+        jLUsuario.setText("Usúario Logado: " + usuario);
     }
 
     @SuppressWarnings("unchecked")
@@ -316,7 +315,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMAlterarSenhaActionPerformed
 
     private void jMUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMUsuarioActionPerformed
-
         jInternalUsuarios();
     }//GEN-LAST:event_jMUsuarioActionPerformed
 
@@ -342,10 +340,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
             frmComputador = new FrmComputador();
             this.jPPrincipal.add(frmComputador);
             try {
-
-                frmComputador.setSelected(true);
-                //diz que a janela interna é maximizável     
-                frmComputador.setMaximizable(true);
                 //set o tamanho máximo dela, que depende da janela pai     
                 frmComputador.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
@@ -358,10 +352,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
             frmComputador = new FrmComputador();
             this.jPPrincipal.add(frmComputador);
             try {
-
-                frmComputador.setSelected(true);
-                //diz que a janela interna é maximizável     
-                frmComputador.setMaximizable(true);
                 //set o tamanho máximo dela, que depende da janela pai     
                 frmComputador.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
@@ -398,16 +388,9 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
         if (frmUsuarios == null) {
             frmUsuarios = new FrmUsuario();
-            frmUsuarios.setLocation(260, 0);
-            frmUsuarios.setSize(1100, 660);
-            frmUsuarios.setResizable(true);
 
             this.jPPrincipal.add(frmUsuarios);
             try {
-
-                frmUsuarios.setSelected(true);
-                //diz que a janela interna é maximizável     
-                frmUsuarios.setMaximizable(true);
                 //set o tamanho máximo dela, que depende da janela pai     
                 frmUsuarios.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
@@ -419,18 +402,14 @@ public final class frmPrincipal extends javax.swing.JFrame {
             frmUsuarios = new FrmUsuario();
             this.jPPrincipal.add(frmUsuarios);
             try {
-
-                frmUsuarios.setSelected(true);
-                //diz que a janela interna é maximizável     
-                frmUsuarios.setMaximizable(true);
                 //set o tamanho máximo dela, que depende da janela pai     
                 frmUsuarios.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
-            frmUsuarios.setVisible(true);
         }
+        frmUsuarios.setVisible(true);
     }
 
 

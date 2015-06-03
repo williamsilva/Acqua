@@ -20,7 +20,7 @@ public class ConectionFactory {
             try {
                 String url = "jdbc:mysql://localhost:3306/acqua_dados";
                 String usuario = "root";
-                String senha = "wssmty";
+                String senha = "12345";
 
                 Class.forName("com.mysql.jdbc.Driver");
 
@@ -33,14 +33,6 @@ public class ConectionFactory {
         return conn;
     }
 
-//    public void executaSQL(String sql) {
-//        try {
-//            Statement stms = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-//            ResultSet rs = stms.executeQuery(sql);
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Erro de Executa SQL:\n Erro" + ex.getMessage());
-//        }
-//    }
     public static void desconecta() {
         try {
             if (conn != null) {

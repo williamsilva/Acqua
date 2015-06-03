@@ -5,6 +5,8 @@
  */
 package br.com.wss.viwer;
 
+import br.com.wss.dao.ClassUtils;
+
 /**
  *
  * @author WILLIAM
@@ -16,10 +18,14 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
      */
     public FrmAuterarSenha() {
         initComponents();
+        usuarioLogado();
     }
 
-    FrmAuterarSenha(String toString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    FrmAuterarSenha(String toString) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+    public void usuarioLogado(){
+        jTextFieldUsuario.setText(""+ClassUtils.buscaUsuarioLogado());
     }
 
     /**
@@ -32,7 +38,7 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldUsuario = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         jPasswordField2 = new javax.swing.JPasswordField();
         jPasswordField3 = new javax.swing.JPasswordField();
@@ -48,7 +54,7 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Confirme Senha:");
 
-        jTextField1.setEnabled(false);
+        jTextFieldUsuario.setEnabled(false);
 
         jPasswordField1.setEnabled(false);
 
@@ -110,7 +116,7 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
+                            .addComponent(jTextFieldUsuario)
                             .addComponent(jPasswordField1)
                             .addComponent(jPasswordField2)
                             .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -123,7 +129,7 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -163,6 +169,6 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldUsuario;
     // End of variables declaration//GEN-END:variables
 }

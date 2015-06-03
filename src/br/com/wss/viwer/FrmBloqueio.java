@@ -28,7 +28,7 @@ public class FrmBloqueio extends javax.swing.JDialog {
                 && !jPSenha.getPassword().equals("") || jPSenha.getPassword().equals(rs)) {
 
             usuarioTemp.setUsuario(jTUsuario.getText());
-            usuarioTemp.setSenha(jPSenha.getText());
+            usuarioTemp.setSenha(new String(jPSenha.getPassword()));
             usuarioTemp = dao.logar(usuarioTemp);
 
             if (usuarioTemp != null) {
@@ -96,7 +96,7 @@ public class FrmBloqueio extends javax.swing.JDialog {
         getContentPane().add(jLusuario);
         jLusuario.setBounds(60, 220, 60, 17);
 
-        jLImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/telaBloqueio.jpg"))); // NOI18N
+        jLImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/wss/img/telaBloqueio.jpg"))); // NOI18N
         jLImg.setText("jLabel2");
         getContentPane().add(jLImg);
         jLImg.setBounds(0, 0, 490, 360);

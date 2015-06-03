@@ -11,7 +11,6 @@ import br.com.wss.modelo.TabelaComputador;
 import br.com.wss.modelo.Tabela;
 import br.com.wss.modelo.Computador;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -243,7 +242,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         computadorTemp.setComputador(jTNomeCoputador.getText());
         computadorTemp.setMac(jTMacCoputador.getText());
         computadorTemp.setId(Integer.parseInt(jTId.getText()));
-        computadorTemp.setUltima_auteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+        computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
         ComputadorDao dao = new ComputadorDao();
         dao.atualizar(computadorTemp);
@@ -263,8 +262,8 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
             computadorTemp.setComputador(jTNomeCoputador.getText());
             computadorTemp.setMac(jTMacCoputador.getText());
-            computadorTemp.setUltima_auteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-            computadorTemp.setData_cadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            computadorTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
             ComputadorDao dao = new ComputadorDao();
             dao.cadastrarComputador(computadorTemp);
@@ -333,16 +332,16 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         Tabela modelo = new TabelaComputador(dados, Colunas);
         jTabelaComputador.setModel(modelo);
 
-        jTabelaComputador.getColumnModel().getColumn(0).setPreferredWidth(250);
+        jTabelaComputador.getColumnModel().getColumn(0).setPreferredWidth(275);
         jTabelaComputador.getColumnModel().getColumn(0).setResizable(false);
 
-        jTabelaComputador.getColumnModel().getColumn(1).setPreferredWidth(180);
+        jTabelaComputador.getColumnModel().getColumn(1).setPreferredWidth(200);
         jTabelaComputador.getColumnModel().getColumn(1).setResizable(false);
 
-        jTabelaComputador.getColumnModel().getColumn(2).setPreferredWidth(315);
+        jTabelaComputador.getColumnModel().getColumn(2).setPreferredWidth(325);
         jTabelaComputador.getColumnModel().getColumn(2).setResizable(false);
 
-        jTabelaComputador.getColumnModel().getColumn(3).setPreferredWidth(315);
+        jTabelaComputador.getColumnModel().getColumn(3).setPreferredWidth(325);
         jTabelaComputador.getColumnModel().getColumn(3).setResizable(false);
 
         jTabelaComputador.getTableHeader().setReorderingAllowed(false);
