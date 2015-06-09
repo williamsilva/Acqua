@@ -280,8 +280,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBSalvarActionPerformed
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-
-        
+       
             Computador computadorTemp = new Computador();
             computadorTemp.setId(Integer.parseInt(jTId.getText()));
             ComputadorDao dao = new ComputadorDao();
@@ -329,6 +328,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
         ComputadorDao computadorDao = new ComputadorDao();
         dados = computadorDao.listar();
+        
         Tabela modelo = new TabelaComputador(dados, Colunas);
         jTabelaComputador.setModel(modelo);
 

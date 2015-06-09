@@ -5,18 +5,25 @@
  */
 package br.com.wss.viwer;
 
+import br.com.wss.dao.GrupoDao;
+import java.util.ArrayList;
+
 /**
  *
  * @author WILLIAM
  */
-public class FrmBens extends javax.swing.JInternalFrame {
+public final class FrmBens extends javax.swing.JInternalFrame {
+
+    GrupoDao grupoDao = new GrupoDao();
 
     /**
      * Creates new form FrmBens
      */
     public FrmBens() {
         initComponents();
-        this.setLocation(260,0);
+        preencherComboGrupo();
+        preencherComboVoltagen();
+        this.setLocation(260, 0);
         this.setSize(1100, 660);
     }
 
@@ -29,18 +36,139 @@ public class FrmBens extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jComboBox3 = new javax.swing.JComboBox();
+        jTextField7 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jComboBoxVoltagen = new javax.swing.JComboBox();
+        jComboBoxGrupo = new javax.swing.JComboBox();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setLayout(null);
+
+        jLabel2.setText("N° de controle:");
+        jPanel2.add(jLabel2);
+        jLabel2.setBounds(15, 15, 100, 20);
+
+        jLabel3.setText("Notal Fiscal:");
+        jPanel2.add(jLabel3);
+        jLabel3.setBounds(15, 40, 100, 20);
+
+        jLabel1.setText("Valor de Compra:");
+        jPanel2.add(jLabel1);
+        jLabel1.setBounds(15, 65, 100, 20);
+
+        jLabel4.setText("Data da Compra:");
+        jPanel2.add(jLabel4);
+        jLabel4.setBounds(15, 90, 100, 20);
+
+        jLabel5.setText("Grupo:");
+        jPanel2.add(jLabel5);
+        jLabel5.setBounds(15, 115, 100, 20);
+
+        jLabel6.setText("Voltagem");
+        jPanel2.add(jLabel6);
+        jLabel6.setBounds(15, 140, 100, 20);
+
+        jLabel7.setText("N° Série:");
+        jLabel7.setToolTipText("");
+        jPanel2.add(jLabel7);
+        jLabel7.setBounds(15, 165, 100, 20);
+
+        jLabel8.setText("Modelo:");
+        jPanel2.add(jLabel8);
+        jLabel8.setBounds(15, 190, 100, 20);
+
+        jLabel9.setText("Descrição:");
+        jPanel2.add(jLabel9);
+        jLabel9.setBounds(15, 215, 100, 20);
+
+        jLabel10.setText("Status:");
+        jPanel2.add(jLabel10);
+        jLabel10.setBounds(15, 240, 100, 20);
+
+        jLabel11.setText("Observações:");
+        jPanel2.add(jLabel11);
+        jLabel11.setBounds(15, 265, 100, 20);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("\n\n\n\n\n\n\n");
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jPanel2.add(jScrollPane1);
+        jScrollPane1.setBounds(130, 270, 290, 90);
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(jComboBox3);
+        jComboBox3.setBounds(130, 240, 150, 20);
+
+        jTextField7.setText("jTextField1");
+        jPanel2.add(jTextField7);
+        jTextField7.setBounds(130, 215, 290, 20);
+
+        jTextField6.setText("jTextField1");
+        jPanel2.add(jTextField6);
+        jTextField6.setBounds(130, 190, 290, 20);
+
+        jTextField5.setText("jTextField1");
+        jPanel2.add(jTextField5);
+        jTextField5.setBounds(130, 165, 290, 20);
+
+        jComboBoxVoltagen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
+        jPanel2.add(jComboBoxVoltagen);
+        jComboBoxVoltagen.setBounds(130, 140, 150, 20);
+
+        jComboBoxGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(jComboBoxGrupo);
+        jComboBoxGrupo.setBounds(130, 115, 150, 20);
+
+        jTextField1.setText("jTextField1");
+        jPanel2.add(jTextField1);
+        jTextField1.setBounds(130, 90, 290, 20);
+
+        jTextField2.setText("jTextField1");
+        jPanel2.add(jTextField2);
+        jTextField2.setBounds(130, 65, 290, 20);
+
+        jTextField3.setText("jTextField1");
+        jPanel2.add(jTextField3);
+        jTextField3.setBounds(130, 40, 290, 20);
+
+        jTextField4.setText("jTextField1");
+        jPanel2.add(jTextField4);
+        jTextField4.setBounds(130, 15, 290, 20);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 832, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 502, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
         );
 
         pack();
@@ -48,5 +176,51 @@ public class FrmBens extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox jComboBox3;
+    private javax.swing.JComboBox jComboBoxGrupo;
+    private javax.swing.JComboBox jComboBoxVoltagen;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
+
+    private void preencherComboGrupo() {
+        jComboBoxGrupo.removeAllItems();
+        jComboBoxGrupo.addItem("Selecione um Grupo");
+
+        @SuppressWarnings("UnusedAssignment")
+        ArrayList<Object> objetos = new ArrayList<>();
+        objetos = grupoDao.listarGrupos();
+
+        for (Object objeto : objetos) {
+            jComboBoxGrupo.addItem(objeto);
+        }
+
+    }
+    public void preencherComboVoltagen(){
+        jComboBoxVoltagen.addItem("Selecione A Voltagem");
+        jComboBoxVoltagen.addItem("127 V");
+        jComboBoxVoltagen.addItem("220 V");
+        jComboBoxVoltagen.addItem("127/220 V");
+        jComboBoxVoltagen.addItem("360 V");
+        
+    }
 }

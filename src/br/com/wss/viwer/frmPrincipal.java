@@ -66,6 +66,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuICadastroBens = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -210,6 +211,14 @@ public final class frmPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem2);
 
+        jMenuItem1.setText("Configuração");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Reservas");
@@ -253,7 +262,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPStatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+            .addComponent(jPStatusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 678, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -324,23 +333,55 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMComputadoresActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        //TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuICadastroBensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuICadastroBensActionPerformed
         jInternalCadastroBens();
     }//GEN-LAST:event_jMenuICadastroBensActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        jInternalGrupoBens();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     FrmUsuario frmUsuarios;
     FrmComputador frmComputador;
     FrmBens bens;
+    FrmGrupoBens grupoBens;
+
+    public void jInternalGrupoBens() {
+        if (grupoBens == null) {
+            grupoBens = new FrmGrupoBens();
+            this.jPPrincipal.add(grupoBens);
+            try {
+                //set o tamanho máximo dela, que depende da janela pai     
+                grupoBens.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+        } else if (grupoBens != null) {
+            grupoBens.dispose();
+            grupoBens = null;
+            grupoBens = new FrmGrupoBens();
+            this.jPPrincipal.add(grupoBens);
+            try {
+                //set o tamanho máximo dela, que depende da janela pai     
+                grupoBens.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+        }
+        grupoBens.setVisible(true);
+    }
 
     public void jInternalComputador() {
         if (frmComputador == null) {
             frmComputador = new FrmComputador();
             this.jPPrincipal.add(frmComputador);
             try {
-                //set o tamanho máximo dela, que depende da janela pai     
+                // set o tamanho máximo dela, que depende da janela pai     
                 frmComputador.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
@@ -371,17 +412,24 @@ public final class frmPrincipal extends javax.swing.JFrame {
             bens.setVisible(true);
             this.jPPrincipal.add(bens);
             try {
-                bens.setSelected(true);
-                bens.setSelected(true);
-                //diz que a janela interna é maximizável     
-                bens.setMaximizable(true);
+                 //set o tamanho máximo dela, que depende da janela pai     
+                bens.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+            }
+        } else if (bens != null) {
+            bens.dispose();
+            bens = null;
+            bens = new FrmBens();
+            this.jPPrincipal.add(bens);
+            try {
                 //set o tamanho máximo dela, que depende da janela pai     
                 bens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
+            bens.setVisible(true);
         }
-        bens.setVisible(true);
     }
 
     private void jInternalUsuarios() {
@@ -412,7 +460,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
         frmUsuarios.setVisible(true);
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLComputador;
     private javax.swing.JLabel jLData;
@@ -430,6 +477,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuICadastroBens;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem5;
@@ -446,7 +494,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Saída", JOptionPane.YES_NO_OPTION);
+                int confirma = JOptionPane.showConfirmDialog(null, "Tem Certeza que deseja sair?", "Saída", JOptionPane.YES_NO_OPTION);
                 if (confirma == JOptionPane.YES_OPTION) {
                     System.exit(0);
                 } else {
