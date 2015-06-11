@@ -9,7 +9,7 @@ package br.com.wss.viwer;
  *
  * @author WILLIAM
  */
-public final class FrmDefinirSenha extends javax.swing.JFrame {
+public final class FrmDefinirSenha extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmDefinirSenha
@@ -20,6 +20,7 @@ public final class FrmDefinirSenha extends javax.swing.JFrame {
 
     public void init() {
         initComponents();
+        this.setModal(true);
     }
 
     /**
@@ -156,7 +157,7 @@ public final class FrmDefinirSenha extends javax.swing.JFrame {
     }//GEN-LAST:event_jBCancelarActionPerformed
 
     private void jBSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalvarActionPerformed
-        
+
     }//GEN-LAST:event_jBSalvarActionPerformed
 
     /**

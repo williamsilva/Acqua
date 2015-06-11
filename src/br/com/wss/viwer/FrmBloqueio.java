@@ -1,5 +1,6 @@
 package br.com.wss.viwer;
 
+import br.com.wss.dao.utilidades.ClassUtils;
 import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Usuario;
 import java.awt.event.KeyEvent;
@@ -8,10 +9,10 @@ import javax.swing.JOptionPane;
 
 public class FrmBloqueio extends javax.swing.JDialog {
 
-     FrmBloqueio(String usuarioTemp) {
+     FrmBloqueio() {
         init();      
-        jTUsuario.setText(usuarioTemp);
-    }
+        jTUsuario.setText(ClassUtils.buscaUsuario());
+    }  
 
     private void init() {
         initComponents();

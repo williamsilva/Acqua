@@ -1,4 +1,4 @@
-package br.com.wss.dao;
+package br.com.wss.dao.utilidades;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;
@@ -12,6 +12,7 @@ import jdk.nashorn.internal.runtime.JSType;
 
 public class ClassUtils {
     private static String usuarioLogado;
+    private static String usuario;
     
     public static void setUsuarioLogado(String usuario){
         usuarioLogado = usuario;
@@ -19,6 +20,12 @@ public class ClassUtils {
     public static String buscaUsuarioLogado(){
                
         return usuarioLogado;
+    }
+    public static void setUsuario(String nome) {
+        usuario = nome;
+    }
+    public static String buscaUsuario(){
+        return usuario;
     }
 
     public static String mostraData() {
@@ -105,4 +112,5 @@ public class ClassUtils {
     private static int calculoDigito(int sm) {
         return 11 - (sm % 11);
     }
+    
 }

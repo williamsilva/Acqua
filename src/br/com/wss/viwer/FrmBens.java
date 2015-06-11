@@ -138,11 +138,11 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
         jComboBoxVoltagen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
         jPanel2.add(jComboBoxVoltagen);
-        jComboBoxVoltagen.setBounds(130, 140, 150, 20);
+        jComboBoxVoltagen.setBounds(130, 140, 180, 20);
 
         jComboBoxGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(jComboBoxGrupo);
-        jComboBoxGrupo.setBounds(130, 115, 150, 20);
+        jComboBoxGrupo.setBounds(130, 115, 180, 20);
 
         jTextField1.setText("jTextField1");
         jPanel2.add(jTextField1);
@@ -216,6 +216,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
     }
     public void preencherComboVoltagen(){
+        jComboBoxVoltagen.removeAllItems();
         jComboBoxVoltagen.addItem("Selecione A Voltagem");
         jComboBoxVoltagen.addItem("127 V");
         jComboBoxVoltagen.addItem("220 V");

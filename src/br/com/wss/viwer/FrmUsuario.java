@@ -5,6 +5,7 @@
  */
 package br.com.wss.viwer;
 
+import br.com.wss.dao.utilidades.ClassUtils;
 import br.com.wss.dao.*;
 import br.com.wss.modelo.*;
 import java.util.ArrayList;
@@ -447,6 +448,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         FrmDefinirSenha senha = new FrmDefinirSenha();
+        senha.setLocationRelativeTo(null);
         senha.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -5,7 +5,7 @@
  */
 package br.com.wss.viwer;
 
-import br.com.wss.dao.ClassUtils;
+import br.com.wss.dao.utilidades.ClassUtils;
 
 /**
  *

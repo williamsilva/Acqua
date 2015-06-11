@@ -5,7 +5,7 @@
  */
 package br.com.wss.viwer;
 
-import br.com.wss.dao.ClassUtils;
+import br.com.wss.dao.utilidades.ClassUtils;
 import br.com.wss.dao.GrupoDao;
 import br.com.wss.modelo.Grupo;
 import br.com.wss.modelo.Tabela;

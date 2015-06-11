@@ -1,6 +1,7 @@
 package br.com.wss.viwer;
 
-import br.com.wss.dao.ClassUtils;
+import br.com.wss.dao.utilidades.Principal;
+import br.com.wss.dao.utilidades.ClassUtils;
 import br.com.wss.modelo.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -39,10 +40,12 @@ public final class frmPrincipal extends javax.swing.JFrame {
     frmPrincipal(Usuario usuarioTemp) throws InterruptedException {
         init();
 
-        String usuario = usuarioTemp.getNome().toUpperCase();
-        ClassUtils.setUsuarioLogado(usuario);
+        String nome = usuarioTemp.getNome().toUpperCase();
+        String usuario = usuarioTemp.getUsuario().toUpperCase();
+        ClassUtils.setUsuario(usuario);
+        ClassUtils.setUsuarioLogado(nome);
         usuarioBloqueio = usuarioTemp.getUsuario().toUpperCase();
-        jLUsuario.setText("Usúario Logado: " + usuario);
+        jLUsuario.setText("Usúario Logado: " + nome);
     }
 
     @SuppressWarnings("unchecked")
@@ -291,7 +294,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
     private void jMBloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBloquearActionPerformed
 
-        FrmBloqueio bloqueio = new FrmBloqueio(usuarioBloqueio);
+        FrmBloqueio bloqueio = new FrmBloqueio();
         bloqueio.setSize(453, 348);
         bloqueio.setLocationRelativeTo(null);
         bloqueio.setVisible(true);
@@ -412,7 +415,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
             bens.setVisible(true);
             this.jPPrincipal.add(bens);
             try {
-                 //set o tamanho máximo dela, que depende da janela pai     
+                //set o tamanho máximo dela, que depende da janela pai     
                 bens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
@@ -460,6 +463,36 @@ public final class frmPrincipal extends javax.swing.JFrame {
         frmUsuarios.setVisible(true);
     }
 
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new frmPrincipal().setVisible(true);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLComputador;
     private javax.swing.JLabel jLData;
@@ -504,10 +537,9 @@ public final class frmPrincipal extends javax.swing.JFrame {
         });
     }
 
-    private void telaBloqueio() {
-        Usuario usuarioBloqueio = new Usuario();
-        usuarioBloqueio.setUsuario(jLUsuario.getText());
-
-    }
-
+//    private void telaBloqueio() {
+//        Usuario usuarioBloqueio = new Usuario();
+//        usuarioBloqueio.setUsuario(jLUsuario.getText());
+//
+//    }
 }
