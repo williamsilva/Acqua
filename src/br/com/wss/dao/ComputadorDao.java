@@ -1,15 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package br.com.wss.dao;
 
 import br.com.wss.modelo.Computador;
 import java.awt.HeadlessException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author William
+ */
 public class ComputadorDao {
 
     Connection conexao;
@@ -19,7 +24,6 @@ public class ComputadorDao {
 
     public ComputadorDao() {
         conexao = ConectionFactory.getConnection();
-
     }
 
     public ArrayList<Computador> listar() {
@@ -42,7 +46,7 @@ public class ComputadorDao {
 
                 lista.add(computadorTemp);
             } while (rs.next());
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
@@ -63,10 +67,10 @@ public class ComputadorDao {
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         } catch (SQLException | HeadlessException error) {
             JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + error);
-                   }
+        }
     }
 
-    public void atualizar(Computador atualizar) {
+    public void atualizarComputador(Computador atualizar) {
 
         sql = ("update computador set nomeComputador = ?, macComputador = ?, ultimaAlteracao = ? where idComputador = ?");
 
@@ -79,10 +83,11 @@ public class ComputadorDao {
 
             stms.execute();
             stms.close();
+            JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
-            }
+        }
     }
 
     public void deletar(Computador deletar) {

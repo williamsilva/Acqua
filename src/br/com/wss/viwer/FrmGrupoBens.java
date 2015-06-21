@@ -5,11 +5,11 @@
  */
 package br.com.wss.viwer;
 
-import br.com.wss.dao.utilidades.ClassUtils;
+import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.dao.GrupoDao;
 import br.com.wss.modelo.Grupo;
-import br.com.wss.modelo.Tabela;
-import br.com.wss.modelo.TabelaGrupo;
+import br.com.wss.tabelas.Tabela;
+import br.com.wss.tabelas.TabelaGrupo;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -260,7 +260,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             grupoTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
             GrupoDao dao = new GrupoDao();
-            dao.cadastrarComputador(grupoTemp);
+            dao.cadastrarGrupo(grupoTemp);
 
             jButtonEditar.setVisible(false);
             jButtonNovo.setEnabled(true);

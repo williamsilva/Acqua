@@ -1,6 +1,6 @@
 package br.com.wss.viwer;
 
-import br.com.wss.dao.utilidades.ClassUtils;
+import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Usuario;
 import java.awt.event.KeyEvent;

@@ -5,13 +5,17 @@
  */
 package br.com.wss.viwer;
 
-import br.com.wss.dao.utilidades.ClassUtils;
+import br.com.wss.dao.UsuarioDao;
+import br.com.wss.utilidades.ClassUtils;
+import br.com.wss.modelo.Usuario;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author WILLIAM
  */
-public class FrmAuterarSenha extends javax.swing.JInternalFrame {
+public final class FrmAuterarSenha extends javax.swing.JDialog {
 
     /**
      * Creates new form frmTelaBloqueio
@@ -19,13 +23,11 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
     public FrmAuterarSenha() {
         initComponents();
         usuarioLogado();
+        this.setModal(true);
     }
 
-//    FrmAuterarSenha(String toString) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-    public void usuarioLogado(){
-        jTextFieldUsuario.setText(""+ClassUtils.buscaUsuarioLogado());
+    public void usuarioLogado() {
+        jTextFieldUsuario.setText(ClassUtils.buscaUsuario());
     }
 
     /**
@@ -40,8 +42,8 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jTextFieldUsuario = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jPasswordField3 = new javax.swing.JPasswordField();
+        jPasswordSenha = new javax.swing.JPasswordField();
+        jPasswordConfimerSenha = new javax.swing.JPasswordField();
         jBSalvar = new javax.swing.JButton();
         jBCancelar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -50,15 +52,44 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
-        setClosable(true);
+        getContentPane().setLayout(null);
 
         jLabel5.setText("Confirme Senha:");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(15, 190, 100, 14);
 
         jTextFieldUsuario.setEnabled(false);
+        getContentPane().add(jTextFieldUsuario);
+        jTextFieldUsuario.setBounds(125, 73, 165, 26);
 
         jPasswordField1.setEnabled(false);
+        getContentPane().add(jPasswordField1);
+        jPasswordField1.setBounds(125, 111, 165, 26);
+
+        jPasswordSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordSenhaKeyPressed(evt);
+            }
+        });
+        getContentPane().add(jPasswordSenha);
+        jPasswordSenha.setBounds(125, 149, 165, 26);
+
+        jPasswordConfimerSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordConfimerSenhaKeyPressed(evt);
+            }
+        });
+        getContentPane().add(jPasswordConfimerSenha);
+        jPasswordConfimerSenha.setBounds(125, 187, 165, 26);
 
         jBSalvar.setText("Salvar");
+        jBSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalvarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jBSalvar);
+        jBSalvar.setBounds(120, 230, 80, 26);
 
         jBCancelar.setText("Cancelar");
         jBCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -66,6 +97,8 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
                 jBCancelarActionPerformed(evt);
             }
         });
+        getContentPane().add(jBCancelar);
+        jBCancelar.setBounds(220, 230, 80, 26);
 
         jPanel1.setForeground(new java.awt.Color(204, 255, 204));
 
@@ -77,84 +110,55 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(82, 82, 82)
                 .addComponent(jLabel1)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(19, 19, 19))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 404, 62);
 
         jLabel2.setText("Usuário:");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(15, 76, 100, 14);
 
         jLabel3.setText("Senha:");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(15, 114, 100, 14);
 
         jLabel4.setText("Nova Senha:");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jBSalvar)
-                        .addGap(39, 39, 39)
-                        .addComponent(jBCancelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldUsuario)
-                            .addComponent(jPasswordField1)
-                            .addComponent(jPasswordField2)
-                            .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBSalvar)
-                    .addComponent(jBCancelar))
-                .addGap(36, 36, 36))
-        );
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(15, 152, 100, 14);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
-       
+        this.dispose();
     }//GEN-LAST:event_jBCancelarActionPerformed
+
+    private void jBSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalvarActionPerformed
+        auterarSenha();
+    }//GEN-LAST:event_jBSalvarActionPerformed
+
+    private void jPasswordSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordSenhaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jPasswordConfimerSenha.requestFocus();
+        }
+    }//GEN-LAST:event_jPasswordSenhaKeyPressed
+
+    private void jPasswordConfimerSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordConfimerSenhaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            auterarSenha();
+        }
+    }//GEN-LAST:event_jPasswordConfimerSenhaKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -166,9 +170,31 @@ public class FrmAuterarSenha extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPasswordField jPasswordConfimerSenha;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JPasswordField jPasswordField3;
+    private javax.swing.JPasswordField jPasswordSenha;
     private javax.swing.JTextField jTextFieldUsuario;
     // End of variables declaration//GEN-END:variables
+
+    public void auterarSenha() {
+        if (!new String(jPasswordSenha.getPassword()).equals("")) {
+
+            if (new String(jPasswordSenha.getPassword()).equals(new String(jPasswordConfimerSenha.getPassword()))) {
+                Usuario usuarioTemp = new Usuario();
+
+                usuarioTemp.setSenha(new String(jPasswordSenha.getPassword()));
+                usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+                usuarioTemp.setUsuario(jTextFieldUsuario.getText());
+
+                UsuarioDao dao = new UsuarioDao();
+                dao.atualizarSenha(usuarioTemp);
+
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "As senhas não correspondem");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum campo pode ser vazio!");
+        }
+    }
 }

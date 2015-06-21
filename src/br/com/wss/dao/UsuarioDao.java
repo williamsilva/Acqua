@@ -33,6 +33,7 @@ public class UsuarioDao {
                     usuario.setUsuario(result.getString("login"));
                     usuario.setSenha(result.getString("senha"));
                     usuario.setNome(result.getString("nome"));
+                   // usuario.setNome(result.getString("idLogin"));
                 }
                 stms.close();
             }
@@ -72,18 +73,38 @@ public class UsuarioDao {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, atualizar.getNome());
             stms.setString(2, atualizar.getUsuario());
-            stms.setString(3,atualizar.getUltimaAlteracao());
+            stms.setString(3, atualizar.getUltimaAlteracao());
             stms.setString(4, atualizar.getAtivo());
-            stms.setString(5,atualizar.getCodigo());
+            stms.setString(5, atualizar.getCodigo());
 
             stms.execute();
             stms.close();
 
+            JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
         }
     }
 
+    public void atualizarSenha(Usuario atualizar) {
+
+        sql = "update login set senha= ?, ultimaAlteracao = ? where login = ?";
+
+        try {
+            stms = conexao.prepareStatement(sql);
+            stms.setString(1, atualizar.getSenha());
+            stms.setString(2, atualizar.getUltimaAlteracao());
+            stms.setString(3, atualizar.getUsuario());
+
+            stms.execute();
+            stms.close();
+
+            JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
+        }
+    }
+    
     public void deletar(Usuario deletar) {
         sql = "Delete from login where Login = ?";
         try {
@@ -129,5 +150,19 @@ public class UsuarioDao {
         }
 
         return lista;
+    }
+
+    public String buscaUsuario(int buscar) {
+        String usuario = null;
+        sql = "Select login from login where idLogin = '"+buscar+"'";
+        try {
+            stms = conexao.prepareStatement(sql);
+            result = stms.executeQuery();
+            usuario = result.getString("login");
+            stms.close();
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, error);
+        }
+        return usuario;
     }
 }

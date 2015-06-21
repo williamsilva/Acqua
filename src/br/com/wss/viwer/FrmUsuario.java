@@ -5,7 +5,9 @@
  */
 package br.com.wss.viwer;
 
-import br.com.wss.dao.utilidades.ClassUtils;
+import br.com.wss.tabelas.TabelaUsuario;
+import br.com.wss.tabelas.Tabela;
+import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.dao.*;
 import br.com.wss.modelo.*;
 import java.util.ArrayList;
@@ -60,16 +62,16 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         Tabela modelo = new TabelaUsuario(dados, Colunas);
         jTabelaUsuario.setModel(modelo);
 
-        jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(315);
+        jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(210);
         jTabelaUsuario.getColumnModel().getColumn(0).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(190);
+        jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(200);
         jTabelaUsuario.getColumnModel().getColumn(1).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(2).setPreferredWidth(275);
+        jTabelaUsuario.getColumnModel().getColumn(2).setPreferredWidth(325);
         jTabelaUsuario.getColumnModel().getColumn(2).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(3).setPreferredWidth(275);
+        jTabelaUsuario.getColumnModel().getColumn(3).setPreferredWidth(325);
         jTabelaUsuario.getColumnModel().getColumn(3).setResizable(false);
 
         jTabelaUsuario.getColumnModel().getColumn(4).setPreferredWidth(55);

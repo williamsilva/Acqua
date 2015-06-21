@@ -1,18 +1,19 @@
 package br.com.wss.viwer;
 
-import br.com.wss.dao.utilidades.Principal;
-import br.com.wss.dao.utilidades.ClassUtils;
+import br.com.wss.utilidades.Principal;
+import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.modelo.Usuario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public final class frmPrincipal extends javax.swing.JFrame {
-
-    String usuarioBloqueio = "";
 
     public frmPrincipal() throws InterruptedException {
         init();
@@ -40,12 +41,13 @@ public final class frmPrincipal extends javax.swing.JFrame {
     frmPrincipal(Usuario usuarioTemp) throws InterruptedException {
         init();
 
-        String nome = usuarioTemp.getNome().toUpperCase();
-        String usuario = usuarioTemp.getUsuario().toUpperCase();
-        ClassUtils.setUsuario(usuario);
-        ClassUtils.setUsuarioLogado(nome);
-        usuarioBloqueio = usuarioTemp.getUsuario().toUpperCase();
-        jLUsuario.setText("Usúario Logado: " + nome);
+        String nomeUsuario = usuarioTemp.getNome().toUpperCase();
+        String login = usuarioTemp.getUsuario();
+
+        ClassUtils.setUsuario(login);
+        ClassUtils.setUsuarioLogado(nomeUsuario);
+
+        jLUsuario.setText("Usúario Logado: " + nomeUsuario);
     }
 
     @SuppressWarnings("unchecked")
@@ -69,6 +71,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuICadastroBens = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
@@ -214,13 +217,17 @@ public final class frmPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem2);
 
-        jMenuItem1.setText("Configuração");
+        jMenu6.setText("Confiuração");
+
+        jMenuItem1.setText("Grupos");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu6.add(jMenuItem1);
+
+        jMenu1.add(jMenu6);
 
         jMenuBar1.add(jMenu1);
 
@@ -255,6 +262,11 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jMenu5.setText("Ajuda");
 
         jMenuItem5.setText("Sobre");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem5);
 
         jMenuBar1.add(jMenu5);
@@ -323,7 +335,10 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMAlterarSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMAlterarSenhaActionPerformed
-        jInternalUsuarios();
+        FrmAuterarSenha senha = new FrmAuterarSenha();
+        senha.setSize(400, 320);
+        senha.setLocationRelativeTo(null);
+        senha.setVisible(true);
     }//GEN-LAST:event_jMAlterarSenhaActionPerformed
 
     private void jMUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMUsuarioActionPerformed
@@ -346,6 +361,10 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         jInternalGrupoBens();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        sobre();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     FrmUsuario frmUsuarios;
     FrmComputador frmComputador;
@@ -480,7 +499,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -508,6 +527,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuICadastroBens;
     private javax.swing.JMenuItem jMenuItem1;
@@ -537,9 +557,34 @@ public final class frmPrincipal extends javax.swing.JFrame {
         });
     }
 
-//    private void telaBloqueio() {
-//        Usuario usuarioBloqueio = new Usuario();
-//        usuarioBloqueio.setUsuario(jLUsuario.getText());
-//
-//    }
+    private void sobre() {
+        String mostra = "";
+        String nomeArq = "sobre.txt"; //Nome do arquivo, pode ser absoluto, ou pastas /dir/teste.txt
+        String linha = "";
+        File arq = new File(nomeArq);
+
+        //Arquivo existe
+        if (arq.exists()) {
+
+            try {
+                //abrindo arquivo para leitura
+                FileReader reader = new FileReader(nomeArq);
+                //leitor do arquivo
+                BufferedReader leitor = new BufferedReader(reader);
+                while (true) {
+                    linha = leitor.readLine();
+                    if (linha == null) {
+                        break;
+                    }
+                    mostra += linha + "\n";
+                }
+            } catch (Exception erro) {
+            }
+            JOptionPane.showMessageDialog(null, mostra, "Arquivo...", 1);
+        } //Se nao existir
+        else {
+            JOptionPane.showMessageDialog(null, "Arquivo nao existe!", "Erro", 0);
+        }
+    }
+
 }

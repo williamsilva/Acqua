@@ -5,10 +5,10 @@
  */
 package br.com.wss.viwer;
 
-import br.com.wss.dao.utilidades.ClassUtils;
+import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.dao.ComputadorDao;
-import br.com.wss.modelo.TabelaComputador;
-import br.com.wss.modelo.Tabela;
+import br.com.wss.tabelas.TabelaComputador;
+import br.com.wss.tabelas.Tabela;
 import br.com.wss.modelo.Computador;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -245,7 +245,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
         ComputadorDao dao = new ComputadorDao();
-        dao.atualizar(computadorTemp);
+        dao.atualizarComputador(computadorTemp);
 
         limparCampos();
         preencherTabela();

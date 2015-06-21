@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.wss.modelo;
+package br.com.wss.tabelas;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;

@@ -3,29 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.wss.modelo;
+package br.com.wss.tabelas;
 
+import br.com.wss.modelo.Usuario;
 import java.util.ArrayList;
 
 /**
  *
  * @author WILLIAM
  */
-public class TabelaComputador extends Tabela{
+public class TabelaUsuario extends Tabela {
 
-    public TabelaComputador(ArrayList lin, String[] col) {
+    public TabelaUsuario(ArrayList lin, String[] col) {
         super(lin, col);
     }
-    
+
     @Override
     public Object getValueAt(int numLin, int numCol) {
-        Computador computador = (Computador) getLinhas().get(numLin);
+        Usuario usuario = (Usuario) getLinhas().get(numLin);
         Object[] linha = new String[colunas.length];
-        linha[0] = computador.getComputador();
-        linha[1] = computador.getMac();
-        linha[2] = computador.getDataCadastro();
-        linha[3] = computador.getUltimaAlteracao();
+
+        linha[0] = usuario.getNome();
+        linha[1] = usuario.getUsuario();
+        linha[2] = usuario.getDataCadastro();
+        linha[3] = usuario.getUltimaAlteracao();
+        linha[4] = usuario.getAtivo();
         return linha[numCol];
     }
-    
 }
