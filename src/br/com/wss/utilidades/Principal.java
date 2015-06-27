@@ -2,9 +2,11 @@ package br.com.wss.utilidades;
 
 import br.com.wss.dao.ConectionFactory;
 import br.com.wss.viwer.SpleshScreen;
+import br.com.wss.viwer.frmPrincipal;
 import java.io.*;
 import java.net.*;
 import java.sql.*;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -25,8 +27,8 @@ public class Principal {
     PreparedStatement prepared;
     ResultSet result;
     String sql;
-    static String diretorioFinal = "C:\\Users\\william\\Google Drive\\Solutions\\Version\\Version.txt";
-    static String diretorioInicial = "C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions\\Version\\Version.txt";
+    static String diretorioFinal = "C:\\Users\\william\\Google Drive\\Solutions\\sobre.ini";
+    static String diretorioInicial = "C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions\\sobre.ini";
 
     public Principal() {
         conexao = ConectionFactory.getConnection();
@@ -49,7 +51,7 @@ public class Principal {
             }
 
         } catch (UnknownHostException | SocketException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return verifica;
     }
@@ -83,7 +85,7 @@ public class Principal {
             JOptionPane.showMessageDialog(null, "Não foi possivel verificar Atualizações!!");
             newForm();
         } else {
-            if (Integer.parseInt(VersaoAtual) >= Integer.parseInt(VersaoNova)) {
+            if (Double.parseDouble(VersaoAtual) >= Double.parseDouble(VersaoNova)) {
                 if (!"".equals(macComputador) && !"".equals(macBanco)) {
 
                     if (macComputador != null || equals(macBanco)) {
@@ -113,52 +115,44 @@ public class Principal {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-//                try {
-//                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                        if ("Nimbus".equals(info.getName())) {
-//                            javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                            break;
-//                        }
-//                    }
-//                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-//                    java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//                }
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         SpleshScreen splesh = new SpleshScreen();
-        splesh.setSize(485, 305);
+        splesh.setSize(480, 290);
         splesh.setLocationRelativeTo(null);
         splesh.setVisible(true);
     }
 
     public static String versaoAtual() {
-        String versaoAtual = null;
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(diretorioFinal));
-            String ultimaLinha = br.readLine();
 
-            while (ultimaLinha != null) {
-                versaoAtual = ultimaLinha;
-                ultimaLinha = br.readLine();
-            }
+        Properties config = new Properties();
+        String arquivo = diretorioFinal;//local do arquivo
+        try {
+            config.load(new FileInputStream(arquivo));
         } catch (IOException ex) {
-            System.out.println(ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String versaoAtual = config.getProperty("versao");
         return versaoAtual;
     }
 
     public static String novaVersao() {
-        String versaoNova = null;
-
+        Properties config = new Properties();
+        String arquivo = diretorioInicial;//local do arquivo
         try {
-            BufferedReader br = new BufferedReader(new FileReader(diretorioInicial));
-            String ultimaLinha = br.readLine();
-            while (ultimaLinha != null) {
-                versaoNova = ultimaLinha;
-                ultimaLinha = br.readLine();
-            }
+            config.load(new FileInputStream(arquivo));
         } catch (IOException ex) {
-            System.out.println(ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String versaoNova = config.getProperty("versao");
         return versaoNova;
     }
 }

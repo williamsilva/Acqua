@@ -1,6 +1,11 @@
 package br.com.wss.dao;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -15,19 +20,23 @@ public class ConectionFactory {
     }
 
     public static Connection getConnection() {
-
         if (conn == null) {
+            Properties config = new Properties();
+            String arquivo = "C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions\\config.ini";//local do arquivo    
+
             try {
-                String url = "jdbc:mysql://localhost:3306/acqua_dados";
-                String usuario = "root";
-                String senha = "12345";
+                config.load(new FileInputStream(arquivo));
 
-                Class.forName("com.mysql.jdbc.Driver");
-
+                String usuario = config.getProperty("usuario");
+                String senha = config.getProperty("senha");
+                String url = config.getProperty("localhost");
+                String clasForName = config.getProperty("Class.forName");
+                
+                Class.forName(clasForName);
                 conn = DriverManager.getConnection(url, usuario, senha);
 
-            } catch (ClassNotFoundException | SQLException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
+            } catch (IOException | ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(ConectionFactory.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return conn;

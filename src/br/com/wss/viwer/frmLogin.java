@@ -110,7 +110,7 @@ public final class frmLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jtSenha);
-        jtSenha.setBounds(90, 240, 170, 20);
+        jtSenha.setBounds(90, 240, 170, 26);
 
         jTUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -118,7 +118,7 @@ public final class frmLogin extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTUsuario);
-        jTUsuario.setBounds(90, 200, 170, 20);
+        jTUsuario.setBounds(90, 200, 170, 26);
 
         jbSair.setText("Sair");
         jbSair.addActionListener(new java.awt.event.ActionListener() {

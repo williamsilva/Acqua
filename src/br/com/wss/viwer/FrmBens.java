@@ -16,7 +16,6 @@ import br.com.wss.utilidades.NumeroMaximoCaracters;
 import br.com.wss.utilidades.SomenteNumero;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -143,6 +142,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
+        setIconifiable(true);
 
         jPanelBens.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

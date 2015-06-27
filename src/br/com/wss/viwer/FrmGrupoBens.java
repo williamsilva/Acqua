@@ -22,6 +22,7 @@ import javax.swing.ListSelectionModel;
 public final class FrmGrupoBens extends javax.swing.JInternalFrame {
 
     ArrayList<Grupo> dados;
+    int modificador = 1;
 
     /**
      * Creates new form FrmGrupoBens
@@ -29,7 +30,6 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     public FrmGrupoBens() {
         initComponents();
         jPanelGrupos.setVisible(false);
-        jLid.setVisible(false);
         jTId.setVisible(false);
         jButtonExcluir.setVisible(false);
         preencherTabela();
@@ -53,13 +53,12 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextFieldGrupo = new javax.swing.JTextField();
         jTextFieldDescricao = new javax.swing.JTextField();
-        jLid = new javax.swing.JLabel();
         jTId = new javax.swing.JTextField();
-        jButtonEditar = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
 
         jTableGrupo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -99,16 +98,8 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Decrição:");
 
-        jLid.setText("Id Cadastrado");
-
         jTId.setEditable(false);
-
-        jButtonEditar.setText("Editar");
-        jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditarActionPerformed(evt);
-            }
-        });
+        jTId.setText("iD");
 
         javax.swing.GroupLayout jPanelGruposLayout = new javax.swing.GroupLayout(jPanelGrupos);
         jPanelGrupos.setLayout(jPanelGruposLayout);
@@ -117,27 +108,22 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             .addGroup(jPanelGruposLayout.createSequentialGroup()
                 .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelGruposLayout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jButtonSalvar)
+                        .addGap(53, 53, 53)
+                        .addComponent(jButtonCancelar))
+                    .addGroup(jPanelGruposLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLid)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelGruposLayout.createSequentialGroup()
-                            .addGap(21, 21, 21)
-                            .addComponent(jButtonSalvar)
-                            .addGap(49, 49, 49)
-                            .addComponent(jButtonCancelar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                            .addComponent(jButtonEditar))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelGruposLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextFieldGrupo)
-                                .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)))))
+                        .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldGrupo)
+                            .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)))
+                    .addGroup(jPanelGruposLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanelGruposLayout.setVerticalGroup(
@@ -151,16 +137,13 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
                 .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLid))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalvar)
-                    .addComponent(jButtonCancelar)
-                    .addComponent(jButtonEditar))
-                .addContainerGap())
+                    .addComponent(jButtonCancelar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButtonNovo.setText("Novo");
@@ -194,12 +177,12 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNovo)
                     .addComponent(jButtonExcluir))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanelGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -208,10 +191,22 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
-        jPanelGrupos.setVisible(true);
-        jButtonExcluir.setEnabled(false);
-        jButtonEditar.setVisible(false);
-        jButtonSalvar.setVisible(true);
+        if (modificador == 1) {
+            jPanelGrupos.setVisible(true);
+            jButtonExcluir.setEnabled(false);
+
+            jButtonSalvar.setVisible(true);
+            jButtonSalvar.setText("Salvar");
+            limparCampos();
+        } else {
+            modificador = 1;
+            jPanelGrupos.setVisible(true);
+            jButtonExcluir.setEnabled(false);
+
+            jButtonSalvar.setVisible(true);
+            jButtonSalvar.setText("Salvar");
+            limparCampos();
+        }
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -219,6 +214,8 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         jButtonExcluir.setEnabled(false);
         jButtonNovo.setEnabled(true);
         limparCampos();
+        modificador = 1;
+
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jTableGrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableGrupoMouseClicked
@@ -227,9 +224,11 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             jButtonNovo.setEnabled(false);
             jButtonExcluir.setEnabled(true);
             jPanelGrupos.setVisible(true);
-            jButtonEditar.setVisible(true);
-            jButtonSalvar.setVisible(false);
+
+            jButtonSalvar.setVisible(true);
             jButtonExcluir.setVisible(true);
+            modificador = 2;
+            jButtonSalvar.setText("Editar");
         }
     }//GEN-LAST:event_jTableGrupoMouseClicked
 
@@ -241,7 +240,6 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         dao.deletar(grupoTemp);
 
         jPanelGrupos.setVisible(false);
-        jButtonEditar.setVisible(false);
         jButtonNovo.setEnabled(true);
         jButtonExcluir.setEnabled(false);
         limparCampos();
@@ -250,58 +248,25 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        if (!jTextFieldGrupo.getText().equals("")) {
-
-            Grupo grupoTemp = new Grupo();
-
-            grupoTemp.setNome(jTextFieldGrupo.getText());
-            grupoTemp.setDescricao(jTextFieldDescricao.getText());
-            grupoTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-            grupoTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-
-            GrupoDao dao = new GrupoDao();
-            dao.cadastrarGrupo(grupoTemp);
-
-            jButtonEditar.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
-            limparCampos();
-            preencherTabela();
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
-            repaint();
+        if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrar();
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            atualizar();
         }
+
+
     }//GEN-LAST:event_jButtonSalvarActionPerformed
-
-    private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        Grupo grupoTemp = new Grupo();
-
-        grupoTemp.setNome(jTextFieldGrupo.getText());
-        grupoTemp.setDescricao(jTextFieldDescricao.getText());
-        grupoTemp.setIdGrupo(Integer.parseInt(jTId.getText()));
-        grupoTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-
-        GrupoDao dao = new GrupoDao();
-        dao.atualizar(grupoTemp);
-
-        preencherTabela();
-
-        jPanelGrupos.setVisible(false);
-        jButtonNovo.setEnabled(true);
-        jButtonExcluir.setEnabled(false);
-    }//GEN-LAST:event_jButtonEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
-    private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLid;
     private javax.swing.JPanel jPanelGrupos;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTId;
@@ -310,7 +275,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldGrupo;
     // End of variables declaration//GEN-END:variables
 
-    public void itensSelecionados() {
+    private void itensSelecionados() {
         int seleciona = jTableGrupo.getSelectedRow();
 
         jTId.setText(String.valueOf(dados.get(seleciona).getIdGrupo()));
@@ -319,7 +284,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
 
     }
 
-    public void preencherTabela() {
+    private void preencherTabela() {
 
         String[] Colunas = new String[]{"Grupo", "Descrição", "Data Cadastro", "Última Auteração"};
 
@@ -349,5 +314,47 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     private void limparCampos() {
         jTextFieldDescricao.setText("");
         jTextFieldGrupo.setText("");
+    }
+
+    private void cadastrar() {
+        if (!jTextFieldGrupo.getText().equals("")) {
+
+            Grupo grupoTemp = new Grupo();
+
+            grupoTemp.setNome(jTextFieldGrupo.getText());
+            grupoTemp.setDescricao(jTextFieldDescricao.getText());
+            grupoTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            grupoTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+
+            GrupoDao dao = new GrupoDao();
+            dao.cadastrarGrupo(grupoTemp);
+
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+            limparCampos();
+            preencherTabela();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
+            repaint();
+        }
+    }
+
+    private void atualizar() {
+        Grupo grupoTemp = new Grupo();
+
+        grupoTemp.setNome(jTextFieldGrupo.getText());
+        grupoTemp.setDescricao(jTextFieldDescricao.getText());
+        grupoTemp.setIdGrupo(Integer.parseInt(jTId.getText()));
+        grupoTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+
+        GrupoDao dao = new GrupoDao();
+        dao.atualizar(grupoTemp);
+
+        preencherTabela();
+
+        jPanelGrupos.setVisible(false);
+        jButtonNovo.setEnabled(true);
+        jButtonExcluir.setEnabled(false);
     }
 }

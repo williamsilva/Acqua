@@ -61,7 +61,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jLData = new javax.swing.JLabel();
         jLHora = new javax.swing.JLabel();
         jPSecundario = new javax.swing.JPanel();
-        jPPrincipal = new javax.swing.JPanel();
+        jPPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmArquivo = new javax.swing.JMenu();
         jMAlterarSenha = new javax.swing.JMenuItem();
@@ -113,9 +113,9 @@ public final class frmPrincipal extends javax.swing.JFrame {
             jPStatusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPStatusBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLComputador, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(jLUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLComputador, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLData, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -144,9 +144,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
             jPSecundarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 501, Short.MAX_VALUE)
         );
-
-        jPPrincipal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPPrincipal.setForeground(new java.awt.Color(255, 204, 0));
 
         javax.swing.GroupLayout jPPrincipalLayout = new javax.swing.GroupLayout(jPPrincipal);
         jPPrincipal.setLayout(jPPrincipalLayout);
@@ -281,14 +278,14 @@ public final class frmPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPPrincipal))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPSecundario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPPrincipal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPStatusBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -372,6 +369,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     FrmGrupoBens grupoBens;
 
     public void jInternalGrupoBens() {
+        
         if (grupoBens == null) {
             grupoBens = new FrmGrupoBens();
             this.jPPrincipal.add(grupoBens);
@@ -395,7 +393,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
             }
 
         }
-        grupoBens.setVisible(true);
+        grupoBens.show();
     }
 
     public void jInternalComputador() {
@@ -420,25 +418,21 @@ public final class frmPrincipal extends javax.swing.JFrame {
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
-
         }
-        frmComputador.setVisible(true);
+        frmComputador.show();
     }
 
     private void jInternalCadastroBens() {
-
         if (bens == null) {
             bens = new FrmBens();
-            bens.setSize(1100, 660);
-            bens.setLocation(260, 0);
-            bens.setVisible(true);
             this.jPPrincipal.add(bens);
             try {
-                //set o tamanho máximo dela, que depende da janela pai     
+                // set o tamanho máximo dela, que depende da janela pai     
                 bens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
+
         } else if (bens != null) {
             bens.dispose();
             bens = null;
@@ -450,22 +444,22 @@ public final class frmPrincipal extends javax.swing.JFrame {
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
-            bens.setVisible(true);
+
         }
+        bens.show();
     }
 
     private void jInternalUsuarios() {
-
-        if (frmUsuarios == null) {
+       if (frmUsuarios == null) {
             frmUsuarios = new FrmUsuario();
-
             this.jPPrincipal.add(frmUsuarios);
             try {
-                //set o tamanho máximo dela, que depende da janela pai     
+                // set o tamanho máximo dela, que depende da janela pai     
                 frmUsuarios.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
+
         } else if (frmUsuarios != null) {
             frmUsuarios.dispose();
             frmUsuarios = null;
@@ -477,9 +471,9 @@ public final class frmPrincipal extends javax.swing.JFrame {
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
-
         }
-        frmUsuarios.setVisible(true);
+        frmUsuarios.show();
+        
     }
 
     public static void main(String args[]) {
@@ -534,7 +528,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JPanel jPPrincipal;
+    private javax.swing.JDesktopPane jPPrincipal;
     private javax.swing.JPanel jPSecundario;
     private javax.swing.JPanel jPStatusBar;
     private javax.swing.JMenu jmArquivo;

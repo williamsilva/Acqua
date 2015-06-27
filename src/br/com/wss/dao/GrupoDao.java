@@ -91,7 +91,7 @@ public class GrupoDao {
             stms.execute();
             stms.close();
 
-            JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
+            JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
         }

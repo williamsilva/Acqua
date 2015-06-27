@@ -33,7 +33,6 @@ public class UsuarioDao {
                     usuario.setUsuario(result.getString("login"));
                     usuario.setSenha(result.getString("senha"));
                     usuario.setNome(result.getString("nome"));
-                   // usuario.setNome(result.getString("idLogin"));
                 }
                 stms.close();
             }
@@ -67,7 +66,7 @@ public class UsuarioDao {
 
     public void atualizar(Usuario atualizar) {
 
-        sql = "update login set nome = ?, login = ?, ultimaAlteracao = ?,ativo = ? where idlogin = ?";
+        sql = "update login set nome = ?, login = ?, ultimaAlteracao = ?,ativo = ?,senha = ? where idlogin = ?";
 
         try {
             stms = conexao.prepareStatement(sql);
@@ -75,7 +74,8 @@ public class UsuarioDao {
             stms.setString(2, atualizar.getUsuario());
             stms.setString(3, atualizar.getUltimaAlteracao());
             stms.setString(4, atualizar.getAtivo());
-            stms.setString(5, atualizar.getCodigo());
+            stms.setString(5, atualizar.getSenha());
+            stms.setString(6, atualizar.getCodigo());
 
             stms.execute();
             stms.close();
@@ -104,7 +104,7 @@ public class UsuarioDao {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
         }
     }
-    
+
     public void deletar(Usuario deletar) {
         sql = "Delete from login where Login = ?";
         try {
@@ -154,7 +154,7 @@ public class UsuarioDao {
 
     public String buscaUsuario(int buscar) {
         String usuario = null;
-        sql = "Select login from login where idLogin = '"+buscar+"'";
+        sql = "Select login from login where idLogin = '" + buscar + "'";
         try {
             stms = conexao.prepareStatement(sql);
             result = stms.executeQuery();

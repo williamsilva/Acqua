@@ -10,6 +10,7 @@ import br.com.wss.dao.ComputadorDao;
 import br.com.wss.tabelas.TabelaComputador;
 import br.com.wss.tabelas.Tabela;
 import br.com.wss.modelo.Computador;
+import br.com.wss.utilidades.NumeroMaximoCaracters;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -22,19 +23,22 @@ import javax.swing.ListSelectionModel;
 public final class FrmComputador extends javax.swing.JInternalFrame {
 
     ArrayList<Computador> dados;
+    int modificador = 1;
 
     /**
      * Creates new form FrmComputador
      */
     public FrmComputador() {
         initComponents();
-        jLid.setVisible(false);
+       
         jTId.setVisible(false);
 
         preencherTabela();
         jPComputador.setVisible(false);
         jBExcluir.setEnabled(false);
-        jBEditar.setVisible(false);
+        jTNomeCoputador.setDocument(new NumeroMaximoCaracters(50));
+        jTMacCoputador.setDocument(new NumeroMaximoCaracters(12));
+        
     }
 
     /**
@@ -53,16 +57,15 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         jPComputador = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jBCancelar = new javax.swing.JButton();
-        jBSalvar = new javax.swing.JButton();
+        jButtonSalvar = new javax.swing.JButton();
         jTNomeCoputador = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTMacCoputador = new javax.swing.JTextField();
         jTId = new javax.swing.JTextField();
-        jLid = new javax.swing.JLabel();
-        jBEditar = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
+        setIconifiable(true);
         setEnabled(false);
 
         jTabelaComputador.setModel(new javax.swing.table.DefaultTableModel(
@@ -108,51 +111,39 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
             }
         });
 
-        jBSalvar.setText("Salvar");
-        jBSalvar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBSalvarActionPerformed(evt);
+                jButtonSalvarActionPerformed(evt);
             }
         });
 
         jLabel2.setText("Mac do Computador:");
 
         jTId.setEditable(false);
-
-        jLid.setText("Id Cadastrado");
-
-        jBEditar.setText("Editar");
-        jBEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBEditarActionPerformed(evt);
-            }
-        });
+        jTId.setText("Id");
 
         javax.swing.GroupLayout jPComputadorLayout = new javax.swing.GroupLayout(jPComputador);
         jPComputador.setLayout(jPComputadorLayout);
         jPComputadorLayout.setHorizontalGroup(
             jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPComputadorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel1))
+                    .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPComputadorLayout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(jBEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBSalvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonSalvar)
+                        .addGap(50, 50, 50)
                         .addComponent(jBCancelar))
-                    .addGroup(jPComputadorLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLid))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTMacCoputador, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                            .addComponent(jTNomeCoputador))))
-                .addContainerGap(285, Short.MAX_VALUE))
+                    .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jTMacCoputador, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                        .addComponent(jTNomeCoputador)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPComputadorLayout.setVerticalGroup(
             jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,23 +156,19 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
                 .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTMacCoputador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLid))
                 .addGap(18, 18, 18)
                 .addGroup(jPComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBCancelar)
-                    .addComponent(jBSalvar)
-                    .addComponent(jBEditar))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSalvar)
+                    .addComponent(jBCancelar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,17 +177,17 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
                         .addComponent(jBNovo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBExcluir)))
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNovo)
                     .addComponent(jBExcluir))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPComputador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -214,8 +201,9 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
             jBNovo.setEnabled(false);
             jBExcluir.setEnabled(true);
             jPComputador.setVisible(true);
-            jBEditar.setVisible(true);
-            jBSalvar.setVisible(false);
+            jButtonSalvar.setVisible(true);
+            
+            modificador = 2;
         }
     }//GEN-LAST:event_jTabelaComputadorMouseClicked
 
@@ -224,87 +212,64 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         jPComputador.setVisible(false);
         jBExcluir.setEnabled(false);
         jBNovo.setEnabled(true);
+        modificador = 1;
     }//GEN-LAST:event_jBCancelarActionPerformed
 
     private void jBNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoActionPerformed
-        jPComputador.setVisible(true);
-        jBExcluir.setEnabled(false);
-        jBNovo.setEnabled(false);
-        jBSalvar.setVisible(true);
-        jBEditar.setVisible(false);
+        if (modificador == 1) {
+            jPComputador.setVisible(true);
+            jBExcluir.setEnabled(false);
+            jBNovo.setEnabled(false);
+            jButtonSalvar.setVisible(true);
+           
+            jButtonSalvar.setText("Salvar");
+            limparCampos();
+        } else {
+            modificador = 1;
+            jPComputador.setVisible(true);
+            jBExcluir.setEnabled(false);
+            jBNovo.setEnabled(false);
+            jButtonSalvar.setVisible(true);
+            
+            jButtonSalvar.setText("Salvar");
+            limparCampos();
+        }
 
     }//GEN-LAST:event_jBNovoActionPerformed
 
-    private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrar();
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            atualizar();
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
 
         Computador computadorTemp = new Computador();
-
-        computadorTemp.setComputador(jTNomeCoputador.getText());
-        computadorTemp.setMac(jTMacCoputador.getText());
         computadorTemp.setId(Integer.parseInt(jTId.getText()));
-        computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-
         ComputadorDao dao = new ComputadorDao();
-        dao.atualizarComputador(computadorTemp);
 
-        limparCampos();
-        preencherTabela();
-
+        dao.deletar(computadorTemp);
         jPComputador.setVisible(false);
         jBNovo.setEnabled(true);
         jBExcluir.setEnabled(false);
-    }//GEN-LAST:event_jBEditarActionPerformed
+        preencherTabela();
+        limparCampos();
 
-    private void jBSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalvarActionPerformed
-        if (!jTNomeCoputador.getText().equals("") && !jTMacCoputador.getText().equals("")) {
-
-            Computador computadorTemp = new Computador();
-
-            computadorTemp.setComputador(jTNomeCoputador.getText());
-            computadorTemp.setMac(jTMacCoputador.getText());
-            computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-            computadorTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-
-            ComputadorDao dao = new ComputadorDao();
-            dao.cadastrarComputador(computadorTemp);
-            limparCampos();
-            jBEditar.setVisible(false);
-            jBNovo.setEnabled(true);
-            jBExcluir.setEnabled(false);
-            preencherTabela();
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
-            repaint();
-        }
-    }//GEN-LAST:event_jBSalvarActionPerformed
-
-    private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-       
-            Computador computadorTemp = new Computador();
-            computadorTemp.setId(Integer.parseInt(jTId.getText()));
-            ComputadorDao dao = new ComputadorDao();
-
-            dao.deletar(computadorTemp);
-            jPComputador.setVisible(false);
-            jBEditar.setVisible(false);
-            jBNovo.setEnabled(true);
-            jBExcluir.setEnabled(false);
-            preencherTabela();
-            limparCampos();
-       
     }//GEN-LAST:event_jBExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBCancelar;
-    private javax.swing.JButton jBEditar;
     private javax.swing.JButton jBExcluir;
     private javax.swing.JButton jBNovo;
-    private javax.swing.JButton jBSalvar;
+    private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLid;
     private javax.swing.JPanel jPComputador;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTId;
@@ -313,7 +278,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTabelaComputador;
     // End of variables declaration//GEN-END:variables
 
-    public void itensSelecionados() {
+    private void itensSelecionados() {
         int seleciona = jTabelaComputador.getSelectedRow();
 
         jTId.setText(String.valueOf(dados.get(seleciona).getId()));
@@ -322,13 +287,13 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
     }
 
-    public void preencherTabela() {
+    private void preencherTabela() {
 
         String[] Colunas = new String[]{"Computador", "Endereço Mac", "Data Cadastro", "Última Auteração"};
 
         ComputadorDao computadorDao = new ComputadorDao();
         dados = computadorDao.listar();
-        
+
         Tabela modelo = new TabelaComputador(dados, Colunas);
         jTabelaComputador.setModel(modelo);
 
@@ -350,10 +315,52 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
     }
 
-    public void limparCampos() {
+    private void limparCampos() {
         jTMacCoputador.setText("");
         jTNomeCoputador.setText("");
         jTId.setText("");
+    }
+
+    private void cadastrar() {
+        if (!jTNomeCoputador.getText().equals("") && !jTMacCoputador.getText().equals("")) {
+
+            Computador computadorTemp = new Computador();
+
+            computadorTemp.setComputador(jTNomeCoputador.getText());
+            computadorTemp.setMac(jTMacCoputador.getText());
+            computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            computadorTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+
+            ComputadorDao dao = new ComputadorDao();
+            dao.cadastrarComputador(computadorTemp);
+            limparCampos();
+                jBNovo.setEnabled(true);
+            jBExcluir.setEnabled(false);
+            preencherTabela();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
+            repaint();
+        }
+    }
+
+    private void atualizar() {
+        Computador computadorTemp = new Computador();
+
+        computadorTemp.setComputador(jTNomeCoputador.getText());
+        computadorTemp.setMac(jTMacCoputador.getText());
+        computadorTemp.setId(Integer.parseInt(jTId.getText()));
+        computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+
+        ComputadorDao dao = new ComputadorDao();
+        dao.atualizarComputador(computadorTemp);
+
+        limparCampos();
+        preencherTabela();
+
+        jPComputador.setVisible(false);
+        jBNovo.setEnabled(true);
+        jBExcluir.setEnabled(false);
     }
 
 }
