@@ -70,9 +70,8 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuICadastroBens = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -206,6 +205,14 @@ public final class frmPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuICadastroBens);
 
+        jMenuItem1.setText("Grupos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuItem2.setText("Cadastro de Manutenção");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,18 +220,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
-
-        jMenu6.setText("Confiuração");
-
-        jMenuItem1.setText("Grupos");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem1);
-
-        jMenu1.add(jMenu6);
 
         jMenuBar1.add(jMenu1);
 
@@ -348,25 +343,26 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMComputadoresActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        //TODO add your handling code here:
+        jInternalManutencao();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuICadastroBensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuICadastroBensActionPerformed
         jInternalCadastroBens();
     }//GEN-LAST:event_jMenuICadastroBensActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        jInternalGrupoBens();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         sobre();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        jInternalGrupoBens();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     FrmUsuario frmUsuarios;
     FrmComputador frmComputador;
     FrmBens bens;
     FrmGrupoBens grupoBens;
+    FrmManutecao manutencao;
 
     public void jInternalGrupoBens() {
         
@@ -475,6 +471,33 @@ public final class frmPrincipal extends javax.swing.JFrame {
         frmUsuarios.show();
         
     }
+    
+    private void jInternalManutencao() {
+        if (manutencao == null) {
+            manutencao = new FrmManutecao();
+            this.jPPrincipal.add(manutencao);
+            try {
+                // set o tamanho máximo dela, que depende da janela pai     
+                manutencao.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+        } else if (manutencao != null) {
+            manutencao.dispose();
+            manutencao = null;
+            manutencao = new FrmManutecao();
+            this.jPPrincipal.add(manutencao);
+            try {
+                //set o tamanho máximo dela, que depende da janela pai     
+                manutencao.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        manutencao.show();
+       
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -521,7 +544,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuICadastroBens;
     private javax.swing.JMenuItem jMenuItem1;
@@ -535,7 +557,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private org.netbeans.examples.lib.timerbean.Timer timer1;
     // End of variables declaration//GEN-END:variables
 
-    public void confirmaFechamento() {
+    private void confirmaFechamento() {
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {

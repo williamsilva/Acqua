@@ -63,16 +63,20 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jPanelSecundario.setVisible(false);
         jPanelBens.setVisible(false);
         jButtonExcluir.setEnabled(false);
-        jDateChooserDataCompra.setEnabled(false);
-        jDateChooserDataCompra.getCalendarButton().setEnabled(true);
-        jDateChooserDataCompra.setDate(new Date());
-        //Campos do panel Secundario
+
         jTextFieldDepreciacaoDiaria.setEditable(false);
         jTextFieldValorAtual.setEditable(false);
         jTextFieldTempoUso.setEditable(false);
-        jTextFieldFinalGarantia.setEditable(false);
-        jTextFieldFinalVidaUtil.setEditable(false);
         jTextFieldTempoUsoPorcento.setEditable(false);
+
+        jDateChooserDataCompra.setEnabled(false);
+        jDateChooserDataCompra.getCalendarButton().setEnabled(true);
+        jDateChooserDataCompra.setDate(new Date());
+        jDateChooserFinalGarantia.setEnabled(false);
+        jDateChooserFinalGarantia.getCalendarButton().setVisible(false);
+        jDateChooserFinalVidaUtil.setEnabled(false);
+        jDateChooserFinalVidaUtil.getCalendarButton().setVisible(false);
+
     }
 
     /**
@@ -119,15 +123,11 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldIdbens = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextFieldObservaçoes = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableBens = new javax.swing.JTable();
         jButtonNovo = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
         jPanelSecundario = new javax.swing.JPanel();
         jLabelFinalGarantia = new javax.swing.JLabel();
-        jTextFieldFinalGarantia = new javax.swing.JTextField();
         jLabelFinalVidaUtil = new javax.swing.JLabel();
-        jTextFieldFinalVidaUtil = new javax.swing.JTextField();
         jLabeltempoUso = new javax.swing.JLabel();
         jTextFieldTempoUso = new javax.swing.JTextField();
         jLabelDescricaoDepreciacaoDiaria = new javax.swing.JLabel();
@@ -136,58 +136,104 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jLabelValorAtual = new javax.swing.JLabel();
         jLabelTempoUsoPorcento = new javax.swing.JLabel();
         jTextFieldTempoUsoPorcento = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jDateChooserFinalGarantia = new com.toedter.calendar.JDateChooser();
+        jDateChooserFinalVidaUtil = new com.toedter.calendar.JDateChooser();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableBens = new javax.swing.JTable();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setIconifiable(true);
+        setEnabled(false);
 
-        jPanelBens.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanelBens.setBorder(javax.swing.BorderFactory.createTitledBorder("Grupos"));
+        jPanelBens.setLayout(null);
 
         jLabelNumeroControle.setText("N° de controle:");
+        jPanelBens.add(jLabelNumeroControle);
+        jLabelNumeroControle.setBounds(19, 59, 110, 20);
 
         jLabelNotaFiscal.setText("Nº Notal Fiscal:");
+        jPanelBens.add(jLabelNotaFiscal);
+        jLabelNotaFiscal.setBounds(362, 59, 110, 20);
 
         jLabelValorCompra.setText("Valor de Compra:");
+        jPanelBens.add(jLabelValorCompra);
+        jLabelValorCompra.setBounds(362, 119, 110, 20);
 
         jLabelDataCompra.setText("Data da Compra:");
+        jPanelBens.add(jLabelDataCompra);
+        jLabelDataCompra.setBounds(362, 89, 110, 20);
 
         jLabelGrupo.setText("Grupo:");
+        jPanelBens.add(jLabelGrupo);
+        jLabelGrupo.setBounds(19, 179, 110, 20);
 
         jLabelVoltagem.setText("Voltagem:");
+        jPanelBens.add(jLabelVoltagem);
+        jLabelVoltagem.setBounds(19, 211, 110, 20);
 
         jLabelNumeroSerie.setText("N° Série:");
         jLabelNumeroSerie.setToolTipText("");
+        jPanelBens.add(jLabelNumeroSerie);
+        jLabelNumeroSerie.setBounds(19, 149, 110, 20);
 
         jLabelModelo.setText("Modelo:");
+        jPanelBens.add(jLabelModelo);
+        jLabelModelo.setBounds(19, 119, 110, 20);
 
         jLabelStatus.setText("Status:");
+        jPanelBens.add(jLabelStatus);
+        jLabelStatus.setBounds(362, 29, 110, 20);
 
         jLabel11.setText("Observações:");
+        jPanelBens.add(jLabel11);
+        jLabel11.setBounds(492, 211, 100, 20);
 
         jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanelBens.add(jComboBoxStatus);
+        jComboBoxStatus.setBounds(482, 29, 190, 26);
 
         jTextFieldFornecedor.setText("jTextField1");
+        jPanelBens.add(jTextFieldFornecedor);
+        jTextFieldFornecedor.setBounds(144, 243, 190, 26);
 
         jTextFieldModelo.setText("jTextField1");
+        jPanelBens.add(jTextFieldModelo);
+        jTextFieldModelo.setBounds(144, 119, 190, 26);
 
         jTextFieldNumeroSerie.setText("jTextField1");
+        jPanelBens.add(jTextFieldNumeroSerie);
+        jTextFieldNumeroSerie.setBounds(144, 149, 190, 26);
 
         jComboBoxVoltagen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
+        jPanelBens.add(jComboBoxVoltagen);
+        jComboBoxVoltagen.setBounds(144, 211, 190, 26);
 
         jComboBoxGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanelBens.add(jComboBoxGrupo);
+        jComboBoxGrupo.setBounds(144, 179, 190, 26);
 
         jTextFieldValorCompra.setText("jTextField1");
+        jPanelBens.add(jTextFieldValorCompra);
+        jTextFieldValorCompra.setBounds(482, 119, 190, 26);
 
         jTextFieldNotalFiscal.setText("jTextField1");
+        jPanelBens.add(jTextFieldNotalFiscal);
+        jTextFieldNotalFiscal.setBounds(482, 59, 190, 26);
 
         jTextFieldNumeroControle.setText("jTextField1");
+        jPanelBens.add(jTextFieldNumeroControle);
+        jTextFieldNumeroControle.setBounds(144, 59, 190, 26);
 
         jTextFieldLocal.setText("jTextField8");
+        jPanelBens.add(jTextFieldLocal);
+        jTextFieldLocal.setBounds(144, 89, 190, 26);
 
         jLabelLocal.setText("Local:");
+        jPanelBens.add(jLabelLocal);
+        jLabelLocal.setBounds(19, 89, 110, 20);
 
         jButtonSalvar.setText("Variavel");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -195,6 +241,8 @@ public final class FrmBens extends javax.swing.JInternalFrame {
                 jButtonSalvarActionPerformed(evt);
             }
         });
+        jPanelBens.add(jButtonSalvar);
+        jButtonSalvar.setBounds(144, 287, 80, 26);
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -202,185 +250,111 @@ public final class FrmBens extends javax.swing.JInternalFrame {
                 jButtonCancelarActionPerformed(evt);
             }
         });
+        jPanelBens.add(jButtonCancelar);
+        jButtonCancelar.setBounds(254, 287, 80, 26);
 
         jLabelNomeBens.setText("Nome Iten:");
+        jPanelBens.add(jLabelNomeBens);
+        jLabelNomeBens.setBounds(19, 29, 110, 20);
 
         jTextFieldNomeBen.setText("jTextField1");
+        jPanelBens.add(jTextFieldNomeBen);
+        jTextFieldNomeBen.setBounds(144, 29, 190, 26);
+        jPanelBens.add(jDateChooserDataCompra);
+        jDateChooserDataCompra.setBounds(482, 89, 190, 26);
 
         jTextFieldVidaUtil.setText("jTextField1");
+        jPanelBens.add(jTextFieldVidaUtil);
+        jTextFieldVidaUtil.setBounds(482, 179, 190, 26);
 
         jLabelDescricao.setText("Fornecedor:");
+        jPanelBens.add(jLabelDescricao);
+        jLabelDescricao.setBounds(16, 246, 110, 20);
 
         jLabelVidaUtil.setText("Vida Util Estimada:");
+        jPanelBens.add(jLabelVidaUtil);
+        jLabelVidaUtil.setBounds(362, 179, 110, 20);
 
         jTextFieldGarantia.setText("jTextField1");
+        jPanelBens.add(jTextFieldGarantia);
+        jTextFieldGarantia.setBounds(482, 149, 190, 26);
 
         jLabelGarantia.setText("Garantia em Dias:");
+        jPanelBens.add(jLabelGarantia);
+        jLabelGarantia.setBounds(362, 149, 110, 20);
 
         jTextFieldIdbens.setText("IdBENS");
+        jPanelBens.add(jTextFieldIdbens);
+        jTextFieldIdbens.setBounds(19, 290, 41, 20);
 
         jTextFieldObservaçoes.setColumns(20);
         jTextFieldObservaçoes.setRows(5);
         jTextFieldObservaçoes.setText("\n\n\n\n\n\n\n");
         jScrollPane1.setViewportView(jTextFieldObservaçoes);
 
-        javax.swing.GroupLayout jPanelBensLayout = new javax.swing.GroupLayout(jPanelBens);
-        jPanelBens.setLayout(jPanelBensLayout);
-        jPanelBensLayout.setHorizontalGroup(
-            jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelBensLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelBensLayout.createSequentialGroup()
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelVoltagem, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldIdbens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(15, 15, 15)
-                                .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanelBensLayout.createSequentialGroup()
-                                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jComboBoxVoltagen, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                                .addComponent(jTextFieldFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelBensLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelNomeBens, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addComponent(jTextFieldNomeBen, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelNumeroControle, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addComponent(jTextFieldNumeroControle, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addComponent(jTextFieldLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addComponent(jTextFieldModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addComponent(jTextFieldNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(15, 15, 15)
-                                .addComponent(jComboBoxGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jTextFieldNotalFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jDateChooserDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jTextFieldValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jTextFieldGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelBensLayout.createSequentialGroup()
-                                .addComponent(jLabelVidaUtil, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelBensLayout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jTextFieldVidaUtil, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanelBensLayout.setVerticalGroup(
-            jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelBensLayout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelBensLayout.createSequentialGroup()
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelNomeBens, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNomeBen, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelNumeroControle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNumeroControle, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNumeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelBensLayout.createSequentialGroup()
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelNotaFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNotalFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooserDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldValorCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldGarantia, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelVidaUtil, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldVidaUtil, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelVoltagem, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxVoltagen, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelBensLayout.createSequentialGroup()
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelBensLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldIdbens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jPanelBens.add(jScrollPane1);
+        jScrollPane1.setBounds(352, 243, 320, 70);
+
+        jButtonNovo.setText("Novo");
+        jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovoActionPerformed(evt);
+            }
+        });
+
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
+
+        jPanelSecundario.setBorder(javax.swing.BorderFactory.createTitledBorder("Extras"));
+        jPanelSecundario.setLayout(null);
+
+        jLabelFinalGarantia.setText("Fim da Garantia:");
+        jPanelSecundario.add(jLabelFinalGarantia);
+        jLabelFinalGarantia.setBounds(20, 30, 145, 20);
+
+        jLabelFinalVidaUtil.setText("Termino Vida Util:");
+        jPanelSecundario.add(jLabelFinalVidaUtil);
+        jLabelFinalVidaUtil.setBounds(20, 60, 145, 20);
+
+        jLabeltempoUso.setText("Tempo de Uso em Dias:");
+        jPanelSecundario.add(jLabeltempoUso);
+        jLabeltempoUso.setBounds(20, 90, 145, 20);
+
+        jTextFieldTempoUso.setText("jTextField1");
+        jPanelSecundario.add(jTextFieldTempoUso);
+        jTextFieldTempoUso.setBounds(190, 90, 150, 26);
+
+        jLabelDescricaoDepreciacaoDiaria.setText("Depreciação Diaria:");
+        jPanelSecundario.add(jLabelDescricaoDepreciacaoDiaria);
+        jLabelDescricaoDepreciacaoDiaria.setBounds(20, 120, 145, 20);
+
+        jTextFieldDepreciacaoDiaria.setText("jTextField1");
+        jPanelSecundario.add(jTextFieldDepreciacaoDiaria);
+        jTextFieldDepreciacaoDiaria.setBounds(190, 120, 150, 26);
+
+        jTextFieldValorAtual.setText("jTextField1");
+        jPanelSecundario.add(jTextFieldValorAtual);
+        jTextFieldValorAtual.setBounds(190, 150, 150, 26);
+
+        jLabelValorAtual.setText("Valor Atual:");
+        jPanelSecundario.add(jLabelValorAtual);
+        jLabelValorAtual.setBounds(20, 150, 145, 20);
+
+        jLabelTempoUsoPorcento.setText("Tempo de Uso %:");
+        jPanelSecundario.add(jLabelTempoUsoPorcento);
+        jLabelTempoUsoPorcento.setBounds(20, 180, 145, 20);
+
+        jTextFieldTempoUsoPorcento.setText("jTextField1");
+        jPanelSecundario.add(jTextFieldTempoUsoPorcento);
+        jTextFieldTempoUsoPorcento.setBounds(190, 180, 150, 26);
+        jPanelSecundario.add(jDateChooserFinalGarantia);
+        jDateChooserFinalGarantia.setBounds(190, 30, 150, 26);
+        jPanelSecundario.add(jDateChooserFinalVidaUtil);
+        jDateChooserFinalVidaUtil.setBounds(190, 60, 150, 26);
 
         jTableBens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -400,76 +374,17 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jTableBens);
 
-        jButtonNovo.setText("Novo");
-        jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonNovoActionPerformed(evt);
-            }
-        });
-
-        jButtonExcluir.setText("Excluir");
-        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExcluirActionPerformed(evt);
-            }
-        });
-
-        jPanelSecundario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanelSecundario.setLayout(null);
-
-        jLabelFinalGarantia.setText("Fim da Garantia:");
-        jPanelSecundario.add(jLabelFinalGarantia);
-        jLabelFinalGarantia.setBounds(20, 15, 145, 20);
-
-        jTextFieldFinalGarantia.setText("jTextField1");
-        jPanelSecundario.add(jTextFieldFinalGarantia);
-        jTextFieldFinalGarantia.setBounds(190, 15, 150, 26);
-
-        jLabelFinalVidaUtil.setText("Termino Vida Util:");
-        jPanelSecundario.add(jLabelFinalVidaUtil);
-        jLabelFinalVidaUtil.setBounds(20, 45, 145, 20);
-
-        jTextFieldFinalVidaUtil.setText("jTextField1");
-        jPanelSecundario.add(jTextFieldFinalVidaUtil);
-        jTextFieldFinalVidaUtil.setBounds(190, 45, 150, 26);
-
-        jLabeltempoUso.setText("Tempo de Uso em Dias:");
-        jPanelSecundario.add(jLabeltempoUso);
-        jLabeltempoUso.setBounds(20, 75, 145, 20);
-
-        jTextFieldTempoUso.setText("jTextField1");
-        jPanelSecundario.add(jTextFieldTempoUso);
-        jTextFieldTempoUso.setBounds(190, 75, 150, 26);
-
-        jLabelDescricaoDepreciacaoDiaria.setText("Depreciação Diaria:");
-        jPanelSecundario.add(jLabelDescricaoDepreciacaoDiaria);
-        jLabelDescricaoDepreciacaoDiaria.setBounds(20, 105, 145, 20);
-
-        jTextFieldDepreciacaoDiaria.setText("jTextField1");
-        jPanelSecundario.add(jTextFieldDepreciacaoDiaria);
-        jTextFieldDepreciacaoDiaria.setBounds(190, 105, 150, 26);
-
-        jTextFieldValorAtual.setText("jTextField1");
-        jPanelSecundario.add(jTextFieldValorAtual);
-        jTextFieldValorAtual.setBounds(190, 135, 150, 26);
-
-        jLabelValorAtual.setText("Valor Atual:");
-        jPanelSecundario.add(jLabelValorAtual);
-        jLabelValorAtual.setBounds(20, 135, 145, 20);
-
-        jLabelTempoUsoPorcento.setText("Tempo de Uso %:");
-        jPanelSecundario.add(jLabelTempoUsoPorcento);
-        jLabelTempoUsoPorcento.setBounds(20, 165, 145, 20);
-
-        jTextFieldTempoUsoPorcento.setText("jTextField1");
-        jPanelSecundario.add(jTextFieldTempoUsoPorcento);
-        jTextFieldTempoUsoPorcento.setBounds(190, 165, 150, 26);
-
-        jLabel1.setText("Pesquisar:");
-
-        jTextField1.setText("jTextField1");
-
-        jButton1.setText("Pesquisar");
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+        );
+        jDesktopPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -477,44 +392,29 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jDesktopPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanelSecundario, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonNovo)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonExcluir)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelSecundario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 782, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNovo)
                     .addComponent(jButtonExcluir))
-                .addGap(21, 21, 21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelBens, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelBens, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                     .addComponent(jPanelSecundario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -587,7 +487,6 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovo;
@@ -596,7 +495,9 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox jComboBoxStatus;
     private javax.swing.JComboBox jComboBoxVoltagen;
     private com.toedter.calendar.JDateChooser jDateChooserDataCompra;
-    private javax.swing.JLabel jLabel1;
+    private com.toedter.calendar.JDateChooser jDateChooserFinalGarantia;
+    private com.toedter.calendar.JDateChooser jDateChooserFinalVidaUtil;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabelDataCompra;
     private javax.swing.JLabel jLabelDescricao;
@@ -623,10 +524,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableBens;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextFieldDepreciacaoDiaria;
-    private javax.swing.JTextField jTextFieldFinalGarantia;
-    private javax.swing.JTextField jTextFieldFinalVidaUtil;
     private javax.swing.JTextField jTextFieldFornecedor;
     private javax.swing.JTextField jTextFieldGarantia;
     private javax.swing.JTextField jTextFieldIdbens;
@@ -695,17 +593,17 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldGarantia.setText("");
         jTextFieldVidaUtil.setText("");
         //Limpado capos do Panel secundario
-        jTextFieldFinalGarantia.setText("");
         jTextFieldDepreciacaoDiaria.setText("");
         jTextFieldValorAtual.setText("");
         jTextFieldTempoUso.setText("");
-        jTextFieldFinalGarantia.setText("");
-        jTextFieldFinalVidaUtil.setText("");
+
     }
 
     private void cadastrarBens() {
         if (jComboBoxGrupo.getSelectedIndex() != 0 && jComboBoxStatus.getSelectedIndex() != 0
-                && jComboBoxVoltagen.getSelectedIndex() != 0) {
+                && jComboBoxVoltagen.getSelectedIndex() != 0 && !jTextFieldNomeBen.getText().equals("")
+                && !jTextFieldNumeroControle.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
+                && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldValorCompra.getText().equals("")) {
 
             bensTemp.setNome(jTextFieldNomeBen.getText());
             bensTemp.setNumeroControle(jTextFieldNumeroControle.getText());
@@ -834,7 +732,9 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
     private void editarBens() {
         if (jComboBoxGrupo.getSelectedIndex() != 0 && jComboBoxStatus.getSelectedIndex() != 0
-                && jComboBoxVoltagen.getSelectedIndex() != 0) {
+                && jComboBoxVoltagen.getSelectedIndex() != 0 && !jTextFieldNomeBen.getText().equals("")
+                && !jTextFieldNumeroControle.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
+                && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldValorCompra.getText().equals("")) {
 
             bensTemp.setNome(jTextFieldNomeBen.getText());
             bensTemp.setNumeroControle(jTextFieldNumeroControle.getText());
@@ -862,9 +762,19 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             jPanelBens.setVisible(false);
             jPanelSecundario.setVisible(false);
         } else {
-            jLabelStatus.setForeground(Color.red);
+            jLabelNumeroControle.setForeground(Color.red);
+            jLabelNotaFiscal.setForeground(Color.red);
+            jLabelValorCompra.setForeground(Color.red);
             jLabelGrupo.setForeground(Color.red);
             jLabelVoltagem.setForeground(Color.red);
+            jLabelNumeroSerie.setForeground(Color.red);
+            jLabelModelo.setForeground(Color.red);
+            jLabelDescricao.setForeground(Color.red);
+            jLabelStatus.setForeground(Color.red);
+            jLabelLocal.setForeground(Color.red);
+            jLabelNomeBens.setForeground(Color.red);
+            jLabelGarantia.setForeground(Color.red);
+            jLabelVidaUtil.setForeground(Color.red);
         }
     }
 
@@ -895,24 +805,17 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jLabelNomeBens.setForeground(Color.BLACK);
         jLabelGarantia.setForeground(Color.BLACK);
         jLabelVidaUtil.setForeground(Color.BLACK);
-        //Itens painel secundario
-        jTextFieldValorAtual.setBackground(Color.WHITE);
-        jLabelValorAtual.setForeground(Color.BLACK);
-        jLabelFinalGarantia.setForeground(Color.BLACK);
-        jTextFieldFinalGarantia.setBackground(Color.WHITE);
-        jLabelFinalVidaUtil.setForeground(Color.BLACK);
-        jTextFieldFinalVidaUtil.setBackground(Color.WHITE);
+
     }
 
     private void panelSecundario() {
-        //Calculando termino da garatia        
-        jTextFieldFinalGarantia.setText(ClassUtils.somarDias(jDateChooserDataCompra, jTextFieldGarantia));
-        finalGarantia(jLabelFinalGarantia, jTextFieldFinalGarantia, jDateChooserDataCompra);
+        //Calculando termino da garatia     
+        jDateChooserFinalGarantia.setDate(new Date(ClassUtils.somarDias(jDateChooserDataCompra, jTextFieldGarantia)));
+        finalGarantia(jLabelFinalGarantia, jDateChooserFinalGarantia);
 
         //Calculando termino vida Util
-        jTextFieldFinalVidaUtil.setText(ClassUtils.somarDias(jDateChooserDataCompra, jTextFieldVidaUtil));
-        finalGarantia(jLabelFinalVidaUtil, jTextFieldFinalVidaUtil, jDateChooserDataCompra);
-
+        jDateChooserFinalVidaUtil.setDate(new Date(ClassUtils.somarDias(jDateChooserDataCompra, jTextFieldVidaUtil)));
+        finalVidaUtil(jLabelFinalVidaUtil, jDateChooserFinalVidaUtil);
         //Calculando total de Dias
         totalDias(jDateChooserDataCompra, jTextFieldTempoUso);
 
@@ -930,6 +833,9 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         if (valorAtual <= 0) {
             jTextFieldValorAtual.setBackground(Color.red);
             jLabelValorAtual.setForeground(Color.red);
+        } else {
+            jTextFieldValorAtual.setBackground(Color.WHITE);
+            jLabelValorAtual.setForeground(Color.BLACK);
         }
 
         //Calculando tempo de uso em porcentagen
@@ -940,33 +846,42 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldTempoUsoPorcento.setText(tempoUsoPorcento + "%");
     }
 
-    private void finalGarantia(JLabel label, JTextField texto, JDateChooser date) {
+    private void finalGarantia(JLabel label, JDateChooser date) {
+        String finalGarantia = ClassUtils.getDateChooser(date).replace("-", "");
 
-        LocalDate hoje = LocalDate.now();
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String dataAtual = hoje.format(formatador);
-
-        String dataCompra = ClassUtils.getDateChooser(date).replace("-", "");
-
-        if (Integer.parseInt(dataAtual) < Integer.parseInt(dataCompra)) {
+        if (Integer.parseInt(dataAtual()) > Integer.parseInt(finalGarantia)) {
             label.setForeground(Color.red);
-            texto.setBackground(Color.red);
+            date.setBackground(Color.red);
         } else {
-            texto.setBackground(Color.WHITE);
+            date.setBackground(Color.BLACK);
             label.setForeground(Color.BLACK);
         }
     }
 
     private void totalDias(JDateChooser date, JTextField text) {
+        String dataCompra = ClassUtils.getDateChooser(date).replace("-", "");
+        int dias = Integer.parseInt(dataAtual()) - Integer.parseInt(dataCompra);
+        text.setText(String.valueOf(dias));
 
+    }
+
+    private String dataAtual() {
         LocalDate hoje = LocalDate.now();
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("yyyyMMdd");
         String dataAtual = hoje.format(formatador);
+        return dataAtual;
+    }
 
-        String dataCompra = ClassUtils.getDateChooser(date).replace("-", "");
+    private void finalVidaUtil(JLabel label, JDateChooser date) {
+        String finalVidaUtil = ClassUtils.getDateChooser(date).replace("-", "");
 
-        int dias = Integer.parseInt(dataAtual) - Integer.parseInt(dataCompra);
-        text.setText(String.valueOf(dias));
-        
+        if (Integer.parseInt(dataAtual()) > Integer.parseInt(finalVidaUtil)) {
+            label.setForeground(Color.red);
+            date.setBackground(Color.red);
+        } else {
+            date.setBackground(Color.BLACK);
+            label.setForeground(Color.BLACK);
+        }
+
     }
 }

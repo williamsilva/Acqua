@@ -27,8 +27,11 @@ public class Principal {
     PreparedStatement prepared;
     ResultSet result;
     String sql;
-    static String diretorioFinal = "C:\\Users\\william\\Google Drive\\Solutions\\sobre.ini";
-    static String diretorioInicial = "C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions\\sobre.ini";
+    static String copyFileDest = "C:\\WssSolutions\\sobre.ini";
+    static String copyFileOrig = "C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions\\sobre.ini";
+    
+    File origemFolder = new File("C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions");
+    File destinoFolder = new File("C:\\WssSolutions");
 
     public Principal() {
         conexao = ConectionFactory.getConnection();
@@ -100,10 +103,13 @@ public class Principal {
                 }
             } else {
                 try {
-                    Runtime.getRuntime().exec("java -jar C:\\Users\\william\\Documents\\NetBeansProjects\\ControleAtualizacao\\dist\\ControleAtualizacao.jar");
+                    CopyDir.copyFiles(origemFolder, destinoFolder);
+                    
+                   //Runtime.getRuntime().exec("java -jar C:\\Users\\william\\Documents\\NetBeansProjects\\ControleAtualizacao\\dist\\ControleAtualizacao.jar");
                 } catch (IOException ex) {
                     Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                newForm();
                 System.exit(0);
             }
         }
@@ -134,7 +140,7 @@ public class Principal {
     public static String versaoAtual() {
 
         Properties config = new Properties();
-        String arquivo = diretorioFinal;//local do arquivo
+        String arquivo = copyFileDest;//local do arquivo
         try {
             config.load(new FileInputStream(arquivo));
         } catch (IOException ex) {
@@ -146,7 +152,7 @@ public class Principal {
 
     public static String novaVersao() {
         Properties config = new Properties();
-        String arquivo = diretorioInicial;//local do arquivo
+        String arquivo = copyFileOrig;//local do arquivo
         try {
             config.load(new FileInputStream(arquivo));
         } catch (IOException ex) {

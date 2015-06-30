@@ -164,7 +164,7 @@ public class ClassUtils {
 
         data.setDate(data.getDate() + Integer.parseInt(contador));
 
-        String mostraFormato = "dd/MM/yyyy";
+        String mostraFormato = "yyyy/MM/dd";
         SimpleDateFormat dataFormatada = new SimpleDateFormat(mostraFormato);
         String mostra = dataFormatada.format(data);
         return mostra;

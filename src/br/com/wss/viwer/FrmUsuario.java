@@ -407,6 +407,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jBExcluir.setEnabled(false);
         limparCanpos();
         modificador = 1;
+        jLNomeCadastro.setForeground(Color.black);
+        jLUsuarioCadastro.setForeground(Color.black);
     }//GEN-LAST:event_jBCancelarActionPerformed
 
     private void jTabelaUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaUsuarioMouseClicked
@@ -420,6 +422,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             jBExcluir.setVisible(true);
             modificador = 2;
             jButtonSalvar.setText("Editar");
+            jLNomeCadastro.setForeground(Color.black);
+            jLUsuarioCadastro.setForeground(Color.black);
         }
     }//GEN-LAST:event_jTabelaUsuarioMouseClicked
 
@@ -502,9 +506,9 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         Usuario usuarioTemp = new Usuario();
 
         usuarioTemp.setNome(jTextFieldNome.getText());
-        usuarioTemp.setUsuario(jTextFieldUsuario.getText());        
+        usuarioTemp.setUsuario(jTextFieldUsuario.getText());
         usuarioTemp.setSenha(new String(jPasswordFieldSenha.getPassword()));
-        usuarioTemp.setCodigo(jTId.getText());        
+        usuarioTemp.setCodigo(jTId.getText());
 
         usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
 
@@ -518,7 +522,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         dao.atualizar(usuarioTemp);
         limparCanpos();
         preencherTabela();
-        
+
         jLabelSenha.setForeground(Color.BLACK);
         jLabelConfirmeSenha.setForeground(Color.BLACK);
         jPUsuario.setVisible(false);
