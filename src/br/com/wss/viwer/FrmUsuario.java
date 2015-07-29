@@ -94,15 +94,10 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jButtonSalvarSenha = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
 
-        timer1.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
-            public void onTime(java.awt.event.ActionEvent evt) {
-                timer1OnTime(evt);
-            }
-        });
-
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setIconifiable(true);
+        setTitle("Cadastro de Usúario");
         setEnabled(false);
 
         jPUsuario.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Usuário"));
@@ -509,8 +504,9 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         usuarioTemp.setUsuario(jTextFieldUsuario.getText());
         usuarioTemp.setSenha(new String(jPasswordFieldSenha.getPassword()));
         usuarioTemp.setCodigo(jTId.getText());
+        usuarioTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
 
-        usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+        usuarioTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
 
         if (jRSim.isSelected()) {
             usuarioTemp.setAtivo("Sim");
@@ -542,9 +538,11 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 Usuario usuarioTemp = new Usuario();
                 usuarioTemp.setNome(jTextFieldNome.getText());
                 usuarioTemp.setUsuario(jTextFieldUsuario.getText());
-                usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-                usuarioTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+                usuarioTemp.setUltimaAlteracao( ClassUtils.setDateMsqy());
+                usuarioTemp.setDataCadastro(ClassUtils.setDateMsqy());
                 usuarioTemp.setSenha(new String(jPasswordFieldSenha.getPassword()));
+                usuarioTemp.setIdUsuarioCad((ClassUtils.getIdUsuario()));
+                usuarioTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
 
                 if (jRSim.isSelected()) {
                     usuarioTemp.setAtivo("Sim");
@@ -566,8 +564,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Necessario Cadastrar Uma Senha!");
                 jPUsuario.setVisible(true);
                 jPanelSenha.setVisible(true);
-                jLNomeCadastro.setForeground(Color.black);
-                jLUsuarioCadastro.setForeground(Color.black);
+                jLNomeCadastro.setForeground(Color.red);
+                jLUsuarioCadastro.setForeground(Color.red);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");

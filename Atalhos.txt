@@ -1,0 +1,8 @@
+--------------Atalhos--------------------
+Alterar Senha---------Ctrl+F1
+Bloquear---------------Ctrl+F2
+Desconenctar--------Ctrl+F3
+Usuarios--------------Ctrl+F4
+Computadores------Ctrl+F5
+
+Sair----------------------Alt+F4

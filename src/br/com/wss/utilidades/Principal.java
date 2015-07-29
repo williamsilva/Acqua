@@ -27,11 +27,11 @@ public class Principal {
     PreparedStatement prepared;
     ResultSet result;
     String sql;
-    static String copyFileDest = "C:\\WssSolutions\\sobre.ini";
-    static String copyFileOrig = "C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions\\sobre.ini";
-    
-    File origemFolder = new File("C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions");
-    File destinoFolder = new File("C:\\WssSolutions");
+    static String versionAtual = ArquivosIni.VersaoAtual();
+    static String versionNova = ArquivosIni.VersaoNova();
+
+    File origemFolderCopy = new File(ArquivosIni.CopyDirOrigem());
+    File destinoFolderCopy = new File(ArquivosIni.CopyDirDestino());
 
     public Principal() {
         conexao = ConectionFactory.getConnection();
@@ -62,13 +62,13 @@ public class Principal {
     public String verificaMac() {
         String nome = "";
         String mac = getMac();
-        sql = "select * from computador where macComputador = ?";
+        sql = "select * from computador where mac_computador = ?";
         try {
             prepared = conexao.prepareStatement(sql);
             prepared.setString(1, mac);
             result = prepared.executeQuery();
             if (result.next()) {
-                nome = result.getString("nomeComputador");
+                nome = result.getString("nome_computador");
             } else {
                 nome = "";
             }
@@ -103,9 +103,7 @@ public class Principal {
                 }
             } else {
                 try {
-                    CopyDir.copyFiles(origemFolder, destinoFolder);
-                    
-                   //Runtime.getRuntime().exec("java -jar C:\\Users\\william\\Documents\\NetBeansProjects\\ControleAtualizacao\\dist\\ControleAtualizacao.jar");
+                    CopyDir.copyFiles(origemFolderCopy, destinoFolderCopy);
                 } catch (IOException ex) {
                     Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -140,25 +138,27 @@ public class Principal {
     public static String versaoAtual() {
 
         Properties config = new Properties();
-        String arquivo = copyFileDest;//local do arquivo
+        String arquivo = versionAtual;//local do arquivo
         try {
             config.load(new FileInputStream(arquivo));
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String versaoAtual = config.getProperty("versao");
+        String versaoAtual = config.getProperty("VERSION");
+
         return versaoAtual;
     }
 
     public static String novaVersao() {
         Properties config = new Properties();
-        String arquivo = copyFileOrig;//local do arquivo
+        String arquivo = versionNova;//local do arquivo
         try {
             config.load(new FileInputStream(arquivo));
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String versaoNova = config.getProperty("versao");
+        String versaoNova = config.getProperty("VERSION");
+
         return versaoNova;
     }
 }

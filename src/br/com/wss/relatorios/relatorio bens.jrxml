@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Relatorio bens" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="edbeb59a-f7f5-4b2b-8fba-6815955bac98">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select
+                           bens.nome,
+                           bens.numero_controle,
+						   bens.nota_fiscal,
+						   bens.valor_compra,
+						bens.data_compra,
+                           bens.id_grupo_bens,
+                            bens.voltagem,
+                           bens.numero_serie,
+                            bens.modelo,
+                           bens.id_fornecedor,
+                           bens.localizacao,
+                           bens.status,
+                            bens.data_cadastro,
+                            bens.ultima_alteracao,
+						bens.observacao,
+						bens.id_bens,
+                            bens.vida_util,
+                            bens.garantia,
+                            bens.id_usuario_alt,
+                            bens.id_usuario_cad,
+                            grupo.nome_grupo,
+						login.nome,
+                        fornecedor.nome_fornecedor
+                    from bens left join grupo on bens.id_grupo_bens = grupo.id_grupo
+                    		  left join login on bens.id_usuario_alt = login.id_login
+                              left join fornecedor on bens.id_fornecedor = fornecedor.id_fornecedor
+                    order by bens.nome]]>
+	</queryString>
+	<field name="nome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_controle" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nota_fiscal" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valor_compra" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_compra" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_grupo_bens" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="voltagem" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="numero_serie" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="modelo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_fornecedor" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="localizacao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_cadastro" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ultima_alteracao" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="observacao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_bens" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vida_util" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="garantia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_usuario_alt" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_usuario_cad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome_grupo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nome_fornecedor" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="nome">
+		<groupExpression><![CDATA[$F{nome}]]></groupExpression>
+	</group>
+	<group name="numero_controle">
+		<groupExpression><![CDATA[$F{numero_controle}]]></groupExpression>
+	</group>
+	<group name="nota_fiscal">
+		<groupExpression><![CDATA[$F{nota_fiscal}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84" splitType="Stretch">
+			<staticText>
+				<reportElement x="138" y="10" width="563" height="74" uuid="9ccaf7aa-f785-45b2-936c-5404de0c47e3"/>
+				<textElement>
+					<font size="48"/>
+				</textElement>
+				<text><![CDATA[TITULO DO RELATORIO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="731" y="0" width="70" height="15" uuid="81cd5eb4-9b36-442b-9110-addfee113e33"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Compra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="656" y="0" width="69" height="15" uuid="50bc3b68-45dd-4416-932b-939c1fc6d77e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Compra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="0" width="40" height="15" uuid="9fdc0836-6cdf-4be1-82dc-41b517117268"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="153" y="0" width="63" height="15" uuid="bcd2160e-f647-47d9-907a-43026ee0bc70"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Controle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="0" width="118" height="15" uuid="9cd3800b-01ae-49b4-a52b-076dfc4165eb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="63" height="15" uuid="3ca7fd9d-1e93-49dd-8d83-e7580c35ed03"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nota Fiscal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="580" y="2" width="57" height="15" uuid="93219222-6b3a-4c9a-a93c-9b751237a563"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Modelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="2" width="47" height="15" uuid="e2ca2129-94ff-4381-83fe-2054bbdcb659"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="329" y="2" width="76" height="15" uuid="598b89cf-741d-4d29-8af4-d8949891f33e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fornecedor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="17" width="798" height="2" uuid="dc0f515a-4eb9-4535-bb7f-3f6bd610f1d0"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="3" y="0" width="135" height="20" uuid="f9a59ad4-f5ab-44f3-aa4b-3fa9ed0bae1e"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="2" width="63" height="20" uuid="30eadd8a-c127-48e6-b6ba-a0fb41e4be81"/>
+				<textFieldExpression><![CDATA[$F{numero_controle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="2" width="52" height="20" uuid="16a82267-de3f-4e9a-84a2-0571a64faabe"/>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="580" y="2" width="57" height="20" uuid="8b0cf88c-25c7-4bcd-8f32-326785b00155"/>
+				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="673" y="2" width="42" height="20" uuid="3fc23210-49c6-4bd0-94b5-f086151f721b"/>
+				<textFieldExpression><![CDATA[$F{valor_compra}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="743" y="2" width="42" height="20" uuid="8fc87d89-7fe3-4212-968d-cf4df156277a"/>
+				<textFieldExpression><![CDATA[$F{data_compra}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="22" width="795" height="1" uuid="d1914ca4-baf2-4150-9dee-5b36c5c56ded"/>
+			</line>
+			<textField>
+				<reportElement x="230" y="5" width="63" height="20" uuid="2c2ce102-ba41-4d89-8b03-413e56aeccf7"/>
+				<textFieldExpression><![CDATA[$F{nota_fiscal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="5" width="76" height="20" uuid="d8071300-4499-4b36-94ca-556241c51420"/>
+				<textFieldExpression><![CDATA[$F{nome_fornecedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="502" y="5" width="62" height="20" uuid="346ca32a-2bde-42ef-976d-27048a765b46"/>
+				<textFieldExpression><![CDATA[$F{nome_grupo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="3" y="0" width="100" height="20" uuid="5bd235a9-2bb2-4e4e-9729-eb52d4f2e290"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="761" y="0" width="40" height="20" uuid="b31e8629-1eba-43f1-a249-638beb4549e4"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="697" y="0" width="64" height="20" uuid="34310760-2c67-4c93-ba4d-f07f5a376ca4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -11,7 +11,7 @@ public class FrmBloqueio extends javax.swing.JDialog {
 
      FrmBloqueio() {
         init();      
-        jTUsuario.setText(ClassUtils.buscaUsuario());
+        jTUsuario.setText(ClassUtils.getUsuario());
     }  
 
     private void init() {
@@ -57,12 +57,13 @@ public class FrmBloqueio extends javax.swing.JDialog {
         jLImg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tela Bloqueio");
         setUndecorated(true);
         getContentPane().setLayout(null);
 
         jTUsuario.setEditable(false);
         getContentPane().add(jTUsuario);
-        jTUsuario.setBounds(130, 220, 150, 20);
+        jTUsuario.setBounds(130, 220, 170, 30);
 
         jPSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -70,7 +71,7 @@ public class FrmBloqueio extends javax.swing.JDialog {
             }
         });
         getContentPane().add(jPSenha);
-        jPSenha.setBounds(130, 260, 150, 20);
+        jPSenha.setBounds(130, 260, 170, 30);
 
         jBDesbloquear.setText("Desbloquear");
         jBDesbloquear.addActionListener(new java.awt.event.ActionListener() {

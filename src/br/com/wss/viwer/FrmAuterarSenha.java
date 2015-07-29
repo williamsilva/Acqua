@@ -27,7 +27,7 @@ public final class FrmAuterarSenha extends javax.swing.JDialog {
     }
 
     public void usuarioLogado() {
-        jTextFieldUsuario.setText(ClassUtils.buscaUsuario());
+        jTextFieldUsuario.setText(ClassUtils.getUsuario());
     }
 
     /**
@@ -52,6 +52,7 @@ public final class FrmAuterarSenha extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
+        setTitle("Alteração de Senha");
         getContentPane().setLayout(null);
 
         jLabel5.setText("Confirme Senha:");
@@ -183,7 +184,7 @@ public final class FrmAuterarSenha extends javax.swing.JDialog {
                 Usuario usuarioTemp = new Usuario();
 
                 usuarioTemp.setSenha(new String(jPasswordSenha.getPassword()));
-                usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+                usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData());
                 usuarioTemp.setUsuario(jTextFieldUsuario.getText());
 
                 UsuarioDao dao = new UsuarioDao();

@@ -25,8 +25,8 @@ public class TabelaUsuario extends Tabela {
 
         linha[0] = usuario.getNome();
         linha[1] = usuario.getUsuario();
-        linha[2] = usuario.getDataCadastro();
-        linha[3] = usuario.getUltimaAlteracao();
+        linha[2] = "Em "+usuario.getDataCadastro()+" Por "+usuario.getIdUsuarioCad();
+        linha[3] = "Em "+usuario.getUltimaAlteracao()+" Por "+usuario.getIdUsuarioAlt();
         linha[4] = usuario.getAtivo();
         return linha[numCol];
     }

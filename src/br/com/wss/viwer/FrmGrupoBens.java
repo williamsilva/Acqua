@@ -61,6 +61,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setIconifiable(true);
+        setTitle("Cadastro de Grupo");
         setEnabled(false);
 
         jPanelGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Grupo"));
@@ -295,7 +296,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         int seleciona = jTableGrupo.getSelectedRow();
 
         jTId.setText(String.valueOf(dados.get(seleciona).getIdGrupo()));
-        jTextFieldGrupo.setText(dados.get(seleciona).getNome());
+        jTextFieldGrupo.setText(dados.get(seleciona).getNomeGrupo());
         jTextFieldDescricao.setText(dados.get(seleciona).getDescricao());
 
     }
@@ -316,10 +317,10 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         jTableGrupo.getColumnModel().getColumn(1).setPreferredWidth(200);
         jTableGrupo.getColumnModel().getColumn(1).setResizable(false);
 
-        jTableGrupo.getColumnModel().getColumn(2).setPreferredWidth(320);
+        jTableGrupo.getColumnModel().getColumn(2).setPreferredWidth(350);
         jTableGrupo.getColumnModel().getColumn(2).setResizable(false);
 
-        jTableGrupo.getColumnModel().getColumn(3).setPreferredWidth(320);
+        jTableGrupo.getColumnModel().getColumn(3).setPreferredWidth(350);
         jTableGrupo.getColumnModel().getColumn(3).setResizable(false);
 
         jTableGrupo.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -337,10 +338,12 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
 
             Grupo grupoTemp = new Grupo();
 
-            grupoTemp.setNome(jTextFieldGrupo.getText());
+            grupoTemp.setNomeGrupo(jTextFieldGrupo.getText());
             grupoTemp.setDescricao(jTextFieldDescricao.getText());
-            grupoTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-            grupoTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            grupoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            grupoTemp.setDataCadastro(ClassUtils.setDateMsqy());
+            grupoTemp.setUsuarioCad((ClassUtils.getIdUsuario()));
+            grupoTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
 
             GrupoDao dao = new GrupoDao();
             dao.cadastrarGrupo(grupoTemp);
@@ -349,6 +352,9 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             jButtonExcluir.setEnabled(false);
             limparCampos();
             preencherTabela();
+            jPanelGrupos.setVisible(false);
+            jButtonNovo.setEnabled(true);
+        jButtonExcluir.setEnabled(false);
 
         } else {
             JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
@@ -359,10 +365,11 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     private void atualizar() {
         Grupo grupoTemp = new Grupo();
 
-        grupoTemp.setNome(jTextFieldGrupo.getText());
+        grupoTemp.setNomeGrupo(jTextFieldGrupo.getText());
         grupoTemp.setDescricao(jTextFieldDescricao.getText());
         grupoTemp.setIdGrupo(Integer.parseInt(jTId.getText()));
-        grupoTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+        grupoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+        grupoTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
 
         GrupoDao dao = new GrupoDao();
         dao.atualizar(grupoTemp);

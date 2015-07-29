@@ -1,13 +1,12 @@
 package br.com.wss.viwer;
 
+import br.com.wss.dao.UsuarioDao;
 import br.com.wss.utilidades.Principal;
 import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.modelo.Usuario;
+import br.com.wss.utilidades.ArquivosIni;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -15,6 +14,16 @@ import javax.swing.JOptionPane;
 
 public final class frmPrincipal extends javax.swing.JFrame {
 
+    UsuarioDao usuarioDao = new UsuarioDao();
+    ClassUtils utilidades = new ClassUtils();
+
+    FrmUsuario frmUsuarios;
+    FrmComputador frmComputador;
+    FrmBens bens;
+    FrmGrupoBens grupoBens;
+    FrmManutecao manutencao;
+    FrmFornecedor fornecedor;
+    
     public frmPrincipal() throws InterruptedException {
         init();
     }
@@ -28,6 +37,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         String computador = principal.verificaMac().toUpperCase();
         jLComputador.setText("Logado em: " + computador);
         timer1.start();
+        jTextAreaAtalho.setEnabled(false);
     }
 
     public void mostraHora() throws InterruptedException {
@@ -40,14 +50,16 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
     frmPrincipal(Usuario usuarioTemp) throws InterruptedException {
         init();
-
-        String nomeUsuario = usuarioTemp.getNome().toUpperCase();
         String login = usuarioTemp.getUsuario();
+        String idUsuario = usuarioTemp.getCodigo();
 
+        String usuario = usuarioDao.buscaUsuario(idUsuario);
+
+        ClassUtils.setIdUsuario(idUsuario);
         ClassUtils.setUsuario(login);
-        ClassUtils.setUsuarioLogado(nomeUsuario);
-
-        jLUsuario.setText("Usúario Logado: " + nomeUsuario);
+        
+        jLUsuario.setText("Usúario Logado: " + usuario);
+        jTextAreaAtalho.setText(ArquivosIni.LendoArquivo("C:\\WssSolutions\\Atalhos.txt"));
     }
 
     @SuppressWarnings("unchecked")
@@ -61,6 +73,8 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jLData = new javax.swing.JLabel();
         jLHora = new javax.swing.JLabel();
         jPSecundario = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaAtalho = new javax.swing.JTextArea();
         jPPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmArquivo = new javax.swing.JMenu();
@@ -72,8 +86,10 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jMenuICadastroBens = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItemRelatorioBens = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMUsuario = new javax.swing.JMenuItem();
         jMComputadores = new javax.swing.JMenuItem();
@@ -113,9 +129,9 @@ public final class frmPrincipal extends javax.swing.JFrame {
             .addGroup(jPStatusBarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLComputador, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(191, 191, 191)
                 .addComponent(jLUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
                 .addComponent(jLData, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jLHora, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -129,19 +145,24 @@ public final class frmPrincipal extends javax.swing.JFrame {
                 .addComponent(jLHora))
         );
 
-        jPSecundario.setBackground(new java.awt.Color(255, 51, 51));
         jPSecundario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPSecundario.setForeground(new java.awt.Color(255, 153, 51));
+
+        jTextAreaAtalho.setColumns(20);
+        jTextAreaAtalho.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaAtalho);
 
         javax.swing.GroupLayout jPSecundarioLayout = new javax.swing.GroupLayout(jPSecundario);
         jPSecundario.setLayout(jPSecundarioLayout);
         jPSecundarioLayout.setHorizontalGroup(
             jPSecundarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 223, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
         );
         jPSecundarioLayout.setVerticalGroup(
             jPSecundarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 501, Short.MAX_VALUE)
+            .addGroup(jPSecundarioLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 284, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPPrincipalLayout = new javax.swing.GroupLayout(jPPrincipal);
@@ -213,7 +234,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("Cadastro de Manutenção");
+        jMenuItem2.setText("Manutenção");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
@@ -221,12 +242,29 @@ public final class frmPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem2);
 
+        jMenuItem4.setText("Fornecedor");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+
         jMenuBar1.add(jMenu1);
 
         jMenu4.setText("Reservas");
         jMenuBar1.add(jMenu4);
 
         jMenu3.setText("Relatorios");
+
+        jMenuItemRelatorioBens.setText("Relatorio Bens");
+        jMenuItemRelatorioBens.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRelatorioBensActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemRelatorioBens);
+
         jMenuBar1.add(jMenu3);
 
         jMenu2.setText("Sistema");
@@ -269,7 +307,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPStatusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 678, Short.MAX_VALUE)
+            .addComponent(jPStatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -321,6 +359,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Saída", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
             System.exit(0);
+
         } else {
             repaint();
         }
@@ -338,7 +377,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMUsuarioActionPerformed
 
     private void jMComputadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMComputadoresActionPerformed
-
         jInternalComputador();
     }//GEN-LAST:event_jMComputadoresActionPerformed
 
@@ -351,21 +389,24 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuICadastroBensActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        sobre();
+        ArquivosIni.sobre();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         jInternalGrupoBens();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    FrmUsuario frmUsuarios;
-    FrmComputador frmComputador;
-    FrmBens bens;
-    FrmGrupoBens grupoBens;
-    FrmManutecao manutencao;
+    private void jMenuItemRelatorioBensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRelatorioBensActionPerformed
+        String url = "C:\\WssSolutions\\src\\br\\com\\wss\\relatorios/Relatorio bens.jasper";
+        utilidades.relatorio(url);
+    }//GEN-LAST:event_jMenuItemRelatorioBensActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        jInternalFornecedor();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     public void jInternalGrupoBens() {
-        
+
         if (grupoBens == null) {
             grupoBens = new FrmGrupoBens();
             this.jPPrincipal.add(grupoBens);
@@ -387,7 +428,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
             } catch (java.beans.PropertyVetoException e) {
                 Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
-
         }
         grupoBens.show();
     }
@@ -446,7 +486,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }
 
     private void jInternalUsuarios() {
-       if (frmUsuarios == null) {
+        if (frmUsuarios == null) {
             frmUsuarios = new FrmUsuario();
             this.jPPrincipal.add(frmUsuarios);
             try {
@@ -469,9 +509,9 @@ public final class frmPrincipal extends javax.swing.JFrame {
             }
         }
         frmUsuarios.show();
-        
+
     }
-    
+
     private void jInternalManutencao() {
         if (manutencao == null) {
             manutencao = new FrmManutecao();
@@ -496,7 +536,34 @@ public final class frmPrincipal extends javax.swing.JFrame {
             }
         }
         manutencao.show();
-       
+
+    }
+
+    private void jInternalFornecedor() {
+        if (fornecedor == null) {
+            fornecedor = new FrmFornecedor();
+            this.jPPrincipal.add(fornecedor);
+            try {
+                // set o tamanho máximo dela, que depende da janela pai     
+                fornecedor.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+        } else if (fornecedor != null) {
+            fornecedor.dispose();
+            fornecedor = null;
+            fornecedor = new FrmFornecedor();
+            this.jPPrincipal.add(fornecedor);
+            try {
+                //set o tamanho máximo dela, que depende da janela pai     
+                fornecedor.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        fornecedor.show();
+
     }
 
     public static void main(String args[]) {
@@ -549,10 +616,14 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItemRelatorioBens;
     private javax.swing.JDesktopPane jPPrincipal;
     private javax.swing.JPanel jPSecundario;
     private javax.swing.JPanel jPStatusBar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextAreaAtalho;
     private javax.swing.JMenu jmArquivo;
     private org.netbeans.examples.lib.timerbean.Timer timer1;
     // End of variables declaration//GEN-END:variables
@@ -572,35 +643,4 @@ public final class frmPrincipal extends javax.swing.JFrame {
             }
         });
     }
-
-    private void sobre() {
-        String mostra = "";
-        String nomeArq = "sobre.txt"; //Nome do arquivo, pode ser absoluto, ou pastas /dir/teste.txt
-        String linha = "";
-        File arq = new File(nomeArq);
-
-        //Arquivo existe
-        if (arq.exists()) {
-
-            try {
-                //abrindo arquivo para leitura
-                FileReader reader = new FileReader(nomeArq);
-                //leitor do arquivo
-                BufferedReader leitor = new BufferedReader(reader);
-                while (true) {
-                    linha = leitor.readLine();
-                    if (linha == null) {
-                        break;
-                    }
-                    mostra += linha + "\n";
-                }
-            } catch (Exception erro) {
-            }
-            JOptionPane.showMessageDialog(null, mostra, "Arquivo...", 1);
-        } //Se nao existir
-        else {
-            JOptionPane.showMessageDialog(null, "Arquivo nao existe!", "Erro", 0);
-        }
-    }
-
 }

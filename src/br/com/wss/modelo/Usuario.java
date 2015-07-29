@@ -2,26 +2,37 @@ package br.com.wss.modelo;
 
 public class Usuario {
 
-    String nome;
-    String usuario;
-    String codigo;
-    String dataCadastro;
-    String ultimaAlteracao;
-    String ativo;
-    String senha;
+    private String nome;
+    private String usuario;
+    private String codigo;
+    private String dataCadastro;
+    private String ultimaAlteracao;
+    private String ativo;
+    private String senha;
+    private String idUsuarioCad;
+    private String idUsuarioAlt;
 
     public Usuario() {
-
     }
 
-    public Usuario(String nome, String senha, String usuario, String codigo, String dataCadastro, String ultimaAlteracao, String ativo) {
+    public Usuario(String nome, String usuario, String codigo, String dataCadastro, String ultimaAlteracao, String ativo, String senha, String idUsuarioCad, String idUsuarioAlt) {
         this.nome = nome;
-        this.senha = senha;
         this.usuario = usuario;
         this.codigo = codigo;
         this.dataCadastro = dataCadastro;
         this.ultimaAlteracao = ultimaAlteracao;
         this.ativo = ativo;
+        this.senha = senha;
+        this.idUsuarioCad = idUsuarioCad;
+        this.idUsuarioAlt = idUsuarioAlt;
+    }
+
+    public String getIdUsuarioAlt() {
+        return idUsuarioAlt;
+    }
+
+    public void setIdUsuarioAlt(String idUsuarioAlt) {
+        this.idUsuarioAlt = idUsuarioAlt;
     }
 
     public String getNome() {
@@ -30,14 +41,6 @@ public class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getUsuario() {
@@ -79,6 +82,21 @@ public class Usuario {
     public void setAtivo(String ativo) {
         this.ativo = ativo;
     }
-    
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getIdUsuarioCad() {
+        return idUsuarioCad;
+    }
+
+    public void setIdUsuarioCad(String idUsuarioCad) {
+        this.idUsuarioCad = idUsuarioCad;
+    }
 
 }

@@ -22,20 +22,21 @@ public class ConectionFactory {
     public static Connection getConnection() {
         if (conn == null) {
             Properties config = new Properties();
-            String arquivo = "C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions\\config.ini";//local do arquivo    
+            String arquivo = "C:\\WssSolutions\\WssSolution.ini";//local do arquivo    
 
             try {
                 config.load(new FileInputStream(arquivo));
-
-                String usuario = config.getProperty("usuario");
-                String senha = config.getProperty("senha");
-                String url = config.getProperty("localhost");
-                String clasForName = config.getProperty("Class.forName");
                 
-                Class.forName(clasForName);
+                String usuario = config.getProperty("USUARIO");
+                String senha = config.getProperty("SENHA");
+                String url = config.getProperty("REMOTO");
+                                
+                Class.forName("com.mysql.jdbc.Driver");
+
                 conn = DriverManager.getConnection(url, usuario, senha);
 
-            } catch (IOException | ClassNotFoundException | SQLException ex) {
+            } catch (ClassNotFoundException | SQLException | IOException ex) {
+                JOptionPane.showMessageDialog(null, ex);
                 Logger.getLogger(ConectionFactory.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

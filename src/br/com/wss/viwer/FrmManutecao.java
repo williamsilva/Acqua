@@ -5,11 +5,22 @@
  */
 package br.com.wss.viwer;
 
+import br.com.wss.dao.BensDao;
 import br.com.wss.dao.ManutencaoDao;
 import br.com.wss.modelo.Manutencao;
+import br.com.wss.tabelas.Tabela;
+import br.com.wss.tabelas.TabelaManutecao;
+import br.com.wss.utilidades.ClassUtils;
+import br.com.wss.utilidades.FormatDouble;
+import br.com.wss.utilidades.NumeroMaximoCaracters;
+import br.com.wss.utilidades.SomenteNumero;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -19,6 +30,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
 
     ArrayList<Manutencao> dados;
     ManutencaoDao manutencaoDao = new ManutencaoDao();
+    BensDao bensDao = new BensDao();
     Manutencao manutencaoTemp = new Manutencao();
     int modificador = 1;
 
@@ -35,6 +47,11 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jDateChooserDataRetorno.getCalendarButton().setEnabled(true);
         jDateChooserDataSaida.setDate(new Date());
         jDateChooserDataRetorno.setDate(new Date());
+        jTextFieldEquipamento.setEnabled(false);
+        jTextFieldIdManutencao.setVisible(false);
+
+        validaCampos();
+        preencherTabela();
 
     }
 
@@ -49,7 +66,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
 
         jPanelManutencao = new javax.swing.JPanel();
         jLabelNumeroRegistro = new javax.swing.JLabel();
-        jTextFieldNumerogeristro = new javax.swing.JTextField();
+        jTextFieldNumeroRegistro = new javax.swing.JTextField();
         jLabelResponsavel = new javax.swing.JLabel();
         jTextFieldResponsavel = new javax.swing.JTextField();
         jTextFieldEquipamento = new javax.swing.JTextField();
@@ -66,12 +83,12 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jLabelDataRetorno = new javax.swing.JLabel();
         jDateChooserDataRetorno = new com.toedter.calendar.JDateChooser();
         jLabelGarantia = new javax.swing.JLabel();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
         jLabelValorConserto = new javax.swing.JLabel();
         jTextFieldAltorizada = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextFieldObservacoes = new javax.swing.JTextArea();
         jLabelObservacoes = new javax.swing.JLabel();
+        jTextFieldGarantia = new javax.swing.JTextField();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableManutencao = new javax.swing.JTable();
@@ -81,6 +98,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setIconifiable(true);
+        setTitle("Cadastro de Manutenção");
         setEnabled(false);
 
         jPanelManutencao.setBorder(javax.swing.BorderFactory.createTitledBorder("Manutenção"));
@@ -90,9 +108,9 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jPanelManutencao.add(jLabelNumeroRegistro);
         jLabelNumeroRegistro.setBounds(20, 30, 110, 20);
 
-        jTextFieldNumerogeristro.setText("jTextField1");
-        jPanelManutencao.add(jTextFieldNumerogeristro);
-        jTextFieldNumerogeristro.setBounds(144, 30, 190, 26);
+        jTextFieldNumeroRegistro.setText("jTextField1");
+        jPanelManutencao.add(jTextFieldNumeroRegistro);
+        jTextFieldNumeroRegistro.setBounds(144, 30, 190, 26);
 
         jLabelResponsavel.setText("Quem Levou:");
         jPanelManutencao.add(jLabelResponsavel);
@@ -163,8 +181,6 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jLabelGarantia.setText("Garantia:");
         jPanelManutencao.add(jLabelGarantia);
         jLabelGarantia.setBounds(360, 90, 110, 20);
-        jPanelManutencao.add(jDateChooser3);
-        jDateChooser3.setBounds(490, 90, 190, 26);
 
         jLabelValorConserto.setText("Valor Conserto:");
         jPanelManutencao.add(jLabelValorConserto);
@@ -185,6 +201,10 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jLabelObservacoes.setText("Observações:");
         jPanelManutencao.add(jLabelObservacoes);
         jLabelObservacoes.setBounds(360, 150, 100, 20);
+
+        jTextFieldGarantia.setText("jTextField1");
+        jPanelManutencao.add(jTextFieldGarantia);
+        jTextFieldGarantia.setBounds(490, 90, 190, 26);
 
         jTableManutencao.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -212,7 +232,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
         );
         jDesktopPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -224,6 +244,11 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         });
 
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -293,15 +318,19 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         if (modificador == 1) {
             jButtonSalvar.setText("Salvar");
-            cadastrarBens();
+            cadastrarManutencao();
 
         } else if (modificador == 2) {
             jButtonSalvar.setText("Editar");
-            editarBens();
+            editarManutencao();
         } else {
 
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        deletarManutencao();
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -309,7 +338,6 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonSalvar;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
     private com.toedter.calendar.JDateChooser jDateChooserDataRetorno;
     private com.toedter.calendar.JDateChooser jDateChooserDataSaida;
     private javax.swing.JDesktopPane jDesktopPane1;
@@ -330,40 +358,136 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldAltorizada;
     private javax.swing.JTextField jTextFieldContato;
     private javax.swing.JTextField jTextFieldEquipamento;
+    private javax.swing.JTextField jTextFieldGarantia;
     private javax.swing.JTextField jTextFieldIdManutencao;
-    private javax.swing.JTextField jTextFieldNumerogeristro;
+    private javax.swing.JTextField jTextFieldNumeroRegistro;
     private javax.swing.JTextArea jTextFieldObservacoes;
     private javax.swing.JTextField jTextFieldResponsavel;
     private javax.swing.JTextField jTextFieldValorConserto;
     // End of variables declaration//GEN-END:variables
 
-    private void limparCampos() {
+    private void preencherTabela() {
+
+        String[] Colunas = new String[]{"Bens", "Numero Controle", "Responsavel", "Altorizada", "Contato", "Data Retorno", "Data Saida","Data Cadastro","Ultima Alteração"};
+
+        ManutencaoDao manutencaoTabela = new ManutencaoDao();
+        dados = manutencaoTabela.listar();
+        Tabela modelo = new TabelaManutecao(dados, Colunas);
+
+        jTableManutencao.setModel(modelo);
+
+        jTableManutencao.getColumnModel().getColumn(0).setPreferredWidth(250);
+        jTableManutencao.getColumnModel().getColumn(0).setResizable(false);
+
+        jTableManutencao.getColumnModel().getColumn(1).setPreferredWidth(155);
+        jTableManutencao.getColumnModel().getColumn(1).setResizable(false);
+
+        jTableManutencao.getColumnModel().getColumn(2).setPreferredWidth(170);
+        jTableManutencao.getColumnModel().getColumn(2).setResizable(false);
+
+        jTableManutencao.getColumnModel().getColumn(3).setPreferredWidth(170);
+        jTableManutencao.getColumnModel().getColumn(3).setResizable(false);
+
+        jTableManutencao.getColumnModel().getColumn(4).setPreferredWidth(170);
+        jTableManutencao.getColumnModel().getColumn(4).setResizable(false);
+
+        jTableManutencao.getColumnModel().getColumn(5).setPreferredWidth(103);
+        jTableManutencao.getColumnModel().getColumn(5).setResizable(false);
+
+        jTableManutencao.getColumnModel().getColumn(6).setPreferredWidth(103);
+        jTableManutencao.getColumnModel().getColumn(6).setResizable(false);
+        
+        jTableManutencao.getColumnModel().getColumn(7).setPreferredWidth(225);
+        jTableManutencao.getColumnModel().getColumn(7).setResizable(false);
+        
+        jTableManutencao.getColumnModel().getColumn(8).setPreferredWidth(225);
+        jTableManutencao.getColumnModel().getColumn(8).setResizable(false);
+
+        jTableManutencao.getTableHeader().setReorderingAllowed(false);
+        jTableManutencao.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jTableManutencao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     }
 
-    private void cadastrarBens() {
-        if(!jTextFieldAltorizada.getText().equals("")
-                && !jTextFieldNumerogeristro.getText().equals("")
-                && !jTextFieldResponsavel.getText().equals("")){
-           manutencaoTemp.setAltorizada(jTextFieldAltorizada.getText());
-           manutencaoTemp.setContato(jTextFieldContato.getText());
-           manutencaoTemp.setDataRetorno(title);
-           manutencaoTemp.setDataSaida(title);
-           manutencaoTemp.setObservacoes(jTextFieldObservacoes.getText());
-           manutencaoTemp.setResponsavel(jTextFieldResponsavel.getText());
-           manutencaoTemp.setValorConserto(Double.parseDouble(jTextFieldValorConserto.getText()));
-        
-           manutencaoDao.cadastrarManutencao(manutencaoTemp);
-        }else{
+    private void cadastrarManutencao() {
+        if (!jTextFieldAltorizada.getText().equals("") && !jTextFieldGarantia.getText().equals("")
+                && !jTextFieldNumeroRegistro.getText().equals("")
+                && !jTextFieldResponsavel.getText().equals("")) {
+
+            manutencaoTemp.setAltorizada(jTextFieldAltorizada.getText());
+            manutencaoTemp.setContato(jTextFieldContato.getText());
+            manutencaoTemp.setDataRetorno(ClassUtils.setDateChooser(jDateChooserDataRetorno));
+            manutencaoTemp.setDataSaida(ClassUtils.setDateChooser(jDateChooserDataSaida));
+            manutencaoTemp.setObservacoes(jTextFieldObservacoes.getText());
+            manutencaoTemp.setResponsavel(jTextFieldResponsavel.getText());
+            manutencaoTemp.setValorConserto(Double.parseDouble(jTextFieldValorConserto.getText()));
+            manutencaoTemp.setGarantia(String.valueOf(jTextFieldGarantia.getText()));
+            manutencaoTemp.setUsuarioCad((ClassUtils.getIdUsuario()));
+            manutencaoTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
+            manutencaoTemp.setDataCadastro(ClassUtils.setDateMsqy());
+            manutencaoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+
+            manutencaoDao.cadastrarManutencao(manutencaoTemp, bensDao.buscarIdBens(jTextFieldNumeroRegistro.getText()));
+            limparCampos();
+            modificadorCampos();
+            preencherTabela();
+            jPanelManutencao.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+
+        } else {
             jLabelAltorizada.setForeground(Color.red);
             jLabelContanto.setForeground(Color.red);
             jLabelEquipamento.setForeground(Color.red);
             jLabelNumeroRegistro.setForeground(Color.red);
-            jLabelResponsavel.setForeground(Color.red);            
+            jLabelResponsavel.setForeground(Color.red);
+            jLabelGarantia.setForeground(Color.red);
         }
     }
 
-    private void editarBens() {
+    private void editarManutencao() {
+        if (!jTextFieldAltorizada.getText().equals("") && !jTextFieldGarantia.getText().equals("")
+                && !jTextFieldNumeroRegistro.getText().equals("")
+                && !jTextFieldResponsavel.getText().equals("")) {
+            manutencaoTemp.setAltorizada(jTextFieldAltorizada.getText());
+            manutencaoTemp.setContato(jTextFieldContato.getText());
+            manutencaoTemp.setDataRetorno(ClassUtils.setDateChooser(jDateChooserDataRetorno));
+            manutencaoTemp.setDataSaida(ClassUtils.setDateChooser(jDateChooserDataSaida));
+            manutencaoTemp.setObservacoes(jTextFieldObservacoes.getText());
+            manutencaoTemp.setResponsavel(jTextFieldResponsavel.getText());
+            manutencaoTemp.setValorConserto(Double.parseDouble(jTextFieldValorConserto.getText()));
+            manutencaoTemp.setIdManutecao(Integer.parseInt(jTextFieldIdManutencao.getText()));
+            manutencaoTemp.setGarantia(String.valueOf(jTextFieldGarantia.getText()));
+            manutencaoTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
+            manutencaoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+
+            manutencaoDao.atualizarManutencao(manutencaoTemp, bensDao.buscarIdBens(jTextFieldNumeroRegistro.getText()));
+            limparCampos();
+            modificadorCampos();
+            preencherTabela();
+            jPanelManutencao.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+            modificador = 1;
+        } else {
+            jLabelAltorizada.setForeground(Color.red);
+            jLabelContanto.setForeground(Color.red);
+            jLabelEquipamento.setForeground(Color.red);
+            jLabelNumeroRegistro.setForeground(Color.red);
+            jLabelResponsavel.setForeground(Color.red);
+            jLabelGarantia.setForeground(Color.red);
+        }
+    }
+
+    private void deletarManutencao() {
+        manutencaoTemp.setIdManutecao(Integer.parseInt(jTextFieldIdManutencao.getText()));
+        manutencaoDao.deletarManutencao(manutencaoTemp);
+        limparCampos();
+        preencherTabela();
+        jPanelManutencao.setVisible(false);
+        jButtonNovo.setEnabled(true);
+        jButtonExcluir.setEnabled(false);
+        modificador = 1;
     }
 
     private void itensSelecionados() {
@@ -373,7 +497,59 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jTextFieldIdManutencao.setText(String.valueOf(dados.get(seleciona).getIdManutecao()));
         jTextFieldResponsavel.setText(dados.get(seleciona).getResponsavel());
         jTextFieldObservacoes.setText(dados.get(seleciona).getObservacoes());
+        jTextFieldAltorizada.setText(dados.get(seleciona).getAltorizada());
+        jTextFieldContato.setText(dados.get(seleciona).getContato());
+        jTextFieldValorConserto.setText(String.valueOf(dados.get(seleciona).getValorConserto()));
+        jTextFieldNumeroRegistro.setText(dados.get(seleciona).getNumeroRegistro());
+        jTextFieldEquipamento.setText(dados.get(seleciona).getNomeBens());
+        jTextFieldGarantia.setText(dados.get(seleciona).getGarantia());
+
+        try {
+            String dataSaida;
+            String dataRetorno;
+            dataSaida = ClassUtils.setFormatData(dados.get(seleciona).getDataSaida());
+            jDateChooserDataSaida.setDate(new Date(dataSaida));
+            dataRetorno = ClassUtils.setFormatData(dados.get(seleciona).getDataRetorno());
+            jDateChooserDataRetorno.setDate(new Date(dataRetorno));
+        } catch (Exception ex) {
+            Logger.getLogger(FrmManutecao.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         modificador = 2;
+    }
+
+    private void modificadorCampos() {
+        jLabelAltorizada.setForeground(Color.BLACK);
+        jLabelContanto.setForeground(Color.BLACK);
+        jLabelEquipamento.setForeground(Color.BLACK);
+        jLabelNumeroRegistro.setForeground(Color.BLACK);
+        jLabelResponsavel.setForeground(Color.BLACK);
+        jLabelGarantia.setForeground(Color.BLACK);
+
+    }
+
+    private void limparCampos() {
+
+        jDateChooserDataRetorno.setDate(new Date());
+        jDateChooserDataSaida.setDate(new Date());
+        jTextFieldNumeroRegistro.setText("");
+        jTextFieldEquipamento.setText("");
+        jTextFieldResponsavel.setText("");
+        jTextFieldContato.setText("");
+        jTextFieldAltorizada.setText("");
+        jTextFieldValorConserto.setText("");
+        jTextFieldObservacoes.setText("");
+        jTextFieldIdManutencao.setText("");
+        jTextFieldGarantia.setText("");
+    }
+
+    private void validaCampos() {
+        jTextFieldAltorizada.setDocument(new NumeroMaximoCaracters(45));
+        jTextFieldContato.setDocument(new NumeroMaximoCaracters(45));
+        jTextFieldNumeroRegistro.setDocument(new SomenteNumero(10));
+        jTextFieldResponsavel.setDocument(new NumeroMaximoCaracters(45));
+        jTextFieldObservacoes.setDocument(new NumeroMaximoCaracters(100));
+        jTextFieldValorConserto.setDocument(new FormatDouble(9));
+        jTextFieldGarantia.setDocument(new SomenteNumero(10));
     }
 }

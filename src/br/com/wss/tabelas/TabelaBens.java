@@ -29,8 +29,8 @@ public class TabelaBens extends Tabela {
         linha[3] = bens.getNumeroControle();
         linha[4] = bens.getNotaFiscal();
         linha[5] = bens.getNumeroSerie();
-        linha[6] = bens.getDataCadastro();
-        linha[7] = bens.getUltimaAlteracao();
+        linha[6] = "Em "+bens.getDataCadastro()+" Por "+bens.getIdUsuarioCad();
+        linha[7] = "Em "+bens.getUltimaAlteracao()+" Por "+bens.getIdUsuarioAlt();
         
                 
         return linha[numCol];

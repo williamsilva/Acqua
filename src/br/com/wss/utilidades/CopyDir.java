@@ -26,6 +26,8 @@ public class CopyDir {
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
+            System.out.println("Fim");
+            Runtime.getRuntime().exec("java -jar C:\\WssSolutions\\dist\\acqua.jar");
         }
     }
 
@@ -59,7 +61,8 @@ public class CopyDir {
             out.close();
             System.out.println("File copied from " + src + " to " + dest);
         }
-        //Runtime.getRuntime().exec("java -jar C:\\Users\\william\\Documents\\NetBeansProjects\\Solutions\\dist\\acqua.jar");
+        
+        
     }
 
 }

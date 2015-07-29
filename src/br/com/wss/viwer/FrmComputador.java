@@ -66,6 +66,8 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setIconifiable(true);
+        setTitle("Cadastro Computador");
+        setToolTipText("");
         setEnabled(false);
 
         jTabelaComputador.setModel(new javax.swing.table.DefaultTableModel(
@@ -202,6 +204,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
             jBExcluir.setEnabled(true);
             jPComputador.setVisible(true);
             jButtonSalvar.setVisible(true);
+           jButtonSalvar.setText("Editar");
             
             modificador = 2;
         }
@@ -328,8 +331,11 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
             computadorTemp.setComputador(jTNomeCoputador.getText());
             computadorTemp.setMac(jTMacCoputador.getText());
-            computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
-            computadorTemp.setDataCadastro("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+            computadorTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            computadorTemp.setDataCadastro( ClassUtils.setDateMsqy());
+            computadorTemp.setIdUsuarioCad((ClassUtils.getIdUsuario()));
+            computadorTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
+            
 
             ComputadorDao dao = new ComputadorDao();
             dao.cadastrarComputador(computadorTemp);
@@ -350,7 +356,8 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         computadorTemp.setComputador(jTNomeCoputador.getText());
         computadorTemp.setMac(jTMacCoputador.getText());
         computadorTemp.setId(Integer.parseInt(jTId.getText()));
-        computadorTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData() + " Por " + ClassUtils.buscaUsuarioLogado());
+        computadorTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+        computadorTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
 
         ComputadorDao dao = new ComputadorDao();
         dao.atualizarComputador(computadorTemp);

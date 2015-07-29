@@ -34,15 +34,27 @@ public class ComputadorDao {
 
         try {
             Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = statmen.executeQuery("select * from computador order by nomeComputador");
+            ResultSet rs = statmen.executeQuery("SELECT \n"
+                    + "		computador.nome_computador,\n"
+                    + "        computador.mac_computador,\n"
+                    + "        computador.data_cadastro,\n"
+                    + "        computador.id_computador,\n"
+                    + "		computador.ultima_alteracao,\n"
+                    + "        computador.id_usuario_alt,\n"
+                    + "        computador.id_usuario_cad,\n"
+                    + "        login.nome\n"
+                    + " FROM acqua_dados.computador left join login on computador.id_usuario_cad = login.id_login\n"
+                    + " order by computador.nome_computador");
             rs.first();
             do {
                 computadorTemp = new Computador();
-                computadorTemp.setId(rs.getInt("idComputador"));
-                computadorTemp.setComputador(rs.getString("nomeComputador"));
-                computadorTemp.setMac(rs.getString("macComputador"));
-                computadorTemp.setDataCadastro(rs.getString("dataCadastro"));
-                computadorTemp.setUltimaAlteracao(rs.getString("ultimaAlteracao"));
+                computadorTemp.setId(rs.getInt("id_computador"));
+                computadorTemp.setComputador(rs.getString("nome_computador"));
+                computadorTemp.setMac(rs.getString("mac_computador"));
+                computadorTemp.setDataCadastro(rs.getString("data_cadastro"));
+                computadorTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
+                computadorTemp.setIdUsuarioCad(rs.getString("login.nome"));
+                computadorTemp.setIdUsuarioAlt(rs.getString("login.nome"));
 
                 lista.add(computadorTemp);
             } while (rs.next());
@@ -54,13 +66,16 @@ public class ComputadorDao {
     }
 
     public void cadastrarComputador(Computador computador) {
-        sql = ("insert into computador (nomeComputador,macComputador,dataCadastro,ultimaAlteracao)values (?,?,?,?)");
+        sql = ("insert into computador (nome_computador,mac_computador,"
+                + "data_cadastro,ultima_alteracao,id_usuario_cad,id_usuario_alt)values (?,?,?,?,?,?)");
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, computador.getComputador());
             stms.setString(2, computador.getMac());
             stms.setString(3, computador.getDataCadastro());
             stms.setString(4, computador.getUltimaAlteracao());
+            stms.setString(5, computador.getIdUsuarioCad());
+            stms.setString(6, computador.getIdUsuarioAlt());
 
             stms.execute();
             stms.close();
@@ -72,14 +87,16 @@ public class ComputadorDao {
 
     public void atualizarComputador(Computador atualizar) {
 
-        sql = ("update computador set nomeComputador = ?, macComputador = ?, ultimaAlteracao = ? where idComputador = ?");
+        sql = ("update computador set nome_computador = ?, mac_computador = ?,"
+                + " ultima_alteracao = ? ,Id_usuario_alt = ? where id_computador = ?");
 
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, atualizar.getComputador());
             stms.setString(2, atualizar.getMac());
             stms.setString(3, atualizar.getUltimaAlteracao());
-            stms.setInt(4, atualizar.getId());
+            stms.setString(4, atualizar.getIdUsuarioAlt());
+            stms.setInt(5, atualizar.getId());
 
             stms.execute();
             stms.close();
@@ -92,7 +109,7 @@ public class ComputadorDao {
 
     public void deletar(Computador deletar) {
 
-        sql = "Delete from computador where idComputador = ?";
+        sql = "Delete from computador where id_computador = ?";
         try {
             stms = conexao.prepareStatement(sql);
             stms.setInt(1, deletar.getId());
@@ -101,7 +118,6 @@ public class ComputadorDao {
                 stms.execute();
                 stms.close();
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
-
             }
 
         } catch (SQLException error) {

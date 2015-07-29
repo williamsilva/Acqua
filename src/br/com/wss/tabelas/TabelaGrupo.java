@@ -5,7 +5,6 @@
  */
 package br.com.wss.tabelas;
 
-import br.com.wss.tabelas.Tabela;
 import br.com.wss.modelo.Grupo;
 import java.util.ArrayList;
 
@@ -29,10 +28,10 @@ public class TabelaGrupo extends Tabela{
         Grupo grupo = (Grupo) getLinhas().get(numLin);
         
         Object[] linha = new String[colunas.length];
-        linha[0] = grupo.getNome();
+        linha[0] = grupo.getNomeGrupo();
         linha[1] = grupo.getDescricao();
-        linha[2] = grupo.getDataCadastro();
-        linha[3] = grupo.getUltimaAlteracao();
+        linha[2] = "Em "+grupo.getDataCadastro()+" Por "+grupo.getUsuarioCad();
+        linha[3] = "Em "+grupo.getUltimaAlteracao()+" Por "+grupo.getUsuarioAlt();
         return linha[numCol];
     }
 }

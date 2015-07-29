@@ -31,8 +31,9 @@ public class UsuarioDao {
                 if (result.next()) {
                     usuario = new Usuario();
                     usuario.setUsuario(result.getString("login"));
-                    usuario.setSenha(result.getString("senha"));
+                    usuario.setCodigo(result.getString("id_login"));
                     usuario.setNome(result.getString("nome"));
+
                 }
                 stms.close();
             }
@@ -44,7 +45,8 @@ public class UsuarioDao {
 
     public void cadastrarUsuario(Usuario usuario) {
 
-        sql = "insert into login (Nome,Login,Senha,dataCadastro,ultimaAlteracao,ativo) values (?,?,?,?,?,?)";
+        sql = "insert into login (Nome,Login,Senha,data_cadastro,ultima_alteracao,"
+                + "ativo,id_usuario_cad,id_usuario_alt) values (?,?,?,?,?,?,?,?)";
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, usuario.getNome());
@@ -53,6 +55,8 @@ public class UsuarioDao {
             stms.setString(4, usuario.getDataCadastro());
             stms.setString(5, usuario.getUltimaAlteracao());
             stms.setString(6, usuario.getAtivo());
+            stms.setString(7, usuario.getIdUsuarioCad());
+            stms.setString(8, usuario.getIdUsuarioAlt());
 
             stms.execute();
             stms.close();
@@ -66,7 +70,8 @@ public class UsuarioDao {
 
     public void atualizar(Usuario atualizar) {
 
-        sql = "update login set nome = ?, login = ?, ultimaAlteracao = ?,ativo = ?,senha = ? where idlogin = ?";
+        sql = "update login set nome = ?, login = ?, ultima_alteracao = ?,"
+                + "ativo = ?, senha = ?, id_usuario_alt =? where id_login = ?";
 
         try {
             stms = conexao.prepareStatement(sql);
@@ -75,7 +80,8 @@ public class UsuarioDao {
             stms.setString(3, atualizar.getUltimaAlteracao());
             stms.setString(4, atualizar.getAtivo());
             stms.setString(5, atualizar.getSenha());
-            stms.setString(6, atualizar.getCodigo());
+            stms.setString(6, atualizar.getIdUsuarioAlt());
+            stms.setString(7, atualizar.getCodigo());
 
             stms.execute();
             stms.close();
@@ -88,13 +94,14 @@ public class UsuarioDao {
 
     public void atualizarSenha(Usuario atualizar) {
 
-        sql = "update login set senha= ?, ultimaAlteracao = ? where login = ?";
+        sql = "update login set senha= ?, ultima_alteracao = ?,id_usuario_alt =? where login = ?";
 
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, atualizar.getSenha());
             stms.setString(2, atualizar.getUltimaAlteracao());
-            stms.setString(3, atualizar.getUsuario());
+            stms.setString(3, atualizar.getIdUsuarioAlt());
+            stms.setString(4, atualizar.getCodigo());
 
             stms.execute();
             stms.close();
@@ -131,34 +138,46 @@ public class UsuarioDao {
 
         try {
             Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = statmen.executeQuery("select * from Login order by Nome");
+            ResultSet rs = statmen.executeQuery("SELECT \n"
+                    + "         login.ativo,\n"
+                    + "        login.data_cadastro,\n"
+                    + "        login.id_login,\n"
+                    + "        login.id_usuario_alt,\n"
+                    + "        login.id_usuario_cad,\n"
+                    + "        login.login,\n"
+                    + "        login.nome,\n"
+                    + "        login.senha,\n"
+                    + "        login.ultima_alteracao \n"
+                    + " from login order by login.nome");
             rs.first();
             do {
                 usuarioTemp = new Usuario();
-                usuarioTemp.setCodigo(rs.getString("idLogin"));
+                usuarioTemp.setCodigo(rs.getString("id_login"));
                 usuarioTemp.setNome(rs.getString("nome"));
                 usuarioTemp.setUsuario(rs.getString("login"));
-                usuarioTemp.setDataCadastro(rs.getString("dataCadastro"));
-                usuarioTemp.setUltimaAlteracao(rs.getString("ultimaAlteracao"));
+                usuarioTemp.setDataCadastro(rs.getString("data_cadastro"));
+                usuarioTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
                 usuarioTemp.setAtivo(rs.getString("ativo"));
                 usuarioTemp.setSenha(rs.getString("senha"));
+                usuarioTemp.setIdUsuarioAlt(rs.getString("nome"));
+                usuarioTemp.setIdUsuarioCad(rs.getString("nome"));
 
                 lista.add(usuarioTemp);
             } while (rs.next());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
         return lista;
     }
 
-    public String buscaUsuario(int buscar) {
-        String usuario = null;
-        sql = "Select login from login where idLogin = '" + buscar + "'";
+    public String buscaUsuario(String buscar) {
+        String usuario = "";
         try {
+            sql = "Select nome from login where id_login = '" + buscar + "'";
             stms = conexao.prepareStatement(sql);
             result = stms.executeQuery();
-            usuario = result.getString("login");
+            result.next();
+            usuario = result.getString("nome");
             stms.close();
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, error);

@@ -1,37 +1,55 @@
 package br.com.wss.utilidades;
 
+import br.com.wss.dao.ConectionFactory;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
+import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import jdk.nashorn.internal.runtime.JSType;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class ClassUtils {
 
-    private static String usuarioLogado;
     private static String usuario;
+    private static String idUsuario;
 
-    public static void setUsuarioLogado(String usuario) {
-        usuarioLogado = usuario;
+    public void relatorio(String caminho){
+        try {
+            JasperPrint jasperPrint = JasperFillManager.fillReport(caminho, new HashMap<>(), ConectionFactory.getConnection());
+            JasperViewer jrviewer = new JasperViewer(jasperPrint, false);
+            jrviewer.setExtendedState(MAXIMIZED_BOTH);
+            jrviewer.setVisible(true);
+            jrviewer.toFront();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }         
+    }
+    
+    public static void setIdUsuario(String id) {
+        idUsuario = id;
     }
 
-    public static String buscaUsuarioLogado() {
-
-        return usuarioLogado;
+    public static String getUsuario() {
+        return usuario;
     }
-
+    
     public static void setUsuario(String nome) {
         usuario = nome;
     }
 
-    public static String buscaUsuario() {
-        return usuario;
+    public static String getIdUsuario() {
+        return idUsuario;
     }
 
     public static String mostraData() {
@@ -42,12 +60,16 @@ public class ClassUtils {
         return data;
     }
 
-    public static String gravaDataMysql() {
-
-        LocalDate hoje = LocalDate.now();
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String data = hoje.format(formatador);
-        return data;
+    /**
+     *
+     * @return
+     */
+    public static String setDateMsqy() {
+        java.util.Date dt = new java.util.Date();
+        java.text.SimpleDateFormat sdf
+                = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = sdf.format(dt);
+        return currentTime;
     }
 
     public static String mostraHora() throws InterruptedException {
@@ -128,7 +150,7 @@ public class ClassUtils {
         return 11 - (sm % 11);
     }
 
-    public static String setformatData(String data) throws Exception {
+    public static String setFormatData(String data) throws Exception {
         String[] teste = new String[2];
         teste = data.split("-");
         data = "";
@@ -139,22 +161,13 @@ public class ClassUtils {
         return data;
     }
 
-    public static String getDateChooser(JDateChooser data) {
+    public static String setDateChooser(JDateChooser data) {
         String novaData;
         java.util.Date pega = data.getDate();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         novaData = formato.format(pega);
 
         return novaData;
-    }
-
-    public static String DataMysql(JTextField data) {
-        String datamysql;
-        String dia = data.getText().substring(0, 2);
-        String mes = data.getText().substring(3, 5);
-        String ano = data.getText().substring(06);
-        datamysql = ano + "-" + mes + "-" + dia;
-        return datamysql;
     }
 
     public static String somarDias(JDateChooser date, JTextField dias) {
@@ -176,7 +189,7 @@ public class ClassUtils {
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("yyyyMMdd");
         String dataAtual = hoje.format(formatador);
 
-        String dataCompra = ClassUtils.getDateChooser(date).replace("-", "");
+        String dataCompra = ClassUtils.setDateChooser(date).replace("-", "");
 
         int dias = Integer.parseInt(dataAtual) - Integer.parseInt(dataCompra);
         text.setText(String.valueOf(dias));

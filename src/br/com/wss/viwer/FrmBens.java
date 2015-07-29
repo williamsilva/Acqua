@@ -6,6 +6,7 @@
 package br.com.wss.viwer;
 
 import br.com.wss.dao.BensDao;
+import br.com.wss.dao.FornecedorDao;
 import br.com.wss.dao.GrupoDao;
 import br.com.wss.modelo.Bens;
 import br.com.wss.tabelas.Tabela;
@@ -37,6 +38,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     ArrayList<Bens> dados;
 
     GrupoDao grupoDao = new GrupoDao();
+    FornecedorDao fornecedorDao = new FornecedorDao();
     BensDao bensDao = new BensDao();
     Bens bensTemp = new Bens();
     int modificador = 1;
@@ -53,6 +55,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         preencherComboGrupo();
         preencherComboVoltagen();
         preencherComboStatus();
+        preencherComboFornecedor();
         preencherTabela();
 
         this.setLocation(260, 0);
@@ -100,10 +103,9 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jLabelStatus = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jComboBoxStatus = new javax.swing.JComboBox();
-        jTextFieldFornecedor = new javax.swing.JTextField();
         jTextFieldModelo = new javax.swing.JTextField();
         jTextFieldNumeroSerie = new javax.swing.JTextField();
-        jComboBoxVoltagen = new javax.swing.JComboBox();
+        jComboBoxFornecedor = new javax.swing.JComboBox();
         jComboBoxGrupo = new javax.swing.JComboBox();
         jTextFieldValorCompra = new javax.swing.JTextField();
         jTextFieldNotalFiscal = new javax.swing.JTextField();
@@ -116,13 +118,14 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldNomeBen = new javax.swing.JTextField();
         jDateChooserDataCompra = new com.toedter.calendar.JDateChooser();
         jTextFieldVidaUtil = new javax.swing.JTextField();
-        jLabelDescricao = new javax.swing.JLabel();
+        jLabelFornecedor = new javax.swing.JLabel();
         jLabelVidaUtil = new javax.swing.JLabel();
         jTextFieldGarantia = new javax.swing.JTextField();
         jLabelGarantia = new javax.swing.JLabel();
         jTextFieldIdbens = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextFieldObservaçoes = new javax.swing.JTextArea();
+        jComboBoxVoltagen = new javax.swing.JComboBox();
         jButtonNovo = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
         jPanelSecundario = new javax.swing.JPanel();
@@ -145,6 +148,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setIconifiable(true);
+        setTitle("Cadastro de Bens");
         setEnabled(false);
 
         jPanelBens.setBorder(javax.swing.BorderFactory.createTitledBorder("Grupos"));
@@ -195,10 +199,6 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jPanelBens.add(jComboBoxStatus);
         jComboBoxStatus.setBounds(482, 29, 190, 26);
 
-        jTextFieldFornecedor.setText("jTextField1");
-        jPanelBens.add(jTextFieldFornecedor);
-        jTextFieldFornecedor.setBounds(144, 243, 190, 26);
-
         jTextFieldModelo.setText("jTextField1");
         jPanelBens.add(jTextFieldModelo);
         jTextFieldModelo.setBounds(144, 119, 190, 26);
@@ -207,9 +207,9 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jPanelBens.add(jTextFieldNumeroSerie);
         jTextFieldNumeroSerie.setBounds(144, 149, 190, 26);
 
-        jComboBoxVoltagen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
-        jPanelBens.add(jComboBoxVoltagen);
-        jComboBoxVoltagen.setBounds(144, 211, 190, 26);
+        jComboBoxFornecedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
+        jPanelBens.add(jComboBoxFornecedor);
+        jComboBoxFornecedor.setBounds(144, 240, 190, 26);
 
         jComboBoxGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanelBens.add(jComboBoxGrupo);
@@ -224,8 +224,11 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldNotalFiscal.setBounds(482, 59, 190, 26);
 
         jTextFieldNumeroControle.setText("jTextField1");
+        jTextFieldNumeroControle.setSelectionEnd(0);
+        jTextFieldNumeroControle.setSelectionStart(0);
         jPanelBens.add(jTextFieldNumeroControle);
         jTextFieldNumeroControle.setBounds(144, 59, 190, 26);
+        jTextFieldNumeroControle.getAccessibleContext().setAccessibleParent(this);
 
         jTextFieldLocal.setText("jTextField8");
         jPanelBens.add(jTextFieldLocal);
@@ -253,13 +256,13 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jPanelBens.add(jButtonCancelar);
         jButtonCancelar.setBounds(254, 287, 80, 26);
 
-        jLabelNomeBens.setText("Nome Iten:");
+        jLabelNomeBens.setText("Equipamento:");
         jPanelBens.add(jLabelNomeBens);
         jLabelNomeBens.setBounds(19, 29, 110, 20);
-
-        jTextFieldNomeBen.setText("jTextField1");
         jPanelBens.add(jTextFieldNomeBen);
         jTextFieldNomeBen.setBounds(144, 29, 190, 26);
+        jTextFieldNomeBen.getAccessibleContext().setAccessibleParent(this);
+
         jPanelBens.add(jDateChooserDataCompra);
         jDateChooserDataCompra.setBounds(482, 89, 190, 26);
 
@@ -267,9 +270,9 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jPanelBens.add(jTextFieldVidaUtil);
         jTextFieldVidaUtil.setBounds(482, 179, 190, 26);
 
-        jLabelDescricao.setText("Fornecedor:");
-        jPanelBens.add(jLabelDescricao);
-        jLabelDescricao.setBounds(16, 246, 110, 20);
+        jLabelFornecedor.setText("Fornecedor:");
+        jPanelBens.add(jLabelFornecedor);
+        jLabelFornecedor.setBounds(16, 246, 110, 20);
 
         jLabelVidaUtil.setText("Vida Util Estimada:");
         jPanelBens.add(jLabelVidaUtil);
@@ -294,6 +297,10 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
         jPanelBens.add(jScrollPane1);
         jScrollPane1.setBounds(352, 243, 320, 70);
+
+        jComboBoxVoltagen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
+        jPanelBens.add(jComboBoxVoltagen);
+        jComboBoxVoltagen.setBounds(144, 211, 190, 26);
 
         jButtonNovo.setText("Novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -382,7 +389,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
         );
         jDesktopPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -390,32 +397,28 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jDesktopPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDesktopPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanelSecundario, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonNovo)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonExcluir)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(jButtonNovo)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonExcluir))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jPanelSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addComponent(jDesktopPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonNovo)
                     .addComponent(jButtonExcluir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanelBens, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
-                    .addComponent(jPanelSecundario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
@@ -491,6 +494,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonSalvar;
+    private javax.swing.JComboBox jComboBoxFornecedor;
     private javax.swing.JComboBox jComboBoxGrupo;
     private javax.swing.JComboBox jComboBoxStatus;
     private javax.swing.JComboBox jComboBoxVoltagen;
@@ -500,10 +504,10 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabelDataCompra;
-    private javax.swing.JLabel jLabelDescricao;
     private javax.swing.JLabel jLabelDescricaoDepreciacaoDiaria;
     private javax.swing.JLabel jLabelFinalGarantia;
     private javax.swing.JLabel jLabelFinalVidaUtil;
+    private javax.swing.JLabel jLabelFornecedor;
     private javax.swing.JLabel jLabelGarantia;
     private javax.swing.JLabel jLabelGrupo;
     private javax.swing.JLabel jLabelLocal;
@@ -525,7 +529,6 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableBens;
     private javax.swing.JTextField jTextFieldDepreciacaoDiaria;
-    private javax.swing.JTextField jTextFieldFornecedor;
     private javax.swing.JTextField jTextFieldGarantia;
     private javax.swing.JTextField jTextFieldIdbens;
     private javax.swing.JTextField jTextFieldLocal;
@@ -558,6 +561,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private void preencherComboVoltagen() {
         jComboBoxVoltagen.removeAllItems();
         jComboBoxVoltagen.addItem("Selecione A Voltagem");
+        jComboBoxVoltagen.addItem(" ");
         jComboBoxVoltagen.addItem("127 V");
         jComboBoxVoltagen.addItem("220 V");
         jComboBoxVoltagen.addItem("127/220 V");
@@ -575,6 +579,18 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
     }
 
+    private void preencherComboFornecedor() {
+        jComboBoxFornecedor.removeAllItems();
+        jComboBoxFornecedor.addItem("Selecione um Fornecedor");
+        @SuppressWarnings("UnusedAssignment")
+        ArrayList<Object> objetos = new ArrayList<>();
+        objetos = fornecedorDao.listarFornecedor();
+
+        for (Object objeto : objetos) {
+            jComboBoxFornecedor.addItem(objeto);
+        }
+    }
+
     private void limparCampos() {
         jDateChooserDataCompra.setDate(new Date());
         jTextFieldNumeroControle.setText("");
@@ -582,10 +598,10 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldValorCompra.setText("");
         jTextFieldValorCompra.setText("");
         jComboBoxGrupo.setSelectedIndex(0);
-        jComboBoxVoltagen.setSelectedIndex(0);
+        jComboBoxFornecedor.setSelectedIndex(0);
         jTextFieldNumeroSerie.setText("");
         jTextFieldModelo.setText("");
-        jTextFieldFornecedor.setText("");
+        jComboBoxFornecedor.setSelectedIndex(0);
         jComboBoxStatus.setSelectedIndex(0);
         jTextFieldLocal.setText("");
         jTextFieldObservaçoes.setText("");
@@ -596,38 +612,46 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldDepreciacaoDiaria.setText("");
         jTextFieldValorAtual.setText("");
         jTextFieldTempoUso.setText("");
+        jTextFieldTempoUsoPorcento.setText("");
 
     }
 
     private void cadastrarBens() {
         if (jComboBoxGrupo.getSelectedIndex() != 0 && jComboBoxStatus.getSelectedIndex() != 0
-                && jComboBoxVoltagen.getSelectedIndex() != 0 && !jTextFieldNomeBen.getText().equals("")
-                && !jTextFieldNumeroControle.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
-                && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldValorCompra.getText().equals("")) {
+                && jComboBoxFornecedor.getSelectedIndex() != 0 && jComboBoxVoltagen.getSelectedIndex() !=0
+                && !jTextFieldNomeBen.getText().equals("") && !jTextFieldNumeroControle.getText().equals("")
+                && !jTextFieldValorCompra.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
+                && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldLocal.getText().equals("")) {
 
             bensTemp.setNome(jTextFieldNomeBen.getText());
             bensTemp.setNumeroControle(jTextFieldNumeroControle.getText());
             bensTemp.setNotaFiscal(jTextFieldNotalFiscal.getText());
             bensTemp.setValorCompra(Double.parseDouble(jTextFieldValorCompra.getText()));
-            bensTemp.setVoltagem((String) jComboBoxVoltagen.getSelectedItem());
+            bensTemp.setVoltagem((String) jComboBoxFornecedor.getSelectedItem());
             bensTemp.setNumeroSerie(jTextFieldNumeroSerie.getText());
             bensTemp.setModelo(jTextFieldModelo.getText());
-            bensTemp.setFornecedor(jTextFieldFornecedor.getText());
             bensTemp.setLocal(jTextFieldLocal.getText());
             bensTemp.setObservacoes(jTextFieldObservaçoes.getText());
             bensTemp.setStatus((String) jComboBoxStatus.getSelectedItem());
             bensTemp.setGarantia(jTextFieldGarantia.getText());
             bensTemp.setVidaUtil(jTextFieldVidaUtil.getText());
+            bensTemp.setIdUsuarioCad((ClassUtils.getIdUsuario()));
+            bensTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
 
-            bensTemp.setDataCadastro(ClassUtils.mostraHoraData());
-            bensTemp.setUltimaAlteracao(ClassUtils.mostraHoraData());
-            bensTemp.setDataCompra(ClassUtils.getDateChooser(jDateChooserDataCompra));
+            bensTemp.setDataCadastro(ClassUtils.setDateMsqy());
+            bensTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            bensTemp.setDataCompra(ClassUtils.setDateChooser(jDateChooserDataCompra));
 
-            bensDao.cadastraBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()));
+            bensDao.cadastraBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()),
+                    (String) fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString()));
 
             preencherTabela();
             limparCampos();
             modificadorCampos();
+            jPanelBens.setVisible(false);
+            jPanelSecundario.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
 
         } else {
             jLabelNumeroControle.setForeground(Color.red);
@@ -637,7 +661,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             jLabelVoltagem.setForeground(Color.red);
             jLabelNumeroSerie.setForeground(Color.red);
             jLabelModelo.setForeground(Color.red);
-            jLabelDescricao.setForeground(Color.red);
+            jLabelFornecedor.setForeground(Color.red);
             jLabelStatus.setForeground(Color.red);
             jLabelLocal.setForeground(Color.red);
             jLabelNomeBens.setForeground(Color.red);
@@ -647,7 +671,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }
 
     private void validaCampos() {
-        jTextFieldFornecedor.setDocument(new NumeroMaximoCaracters(50));
+
         jTextFieldLocal.setDocument(new NumeroMaximoCaracters(20));
         jTextFieldModelo.setDocument(new NumeroMaximoCaracters(45));
         jTextFieldNomeBen.setDocument(new NumeroMaximoCaracters(45));
@@ -669,14 +693,14 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldNotalFiscal.setText(dados.get(seleciona).getNotaFiscal());
         jTextFieldValorCompra.setText(String.valueOf(dados.get(seleciona).getValorCompra()));
 
-        String data = ClassUtils.setformatData(dados.get(seleciona).getDataCompra());
+        String data = ClassUtils.setFormatData(dados.get(seleciona).getDataCompra());
         jDateChooserDataCompra.setDate(new Date(data));
 
         jComboBoxGrupo.setSelectedItem(grupoDao.buscarNomeGrupo(String.valueOf(dados.get(seleciona).getIdGrupo())));
-        jComboBoxVoltagen.setSelectedItem(dados.get(seleciona).getVoltagem());
+        jComboBoxFornecedor.setSelectedItem(dados.get(seleciona).getVoltagem());
         jTextFieldNumeroSerie.setText(dados.get(seleciona).getNumeroSerie());
         jTextFieldModelo.setText(dados.get(seleciona).getModelo());
-        jTextFieldFornecedor.setText(dados.get(seleciona).getFornecedor());
+        jComboBoxFornecedor.setSelectedItem(fornecedorDao.getNomeFornecedor(String.valueOf(dados.get(seleciona).getIdFornecedor())));
         jTextFieldLocal.setText(dados.get(seleciona).getLocal());
         jComboBoxStatus.setSelectedItem(dados.get(seleciona).getStatus());
         jTextFieldObservaçoes.setText(dados.get(seleciona).getObservacoes());
@@ -718,10 +742,10 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTableBens.getColumnModel().getColumn(5).setPreferredWidth(100);
         jTableBens.getColumnModel().getColumn(5).setResizable(false);
 
-        jTableBens.getColumnModel().getColumn(6).setPreferredWidth(190);
+        jTableBens.getColumnModel().getColumn(6).setPreferredWidth(325);
         jTableBens.getColumnModel().getColumn(6).setResizable(false);
 
-        jTableBens.getColumnModel().getColumn(7).setPreferredWidth(190);
+        jTableBens.getColumnModel().getColumn(7).setPreferredWidth(325);
         jTableBens.getColumnModel().getColumn(7).setResizable(false);
 
         jTableBens.getTableHeader().setReorderingAllowed(false);
@@ -732,9 +756,10 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
     private void editarBens() {
         if (jComboBoxGrupo.getSelectedIndex() != 0 && jComboBoxStatus.getSelectedIndex() != 0
-                && jComboBoxVoltagen.getSelectedIndex() != 0 && !jTextFieldNomeBen.getText().equals("")
-                && !jTextFieldNumeroControle.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
-                && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldValorCompra.getText().equals("")) {
+                && jComboBoxFornecedor.getSelectedIndex() != 0 && jComboBoxVoltagen.getSelectedIndex() !=0
+                && !jTextFieldNomeBen.getText().equals("") && !jTextFieldNumeroControle.getText().equals("")
+                && !jTextFieldValorCompra.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
+                && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldLocal.getText().equals("")) {
 
             bensTemp.setNome(jTextFieldNomeBen.getText());
             bensTemp.setNumeroControle(jTextFieldNumeroControle.getText());
@@ -743,24 +768,27 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             bensTemp.setVoltagem((String) jComboBoxVoltagen.getSelectedItem());
             bensTemp.setNumeroSerie(jTextFieldNumeroSerie.getText());
             bensTemp.setModelo(jTextFieldModelo.getText());
-            bensTemp.setFornecedor(jTextFieldFornecedor.getText());
             bensTemp.setLocal(jTextFieldLocal.getText());
             bensTemp.setObservacoes(jTextFieldObservaçoes.getText());
             bensTemp.setStatus((String) jComboBoxStatus.getSelectedItem());
 
-            bensTemp.setUltimaAlteracao(ClassUtils.mostraHoraData());
-            bensTemp.setDataCompra(ClassUtils.getDateChooser(jDateChooserDataCompra));
+            bensTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            bensTemp.setDataCompra(ClassUtils.setDateChooser(jDateChooserDataCompra));
             bensTemp.setIdBens(Integer.parseInt(jTextFieldIdbens.getText()));
             bensTemp.setGarantia(jTextFieldGarantia.getText());
             bensTemp.setVidaUtil(jTextFieldVidaUtil.getText());
+            bensTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
 
-            bensDao.atualizarBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()));
-
+            bensDao.atualizarBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()),
+                    Integer.parseInt( fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString())));
+            
             preencherTabela();
             limparCampos();
             modificadorCampos();
             jPanelBens.setVisible(false);
             jPanelSecundario.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
         } else {
             jLabelNumeroControle.setForeground(Color.red);
             jLabelNotaFiscal.setForeground(Color.red);
@@ -769,7 +797,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             jLabelVoltagem.setForeground(Color.red);
             jLabelNumeroSerie.setForeground(Color.red);
             jLabelModelo.setForeground(Color.red);
-            jLabelDescricao.setForeground(Color.red);
+            jLabelFornecedor.setForeground(Color.red);
             jLabelStatus.setForeground(Color.red);
             jLabelLocal.setForeground(Color.red);
             jLabelNomeBens.setForeground(Color.red);
@@ -799,7 +827,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jLabelVoltagem.setForeground(Color.BLACK);
         jLabelNumeroSerie.setForeground(Color.BLACK);
         jLabelModelo.setForeground(Color.BLACK);
-        jLabelDescricao.setForeground(Color.BLACK);
+        jLabelFornecedor.setForeground(Color.BLACK);
         jLabelStatus.setForeground(Color.BLACK);
         jLabelLocal.setForeground(Color.BLACK);
         jLabelNomeBens.setForeground(Color.BLACK);
@@ -847,7 +875,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }
 
     private void finalGarantia(JLabel label, JDateChooser date) {
-        String finalGarantia = ClassUtils.getDateChooser(date).replace("-", "");
+        String finalGarantia = ClassUtils.setDateChooser(date).replace("-", "");
 
         if (Integer.parseInt(dataAtual()) > Integer.parseInt(finalGarantia)) {
             label.setForeground(Color.red);
@@ -859,7 +887,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }
 
     private void totalDias(JDateChooser date, JTextField text) {
-        String dataCompra = ClassUtils.getDateChooser(date).replace("-", "");
+        String dataCompra = ClassUtils.setDateChooser(date).replace("-", "");
         int dias = Integer.parseInt(dataAtual()) - Integer.parseInt(dataCompra);
         text.setText(String.valueOf(dias));
 
@@ -873,7 +901,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }
 
     private void finalVidaUtil(JLabel label, JDateChooser date) {
-        String finalVidaUtil = ClassUtils.getDateChooser(date).replace("-", "");
+        String finalVidaUtil = ClassUtils.setDateChooser(date).replace("-", "");
 
         if (Integer.parseInt(dataAtual()) > Integer.parseInt(finalVidaUtil)) {
             label.setForeground(Color.red);
@@ -882,6 +910,5 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             date.setBackground(Color.BLACK);
             label.setForeground(Color.BLACK);
         }
-
     }
 }

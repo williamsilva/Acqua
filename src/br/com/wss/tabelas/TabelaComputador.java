@@ -25,8 +25,8 @@ public class TabelaComputador extends Tabela{
         
         linha[0] = computador.getComputador();
         linha[1] = computador.getMac();
-        linha[2] = computador.getDataCadastro();
-        linha[3] = computador.getUltimaAlteracao();
+        linha[2] = "Em "+computador.getDataCadastro()+" Em "+computador.getIdUsuarioCad();
+        linha[3] = "Em "+computador.getUltimaAlteracao()+" Em "+computador.getIdUsuarioAlt();
         return linha[numCol];
     }
     

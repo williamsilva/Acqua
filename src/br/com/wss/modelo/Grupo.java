@@ -11,27 +11,33 @@ package br.com.wss.modelo;
  */
 public class Grupo {
 
-    String dataCadastro;
-    String ultimaAlteracao;
-    String nome;
-    String descricao;
-    int idGrupo;
+    private String dataCadastro;
+    private String ultimaAlteracao;
+    private String nomeGrupo;
+    private String descricao;
+    private int idGrupo;
+    private String UsuarioCad;
+    private String UsuarioAlt;
 
     public Grupo() {
     }
 
-    public Grupo(String dataCadastro, String ultimaAlteracao, String nome, String descricao,int idGrupo) {
+    public Grupo(String dataCadastro, String ultimaAlteracao, String nomeGrupo, String descricao, int idGrupo, String UsuarioCad, String UsuarioAlt) {
         this.dataCadastro = dataCadastro;
         this.ultimaAlteracao = ultimaAlteracao;
-        this.nome = nome;
+        this.nomeGrupo = nomeGrupo;
         this.descricao = descricao;
         this.idGrupo = idGrupo;
+        this.UsuarioCad = UsuarioCad;
+        this.UsuarioAlt = UsuarioAlt;
     }
-    public int getIdGrupo(){
-        return idGrupo;
+
+    public String getUsuarioAlt() {
+        return UsuarioAlt;
     }
-    public void setIdGrupo(int idGrupo){
-        this.idGrupo = idGrupo;
+
+    public void setUsuarioAlt(String UsuarioAlt) {
+        this.UsuarioAlt = UsuarioAlt;
     }
 
     public String getDataCadastro() {
@@ -50,12 +56,12 @@ public class Grupo {
         this.ultimaAlteracao = ultimaAlteracao;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeGrupo() {
+        return nomeGrupo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeGrupo(String nomeGrupo) {
+        this.nomeGrupo = nomeGrupo;
     }
 
     public String getDescricao() {
@@ -66,4 +72,20 @@ public class Grupo {
         this.descricao = descricao;
     }
 
-}
+    public int getIdGrupo() {
+        return idGrupo;
+    }
+
+    public void setIdGrupo(int idGrupo) {
+        this.idGrupo = idGrupo;
+    }
+
+    public String getUsuarioCad() {
+        return UsuarioCad;
+    }
+
+    public void setUsuarioCad(String UsuarioCad) {
+        this.UsuarioCad = UsuarioCad;
+    }
+
+    }
