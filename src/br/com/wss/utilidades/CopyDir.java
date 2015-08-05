@@ -27,7 +27,7 @@ public class CopyDir {
                 JOptionPane.showMessageDialog(null, e);
             }
             System.out.println("Fim");
-            Runtime.getRuntime().exec("java -jar C:\\WssSolutions\\dist\\acqua.jar");
+            Runtime.getRuntime().exec("java -jar C:\\WssSolutions\\acqua.jar");
         }
     }
 
@@ -35,8 +35,9 @@ public class CopyDir {
         if (src.isDirectory()) {
             if (!dest.exists()) {
                 dest.mkdir();
-                System.out.println("Directory copied from "
-                        + src + "  to " + dest);
+                System.out.println("Copiando Arquivo... " + src.getName());
+                //System.out.println("Directory copied from "
+                //     + src.getName()+ "  to " + dest.getName());
             }
             String files[] = src.list();
 
@@ -59,10 +60,8 @@ public class CopyDir {
                 }
             }
             out.close();
-            System.out.println("File copied from " + src + " to " + dest);
+            System.out.println("Copiando Arquivo... " + src.getName());
+            //System.out.println("File copied from " + src.getName() + " to " + dest.getName());
         }
-        
-        
     }
-
 }

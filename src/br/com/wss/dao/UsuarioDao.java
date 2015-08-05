@@ -33,7 +33,7 @@ public class UsuarioDao {
                     usuario.setUsuario(result.getString("login"));
                     usuario.setCodigo(result.getString("id_login"));
                     usuario.setNome(result.getString("nome"));
-
+                    
                 }
                 stms.close();
             }

@@ -22,7 +22,7 @@ public class ConectionFactory {
     public static Connection getConnection() {
         if (conn == null) {
             Properties config = new Properties();
-            String arquivo = "C:\\WssSolutions\\WssSolution.ini";//local do arquivo    
+            String arquivo = "C:\\WssSolutions\\br\\com\\wss\\Config\\WssSolution.ini";//local do arquivo    
 
             try {
                 config.load(new FileInputStream(arquivo));

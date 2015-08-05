@@ -17,7 +17,7 @@ public class SpleshScreen extends javax.swing.JFrame {
 
     public SpleshScreen() {
         Properties config = new Properties();
-        String arquivo = ArquivosIni.VersaoAtual();//local do arquivo
+        String arquivo = ArquivosIni.getDiretorioInicial();//local do arquivo
         try {
             config.load(new FileInputStream(arquivo));
 
@@ -27,7 +27,7 @@ public class SpleshScreen extends javax.swing.JFrame {
 
         al = (ActionEvent e) -> {
             String versao = config.getProperty("VERSION");
-            jLabelVersao.setText("Versão: "+versao);
+            jLabelVersao.setText("Versão: " + versao);
             if (barraProgresso.getValue() < 25) {
                 barraProgresso.setValue(barraProgresso.getValue() + 1);
                 lBCarregando.setText("Conectando ao Banco...");
@@ -56,6 +56,7 @@ public class SpleshScreen extends javax.swing.JFrame {
         login.setLocationRelativeTo(null);
         login.setVisible(true);
         this.dispose();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -66,7 +67,6 @@ public class SpleshScreen extends javax.swing.JFrame {
         jLabelVersao = new javax.swing.JLabel();
         lBCarregando = new javax.swing.JLabel();
         jLabelIMG = new javax.swing.JLabel();
-        lBCarregando1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -90,10 +90,6 @@ public class SpleshScreen extends javax.swing.JFrame {
         getContentPane().add(jLabelIMG);
         jLabelIMG.setBounds(0, 0, 480, 286);
 
-        lBCarregando1.setText("william");
-        getContentPane().add(lBCarregando1);
-        lBCarregando1.setBounds(100, 256, 310, 20);
-
         setBounds(0, 0, 478, 286);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -103,7 +99,6 @@ public class SpleshScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelIMG;
     private javax.swing.JLabel jLabelVersao;
     private javax.swing.JLabel lBCarregando;
-    private javax.swing.JLabel lBCarregando1;
     // End of variables declaration//GEN-END:variables
 
 }

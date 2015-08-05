@@ -22,37 +22,48 @@ import javax.swing.JOptionPane;
  */
 public class ArquivosIni {
 
-    public static String VersaoAtual() {
+    static String diretorioConfig = "C:\\WssSolutions\\br\\com\\wss\\Config\\WssSolution.ini";
+
+    /**
+     *
+     * @return
+     */
+    public static String getDiretorioInicial() {
         Properties config = new Properties();
-        String arquivo = "C:\\WssSolutions\\WssSolution.ini";
         try {
-            config.load(new FileInputStream(arquivo));
+            config.load(new FileInputStream(diretorioConfig));
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex);
             Logger.getLogger(ArquivosIni.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String versaoAtual = config.getProperty("versionAtual");
-        return versaoAtual;
+        String diretorio = config.getProperty("versionAtual");
+        return diretorio;
     }
 
-    public static String VersaoNova() {
+    /**
+     *
+     * @return
+     */
+    public static String getDiretorioFinal() {
         Properties config = new Properties();
-        String arquivo = "C:\\WssSolutions\\WssSolution.ini";
         try {
-            config.load(new FileInputStream(arquivo));
+            config.load(new FileInputStream(diretorioConfig));
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex);
             Logger.getLogger(ArquivosIni.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String versaoNova = config.getProperty("versionNova");
-        return versaoNova;
+        String diretorio = config.getProperty("versionNova");
+        return diretorio;
     }
 
-    public static String CopyDirOrigem() {
+    /**
+     *
+     * @return
+     */
+    public static String getCopyDirOrigem() {
         Properties config = new Properties();
-        String arquivo = "C:\\WssSolutions\\WssSolution.ini";
         try {
-            config.load(new FileInputStream(arquivo));
+            config.load(new FileInputStream(diretorioConfig));
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex);
             Logger.getLogger(ArquivosIni.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,11 +72,14 @@ public class ArquivosIni {
         return origemFolderCopy;
     }
 
-    public static String CopyDirDestino() {
+    /**
+     *
+     * @return
+     */
+    public static String getCopyDirDestino() {
         Properties config = new Properties();
-        String arquivo = "C:\\WssSolutions\\WssSolution.ini";
         try {
-            config.load(new FileInputStream(arquivo));
+            config.load(new FileInputStream(diretorioConfig));
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, ex);
             Logger.getLogger(ArquivosIni.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,16 +87,35 @@ public class ArquivosIni {
         String destinoFolderCopy = config.getProperty("destinoFolderCopy");
         return destinoFolderCopy;
     }
+    
+    /**
+     *
+     * @return
+     */
+    public static String getSobre() {
+        Properties config = new Properties();
+        try {
+            config.load(new FileInputStream(diretorioConfig));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            Logger.getLogger(ArquivosIni.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String arquivoSobre = config.getProperty("ArquivoSobre");
+        return arquivoSobre;
+    }
 
+    /**
+     *
+     */
     public static void sobre() {
         String mostra = "";
-        String nomeArq = "C:\\WssSolutions\\Info.txt"; //Nome do arquivo, pode ser absoluto, ou pastas /dir/teste.txt
+        String nomeArq = getSobre(); //Nome do arquivo, pode ser absoluto, ou pastas /dir/teste.txt
         String linha = "";
         File arq = new File(nomeArq);
         //Arquivo existe
         if (arq.exists()) {
             Properties config = new Properties();
-            String arquivo = ArquivosIni.VersaoAtual();//local do arquivo                       
+            String arquivo = ArquivosIni.getDiretorioInicial();//local do arquivo                       
             try {
                 config.load(new FileInputStream(arquivo));
                 //abrindo arquivo para leitura

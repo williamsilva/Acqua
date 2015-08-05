@@ -59,7 +59,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         ClassUtils.setUsuario(login);
         
         jLUsuario.setText("Usúario Logado: " + usuario);
-        jTextAreaAtalho.setText(ArquivosIni.LendoArquivo("C:\\WssSolutions\\Atalhos.txt"));
+        jTextAreaAtalho.setText(ArquivosIni.LendoArquivo("C:\\WssSolutions\\br\\\\com\\wss\\Config\\Atalhos.txt"));
     }
 
     @SuppressWarnings("unchecked")
@@ -90,6 +90,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemRelatorioBens = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMUsuario = new javax.swing.JMenuItem();
         jMComputadores = new javax.swing.JMenuItem();
@@ -265,6 +266,14 @@ public final class frmPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItemRelatorioBens);
 
+        jMenuItem6.setText("Bens");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
+
         jMenuBar1.add(jMenu3);
 
         jMenu2.setText("Sistema");
@@ -397,13 +406,18 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItemRelatorioBensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRelatorioBensActionPerformed
-        String url = "C:\\WssSolutions\\src\\br\\com\\wss\\relatorios/Relatorio bens.jasper";
-        utilidades.relatorio(url);
+        String url = "C:\\WssSolutions\\br\\com\\wss\\relatorios/Relatorio bens.jasper";
+        utilidades.relatorio(url,"Relátorio Bens");
     }//GEN-LAST:event_jMenuItemRelatorioBensActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         jInternalFornecedor();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        String url = "C:\\Users\\william\\JaspersoftWorkspace\\MyReports\\Relatorio Total Bens.jasper";
+        utilidades.relatorio(url,"Relátorio Total Bens");
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     public void jInternalGrupoBens() {
 
@@ -618,6 +632,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItemRelatorioBens;
     private javax.swing.JDesktopPane jPPrincipal;
     private javax.swing.JPanel jPSecundario;

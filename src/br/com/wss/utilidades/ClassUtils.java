@@ -24,11 +24,12 @@ public class ClassUtils {
     private static String usuario;
     private static String idUsuario;
 
-    public void relatorio(String caminho){
+    public void relatorio(String caminho,String titulo){
         try {
             JasperPrint jasperPrint = JasperFillManager.fillReport(caminho, new HashMap<>(), ConectionFactory.getConnection());
             JasperViewer jrviewer = new JasperViewer(jasperPrint, false);
             jrviewer.setExtendedState(MAXIMIZED_BOTH);
+            jrviewer.setTitle(titulo);
             jrviewer.setVisible(true);
             jrviewer.toFront();
         } catch (Exception ex) {

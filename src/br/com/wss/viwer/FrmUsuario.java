@@ -576,7 +576,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void preencherTabela() {
 
-        String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Alteração", "Ativo"};
+        String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Alteração", "Ativo","Logado Em"};
 
         UsuarioDao usuarioDao = new UsuarioDao();
         dados = usuarioDao.listar();
@@ -597,6 +597,9 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
         jTabelaUsuario.getColumnModel().getColumn(4).setPreferredWidth(55);
         jTabelaUsuario.getColumnModel().getColumn(4).setResizable(false);
+        
+        jTabelaUsuario.getColumnModel().getColumn(5).setPreferredWidth(200);
+        jTabelaUsuario.getColumnModel().getColumn(5).setResizable(false);
 
         jTabelaUsuario.getTableHeader().setReorderingAllowed(false);
         jTabelaUsuario.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
