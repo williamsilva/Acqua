@@ -4,12 +4,19 @@ import br.com.wss.dao.ConectionFactory;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,7 +31,7 @@ public class ClassUtils {
     private static String usuario;
     private static String idUsuario;
 
-    public void relatorio(String caminho,String titulo){
+    public void relatorio(String caminho, String titulo) {
         try {
             JasperPrint jasperPrint = JasperFillManager.fillReport(caminho, new HashMap<>(), ConectionFactory.getConnection());
             JasperViewer jrviewer = new JasperViewer(jasperPrint, false);
@@ -34,9 +41,9 @@ public class ClassUtils {
             jrviewer.toFront();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
-        }         
+        }
     }
-    
+
     public static void setIdUsuario(String id) {
         idUsuario = id;
     }
@@ -44,7 +51,7 @@ public class ClassUtils {
     public static String getUsuario() {
         return usuario;
     }
-    
+
     public static void setUsuario(String nome) {
         usuario = nome;
     }
@@ -54,7 +61,6 @@ public class ClassUtils {
     }
 
     public static String mostraData() {
-
         LocalDate hoje = LocalDate.now();
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String data = hoje.format(formatador);
@@ -66,13 +72,37 @@ public class ClassUtils {
      * @return
      */
     public static String setDateMsqy() {
-        java.util.Date dt = new java.util.Date();
+        java.util.Date data = new java.util.Date();
         java.text.SimpleDateFormat sdf
                 = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTime = sdf.format(dt);
-        return currentTime;
+        String setDate = sdf.format(data);
+        return setDate;
     }
 
+    /**
+     *
+     * @param data
+     * @return
+     * @throws ParseException
+     */
+    public static Date setDateChoose(String data) throws ParseException {
+        if (data == null || data.equals("")) {
+            Date date = null;
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            date = new java.sql.Date(((java.util.Date) formatter.parse("2000-01-01")).getTime());
+            return date;
+        } else {
+            Date date = null;
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            date = new java.sql.Date(((java.util.Date) formatter.parse(data)).getTime());
+            return date;
+        }
+    }
+
+    /**
+     *
+     * @return @throws InterruptedException
+     */
     public static String mostraHora() throws InterruptedException {
 
         Locale locale = new Locale("pt", "BR");
@@ -82,6 +112,10 @@ public class ClassUtils {
         return hora;
     }
 
+    /**
+     *
+     * @return
+     */
     public static String mostraHoraData() {
         Locale locale = new Locale("pt", "BR");
         GregorianCalendar calendar = new GregorianCalendar();
@@ -90,6 +124,12 @@ public class ClassUtils {
         return hora;
     }
 
+    /**
+     *
+     * @param cpf
+     * @param label
+     * @param texto
+     */
     public static void validaCPF(String cpf, JLabel label, JFormattedTextField texto) {
         cpf = cpf.replace("-", "");
         cpf = cpf.replace(".", "");
@@ -151,46 +191,52 @@ public class ClassUtils {
         return 11 - (sm % 11);
     }
 
-    public static String setFormatData(String data) throws Exception {
-        String[] teste = new String[2];
-        teste = data.split("-");
-        data = "";
-        for (int i = 0; i < 3; i++) {
-            data = data + "/" + teste[i];
+    /**
+     *
+     * @param data
+     * @return
+     */
+    public static String setDateChooserMysql(JDateChooser data) {
+        if (data != null) {
+            String novaData;
+            java.util.Date pega = data.getDate();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            novaData = formato.format(pega);
+            return novaData;
+        } else {
+            return null;
         }
-        data = data.substring(1, 11);
-        return data;
     }
 
-    public static String setDateChooser(JDateChooser data) {
-        String novaData;
-        java.util.Date pega = data.getDate();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-        novaData = formato.format(pega);
-
-        return novaData;
-    }
-
+    /**
+     *
+     * @param date
+     * @param dias
+     * @return
+     */
     public static String somarDias(JDateChooser date, JTextField dias) {
 
         java.util.Date data = date.getDate();
         String contador = String.valueOf(dias.getText());
-
         data.setDate(data.getDate() + Integer.parseInt(contador));
-
         String mostraFormato = "yyyy/MM/dd";
         SimpleDateFormat dataFormatada = new SimpleDateFormat(mostraFormato);
         String mostra = dataFormatada.format(data);
         return mostra;
     }
 
+    /**
+     *
+     * @param date
+     * @param text
+     */
     public void totalDias(JDateChooser date, JTextField text) {
 
         LocalDate hoje = LocalDate.now();
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("yyyyMMdd");
         String dataAtual = hoje.format(formatador);
 
-        String dataCompra = ClassUtils.setDateChooser(date).replace("-", "");
+        String dataCompra = ClassUtils.setDateChooserMysql(date).replace("-", "");
 
         int dias = Integer.parseInt(dataAtual) - Integer.parseInt(dataCompra);
         text.setText(String.valueOf(dias));

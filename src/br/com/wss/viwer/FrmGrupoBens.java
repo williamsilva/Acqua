@@ -10,6 +10,8 @@ import br.com.wss.dao.GrupoDao;
 import br.com.wss.modelo.Grupo;
 import br.com.wss.tabelas.Tabela;
 import br.com.wss.tabelas.TabelaGrupo;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -31,7 +33,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         initComponents();
         jPanelGrupos.setVisible(false);
         jTId.setVisible(false);
-        jButtonExcluir.setVisible(false);
+        jButtonExcluir.setEnabled(false);
         preencherTabela();
     }
 
@@ -47,8 +49,8 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         jPanelGrupos = new javax.swing.JPanel();
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelNomeGrupo = new javax.swing.JLabel();
+        jLabelDescricao = new javax.swing.JLabel();
         jTextFieldGrupo = new javax.swing.JTextField();
         jTextFieldDescricao = new javax.swing.JTextField();
         jTId = new javax.swing.JTextField();
@@ -72,6 +74,11 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
                 jButtonSalvarActionPerformed(evt);
             }
         });
+        jButtonSalvar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonSalvarKeyPressed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -80,9 +87,21 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setText("Grupo:");
+        jLabelNomeGrupo.setText("Grupo:");
 
-        jLabel2.setText("Decrição:");
+        jLabelDescricao.setText("Decrição:");
+
+        jTextFieldGrupo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldGrupoKeyPressed(evt);
+            }
+        });
+
+        jTextFieldDescricao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldDescricaoKeyPressed(evt);
+            }
+        });
 
         jTId.setEditable(false);
         jTId.setText("iD");
@@ -101,8 +120,8 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
                     .addGroup(jPanelGruposLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabelNomeGrupo)
+                            .addComponent(jLabelDescricao))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldGrupo)
@@ -117,11 +136,11 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelGruposLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabelNomeGrupo)
                     .addComponent(jTextFieldGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabelDescricao)
                     .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,25 +229,27 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         if (modificador == 1) {
             jPanelGrupos.setVisible(true);
             jButtonExcluir.setEnabled(false);
-
-            jButtonSalvar.setVisible(true);
+            jButtonNovo.setEnabled(false);
+           
             jButtonSalvar.setText("Salvar");
             limparCampos();
         } else {
             modificador = 1;
             jPanelGrupos.setVisible(true);
             jButtonExcluir.setEnabled(false);
-
-            jButtonSalvar.setVisible(true);
+            jButtonNovo.setEnabled(false);
+            
             jButtonSalvar.setText("Salvar");
             limparCampos();
         }
+        jTextFieldGrupo.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         jPanelGrupos.setVisible(false);
         jButtonExcluir.setEnabled(false);
         jButtonNovo.setEnabled(true);
+        jLabelNomeGrupo.setForeground(Color.BLACK);
         limparCampos();
         modificador = 1;
 
@@ -271,9 +292,32 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             jButtonSalvar.setText("Editar");
             atualizar();
         }
-
-
     }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jTextFieldGrupoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldGrupoKeyPressed
+       if(evt.getKeyCode()== KeyEvent.VK_ENTER && !jTextFieldGrupo.getText().equals("")){
+           jTextFieldDescricao.requestFocus();
+           jLabelNomeGrupo.setForeground(Color.BLACK);
+       }else{
+           jLabelNomeGrupo.setForeground(Color.red);
+       }
+    }//GEN-LAST:event_jTextFieldGrupoKeyPressed
+
+    private void jTextFieldDescricaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDescricaoKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jButtonSalvar.requestFocus();
+        }
+    }//GEN-LAST:event_jTextFieldDescricaoKeyPressed
+
+    private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
+         if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrar();
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            atualizar();
+        }
+    }//GEN-LAST:event_jButtonSalvarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -282,8 +326,8 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelDescricao;
+    private javax.swing.JLabel jLabelNomeGrupo;
     private javax.swing.JPanel jPanelGrupos;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTId;

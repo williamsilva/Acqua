@@ -26,10 +26,17 @@ public class ManutencaoDao {
     ResultSet result;
     String sql;
 
+    /**
+     *
+     */
     public ManutencaoDao() {
         conexao = ConectionFactory.getConnection();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Manutencao> listar() {
         ArrayList<Manutencao> lista;
         lista = new ArrayList<>();
@@ -42,8 +49,9 @@ public class ManutencaoDao {
                     + " manutencao.responsavel, manutencao.altorizada, "
                     + " manutencao.contato, manutencao.descricao, manutencao.valor_conserto,"
                     + " manutencao.data_retorno, manutencao.data_saida, manutencao.id_bens,"
-                    + " manutencao.garantia,manutencao.data_cadastro,manutencao.ultima_alteracao,"
-                    + "bens.nome, bens.numero_controle"
+                    + " manutencao.data_cadastro,manutencao.ultima_alteracao,"
+                    + " manutencao.fim_garantia_manutencao,"
+                    + " bens.nome, bens.numero_controle"
                     + " from manutencao left join bens on manutencao.id_bens = bens.id_Bens");
 
             rs.first();
@@ -60,9 +68,9 @@ public class ManutencaoDao {
                 manutencaoTemp.setValorConserto(rs.getDouble("valor_conserto"));
                 manutencaoTemp.setIdManutecao(rs.getInt("id_manutencao"));
                 manutencaoTemp.setInBens(rs.getInt("id_bens"));
-                manutencaoTemp.setGarantia(rs.getString("garantia"));
                 manutencaoTemp.setDataCadastro(rs.getString("data_cadastro"));
                 manutencaoTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
+                manutencaoTemp.setFinalGarantia(rs.getString("manutencao.fim_garantia_manutencao"));
 
                 lista.add(manutencaoTemp);
             } while (rs.next());
@@ -73,11 +81,17 @@ public class ManutencaoDao {
         return lista;
     }
 
+    /**
+     *
+     * @param manutencao
+     * @param bens
+     */
     public void cadastrarManutencao(Manutencao manutencao, String bens) {
         sql = ("insert into manutencao (altorizada, contato, data_retorno, "
                 + "data_saida, descricao, responsavel, valor_conserto, id_bens, "
-                + "garantia,id_usuario_cad,id_usuario_alt,data_cadastro,"
-                + "ultima_alteracao) values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                + "id_usuario_cad,id_usuario_alt,data_cadastro,"
+                + "ultima_alteracao,fim_garantia_manutencao) "
+                + "values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
         try {
             stms = conexao.prepareStatement(sql);
 
@@ -89,11 +103,11 @@ public class ManutencaoDao {
             stms.setString(6, manutencao.getResponsavel());
             stms.setDouble(7, manutencao.getValorConserto());
             stms.setInt(8, Integer.parseInt(bens));
-            stms.setString(9, manutencao.getGarantia());
-            stms.setString(10, manutencao.getUsuarioCad());
-            stms.setString(11, manutencao.getUsuarioAlt());
-            stms.setString(12, manutencao.getDataCadastro());
-            stms.setString(13, manutencao.getUltimaAlteracao());
+            stms.setString(9, manutencao.getUsuarioCad());
+            stms.setString(10, manutencao.getUsuarioAlt());
+            stms.setString(11, manutencao.getDataCadastro());
+            stms.setString(12, manutencao.getUltimaAlteracao());
+            stms.setString(13, manutencao.getFinalGarantia());
 
             stms.execute();
             stms.close();
@@ -104,11 +118,17 @@ public class ManutencaoDao {
         }
     }
 
+    /**
+     *
+     * @param manutencao
+     * @param bens
+     */
     public void atualizarManutencao(Manutencao manutencao, String bens) {
         sql = "update manutencao set altorizada = ?, contato = ?, data_retorno = ?, "
                 + "data_saida = ?, descricao = ?, responsavel = ?, "
-                + "valor_conserto = ?, id_bens = ?, garantia = ?,"
-                + "id_usuario_alt = ?,ultima_alteracao =? where id_manutencao = ?";
+                + "valor_conserto = ?, id_bens = ?, "
+                + "id_usuario_alt = ?,ultima_alteracao =?,fim_garantia_manutencao = ?"
+                + " where id_manutencao = ?";
 
         try {
             stms = conexao.prepareStatement(sql);
@@ -121,9 +141,9 @@ public class ManutencaoDao {
             stms.setString(6, manutencao.getResponsavel());
             stms.setDouble(7, manutencao.getValorConserto());
             stms.setInt(8, Integer.parseInt(bens));
-            stms.setString(9, manutencao.getGarantia());
-            stms.setString(10, manutencao.getUsuarioAlt());
-            stms.setString(11, manutencao.getUltimaAlteracao());
+            stms.setString(9, manutencao.getUsuarioAlt());
+            stms.setString(10, manutencao.getUltimaAlteracao());
+            stms.setString(11, manutencao.getFinalGarantia());
             stms.setInt(12, manutencao.getIdManutecao());
 
             stms.execute();
@@ -135,6 +155,10 @@ public class ManutencaoDao {
         }
     }
 
+    /**
+     *
+     * @param deletar
+     */
     public void deletarManutencao(Manutencao deletar) {
         sql = "Delete from manutencao where id_manutencao = ?";
         try {
@@ -145,12 +169,35 @@ public class ManutencaoDao {
                 stms.execute();
                 stms.close();
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
-
             }
 
         } catch (SQLException error) {
             JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
         }
+    }
+
+    /**
+     *
+     * @param atualizar
+     */
+    public void setGarantiaManutencao(Manutencao atualizar) {
+        sql = "update bens set inicio_garantia_manutencao = ?,fim_garantia_manutencao = ?,"
+                + "ultima_alteracao =?, id_usuario_alt =? where numero_controle= ?";
+        try {
+            stms = conexao.prepareStatement(sql);
+            stms.setString(1, atualizar.getDataRetorno());
+            stms.setString(2, atualizar.getFinalGarantia());
+            stms.setString(3, atualizar.getUltimaAlteracao());
+            stms.setString(4, atualizar.getUsuarioAlt());
+            stms.setString(5, atualizar.getNumeroRegistro());
+
+            stms.execute();
+            stms.close();
+
+        } catch (SQLException error) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
+        }
+
     }
 
 }

@@ -12,6 +12,7 @@ import br.com.wss.dao.*;
 import br.com.wss.modelo.*;
 import br.com.wss.utilidades.NumeroMaximoCaracters;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -70,8 +71,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         rBStatus = new javax.swing.ButtonGroup();
         timer1 = new org.netbeans.examples.lib.timerbean.Timer();
         jPUsuario = new javax.swing.JPanel();
-        jLNomeCadastro = new javax.swing.JLabel();
-        jLUsuarioCadastro = new javax.swing.JLabel();
+        jLNome = new javax.swing.JLabel();
+        jLUsuario = new javax.swing.JLabel();
         jButtonSalvar = new javax.swing.JButton();
         jBCancelar = new javax.swing.JButton();
         jTextFieldUsuario = new javax.swing.JTextField();
@@ -102,11 +103,11 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
         jPUsuario.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Usuário"));
 
-        jLNomeCadastro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLNomeCadastro.setText("Nome:");
+        jLNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLNome.setText("Nome:");
 
-        jLUsuarioCadastro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLUsuarioCadastro.setText("Usuário:");
+        jLUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLUsuario.setText("Usuário:");
 
         jButtonSalvar.setText("variavel");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -114,11 +115,28 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 jButtonSalvarActionPerformed(evt);
             }
         });
+        jButtonSalvar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonSalvarKeyPressed(evt);
+            }
+        });
 
         jBCancelar.setText("Cancelar");
         jBCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBCancelarActionPerformed(evt);
+            }
+        });
+
+        jTextFieldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldUsuarioKeyPressed(evt);
+            }
+        });
+
+        jTextFieldNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNomeKeyPressed(evt);
             }
         });
 
@@ -166,10 +184,10 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                                 .addComponent(jButton1))
                             .addGroup(jPUsuarioLayout.createSequentialGroup()
                                 .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLUsuarioCadastro)
+                                    .addComponent(jLUsuario)
                                     .addGroup(jPUsuarioLayout.createSequentialGroup()
                                         .addGap(11, 11, 11)
-                                        .addComponent(jLNomeCadastro)))
+                                        .addComponent(jLNome)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
@@ -188,12 +206,12 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLNomeCadastro)
+                    .addComponent(jLNome)
                     .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLUsuarioCadastro))
+                    .addComponent(jLUsuario))
                 .addGap(18, 18, 18)
                 .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLUsuarioCadastro1)
@@ -253,14 +271,31 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
         jPanelSenha.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Senha"));
 
+        jPasswordFieldSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordFieldSenhaKeyPressed(evt);
+            }
+        });
+
         jLabelSenha.setText("Senha:");
 
         jLabelConfirmeSenha.setText("Confirme Senha:");
+
+        jPasswordFieldConfirmeSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordFieldConfirmeSenhaKeyPressed(evt);
+            }
+        });
 
         jButtonSalvarSenha.setText("Salvar");
         jButtonSalvarSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarSenhaActionPerformed(evt);
+            }
+        });
+        jButtonSalvarSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonSalvarSenhaKeyPressed(evt);
             }
         });
 
@@ -393,6 +428,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             limparCanpos();
             jButtonSalvar.setText("Salvar");
         }
+        jTextFieldNome.requestFocus();
     }//GEN-LAST:event_jBNovoActionPerformed
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
@@ -402,8 +438,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jBExcluir.setEnabled(false);
         limparCanpos();
         modificador = 1;
-        jLNomeCadastro.setForeground(Color.black);
-        jLUsuarioCadastro.setForeground(Color.black);
+        jLNome.setForeground(Color.black);
+        jLUsuario.setForeground(Color.black);
     }//GEN-LAST:event_jBCancelarActionPerformed
 
     private void jTabelaUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaUsuarioMouseClicked
@@ -417,8 +453,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             jBExcluir.setVisible(true);
             modificador = 2;
             jButtonSalvar.setText("Editar");
-            jLNomeCadastro.setForeground(Color.black);
-            jLUsuarioCadastro.setForeground(Color.black);
+            jLNome.setForeground(Color.black);
+            jLUsuario.setForeground(Color.black);
         }
     }//GEN-LAST:event_jTabelaUsuarioMouseClicked
 
@@ -456,8 +492,76 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             jLabelConfirmeSenha.setForeground(Color.red);
             jPUsuario.setVisible(true);
             jPanelSenha.setVisible(true);
+            jPasswordFieldSenha.requestFocus();
         }
     }//GEN-LAST:event_jButtonSalvarSenhaActionPerformed
+
+    private void jTextFieldNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNomeKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNome.getText().equals("")) {
+            jTextFieldUsuario.requestFocus();
+            jLNome.setForeground(Color.BLACK);
+        } else {
+            jLNome.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldNomeKeyPressed
+
+    private void jTextFieldUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldUsuario.getText().equals("")) {
+            jPanelSenha.setVisible(true);
+            jPasswordFieldSenha.requestFocus();
+            jLUsuario.setForeground(Color.BLACK);
+        } else {
+            jLUsuario.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldUsuarioKeyPressed
+
+    private void jPasswordFieldSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldSenhaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jPasswordFieldSenha.getText().equals("")) {
+            jPasswordFieldConfirmeSenha.requestFocus();
+            jLabelSenha.setForeground(Color.BLACK);
+        } else {
+            jLabelSenha.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jPasswordFieldSenhaKeyPressed
+
+    private void jPasswordFieldConfirmeSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldConfirmeSenhaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jPasswordFieldConfirmeSenha.getText().equals("")) {
+            jButtonSalvarSenha.requestFocus();
+            jLabelConfirmeSenha.setForeground(Color.BLACK);
+        } else {
+            jLabelConfirmeSenha.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jPasswordFieldConfirmeSenhaKeyPressed
+
+    private void jButtonSalvarSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarSenhaKeyPressed
+        if (!new String(jPasswordFieldSenha.getPassword()).equals("")
+                && !new String(jPasswordFieldConfirmeSenha.getPassword()).equals("")
+                && new String(jPasswordFieldSenha.getPassword()).equals(new String(jPasswordFieldConfirmeSenha.getPassword()))) {
+            jPanelSenha.setVisible(false);
+            jPUsuario.setEnabled(true);
+            jLabelSenha.setForeground(Color.BLACK);
+            jLabelConfirmeSenha.setForeground(Color.BLACK);
+            jPUsuario.setVisible(true);
+            jButtonSalvar.requestFocus();
+        } else {
+            JOptionPane.showMessageDialog(null, "As Senhas Não são Iguais");
+            jLabelSenha.setForeground(Color.red);
+            jLabelConfirmeSenha.setForeground(Color.red);
+            jPUsuario.setVisible(true);
+            jPanelSenha.setVisible(true);
+            jPasswordFieldSenha.requestFocus();
+        }
+    }//GEN-LAST:event_jButtonSalvarSenhaKeyPressed
+
+    private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
+        if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrar();
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            atualizar();
+        }
+    }//GEN-LAST:event_jButtonSalvarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -469,8 +573,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JButton jButtonSalvarSenha;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLNomeCadastro;
-    private javax.swing.JLabel jLUsuarioCadastro;
+    private javax.swing.JLabel jLNome;
+    private javax.swing.JLabel jLUsuario;
     private javax.swing.JLabel jLUsuarioCadastro1;
     private javax.swing.JLabel jLabelConfirmeSenha;
     private javax.swing.JLabel jLabelSenha;
@@ -538,7 +642,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 Usuario usuarioTemp = new Usuario();
                 usuarioTemp.setNome(jTextFieldNome.getText());
                 usuarioTemp.setUsuario(jTextFieldUsuario.getText());
-                usuarioTemp.setUltimaAlteracao( ClassUtils.setDateMsqy());
+                usuarioTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
                 usuarioTemp.setDataCadastro(ClassUtils.setDateMsqy());
                 usuarioTemp.setSenha(new String(jPasswordFieldSenha.getPassword()));
                 usuarioTemp.setIdUsuarioCad((ClassUtils.getIdUsuario()));
@@ -564,19 +668,19 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Necessario Cadastrar Uma Senha!");
                 jPUsuario.setVisible(true);
                 jPanelSenha.setVisible(true);
-                jLNomeCadastro.setForeground(Color.red);
-                jLUsuarioCadastro.setForeground(Color.red);
+                jLNome.setForeground(Color.red);
+                jLUsuario.setForeground(Color.red);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
-            jLNomeCadastro.setForeground(Color.red);
-            jLUsuarioCadastro.setForeground(Color.red);
+            jLNome.setForeground(Color.red);
+            jLUsuario.setForeground(Color.red);
         }
     }
 
     private void preencherTabela() {
 
-        String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Alteração", "Ativo","Logado Em"};
+        String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Alteração", "Ativo", "Logado Em"};
 
         UsuarioDao usuarioDao = new UsuarioDao();
         dados = usuarioDao.listar();
@@ -597,7 +701,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
         jTabelaUsuario.getColumnModel().getColumn(4).setPreferredWidth(55);
         jTabelaUsuario.getColumnModel().getColumn(4).setResizable(false);
-        
+
         jTabelaUsuario.getColumnModel().getColumn(5).setPreferredWidth(200);
         jTabelaUsuario.getColumnModel().getColumn(5).setResizable(false);
 

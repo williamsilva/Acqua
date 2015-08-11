@@ -12,6 +12,7 @@ public class FrmBloqueio extends javax.swing.JDialog {
      FrmBloqueio() {
         init();      
         jTUsuario.setText(ClassUtils.getUsuario());
+        jPSenha.requestFocus();
     }  
 
     private void init() {

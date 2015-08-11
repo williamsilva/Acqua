@@ -17,7 +17,9 @@ import br.com.wss.utilidades.NumeroMaximoCaracters;
 import br.com.wss.utilidades.SomenteNumero;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -79,6 +81,10 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jDateChooserFinalGarantia.getCalendarButton().setVisible(false);
         jDateChooserFinalVidaUtil.setEnabled(false);
         jDateChooserFinalVidaUtil.getCalendarButton().setVisible(false);
+        jDateChooserFinalGarantiaManutencao.setEnabled(false);
+        jDateChooserInicioGarantiaManutencao.setEnabled(false);
+        jDateChooserFinalGarantiaManutencao.getCalendarButton().setEnabled(false);
+        jDateChooserInicioGarantiaManutencao.getCalendarButton().setEnabled(false);
 
     }
 
@@ -141,6 +147,11 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldTempoUsoPorcento = new javax.swing.JTextField();
         jDateChooserFinalGarantia = new com.toedter.calendar.JDateChooser();
         jDateChooserFinalVidaUtil = new com.toedter.calendar.JDateChooser();
+        jLabelGarantiaManutencao = new javax.swing.JLabel();
+        jLabelInicioGarantiaManutencao = new javax.swing.JLabel();
+        jLabelFimGarantiaManutencao = new javax.swing.JLabel();
+        jDateChooserInicioGarantiaManutencao = new com.toedter.calendar.JDateChooser();
+        jDateChooserFinalGarantiaManutencao = new com.toedter.calendar.JDateChooser();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableBens = new javax.swing.JTable();
@@ -200,10 +211,20 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jComboBoxStatus.setBounds(482, 29, 190, 26);
 
         jTextFieldModelo.setText("jTextField1");
+        jTextFieldModelo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldModeloKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldModelo);
         jTextFieldModelo.setBounds(144, 119, 190, 26);
 
         jTextFieldNumeroSerie.setText("jTextField1");
+        jTextFieldNumeroSerie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNumeroSerieKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldNumeroSerie);
         jTextFieldNumeroSerie.setBounds(144, 149, 190, 26);
 
@@ -216,21 +237,41 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jComboBoxGrupo.setBounds(144, 179, 190, 26);
 
         jTextFieldValorCompra.setText("jTextField1");
+        jTextFieldValorCompra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldValorCompraKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldValorCompra);
         jTextFieldValorCompra.setBounds(482, 119, 190, 26);
 
         jTextFieldNotalFiscal.setText("jTextField1");
+        jTextFieldNotalFiscal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNotalFiscalKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldNotalFiscal);
         jTextFieldNotalFiscal.setBounds(482, 59, 190, 26);
 
         jTextFieldNumeroControle.setText("jTextField1");
         jTextFieldNumeroControle.setSelectionEnd(0);
         jTextFieldNumeroControle.setSelectionStart(0);
+        jTextFieldNumeroControle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNumeroControleKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldNumeroControle);
         jTextFieldNumeroControle.setBounds(144, 59, 190, 26);
         jTextFieldNumeroControle.getAccessibleContext().setAccessibleParent(this);
 
         jTextFieldLocal.setText("jTextField8");
+        jTextFieldLocal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldLocalKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldLocal);
         jTextFieldLocal.setBounds(144, 89, 190, 26);
 
@@ -242,6 +283,11 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
+            }
+        });
+        jButtonSalvar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonSalvarKeyPressed(evt);
             }
         });
         jPanelBens.add(jButtonSalvar);
@@ -259,14 +305,30 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jLabelNomeBens.setText("Equipamento:");
         jPanelBens.add(jLabelNomeBens);
         jLabelNomeBens.setBounds(19, 29, 110, 20);
+
+        jTextFieldNomeBen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNomeBenKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldNomeBen);
         jTextFieldNomeBen.setBounds(144, 29, 190, 26);
         jTextFieldNomeBen.getAccessibleContext().setAccessibleParent(this);
 
+        jDateChooserDataCompra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jDateChooserDataCompraKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jDateChooserDataCompra);
         jDateChooserDataCompra.setBounds(482, 89, 190, 26);
 
         jTextFieldVidaUtil.setText("jTextField1");
+        jTextFieldVidaUtil.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldVidaUtilKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldVidaUtil);
         jTextFieldVidaUtil.setBounds(482, 179, 190, 26);
 
@@ -279,6 +341,11 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jLabelVidaUtil.setBounds(362, 179, 110, 20);
 
         jTextFieldGarantia.setText("jTextField1");
+        jTextFieldGarantia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldGarantiaKeyPressed(evt);
+            }
+        });
         jPanelBens.add(jTextFieldGarantia);
         jTextFieldGarantia.setBounds(482, 149, 190, 26);
 
@@ -293,6 +360,11 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldObservaçoes.setColumns(20);
         jTextFieldObservaçoes.setRows(5);
         jTextFieldObservaçoes.setText("\n\n\n\n\n\n\n");
+        jTextFieldObservaçoes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldObservaçoesKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextFieldObservaçoes);
 
         jPanelBens.add(jScrollPane1);
@@ -321,47 +393,63 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
         jLabelFinalGarantia.setText("Fim da Garantia:");
         jPanelSecundario.add(jLabelFinalGarantia);
-        jLabelFinalGarantia.setBounds(20, 30, 145, 20);
+        jLabelFinalGarantia.setBounds(20, 30, 160, 20);
 
         jLabelFinalVidaUtil.setText("Termino Vida Util:");
         jPanelSecundario.add(jLabelFinalVidaUtil);
-        jLabelFinalVidaUtil.setBounds(20, 60, 145, 20);
+        jLabelFinalVidaUtil.setBounds(20, 60, 160, 20);
 
         jLabeltempoUso.setText("Tempo de Uso em Dias:");
         jPanelSecundario.add(jLabeltempoUso);
-        jLabeltempoUso.setBounds(20, 90, 145, 20);
+        jLabeltempoUso.setBounds(20, 90, 160, 20);
 
         jTextFieldTempoUso.setText("jTextField1");
         jPanelSecundario.add(jTextFieldTempoUso);
-        jTextFieldTempoUso.setBounds(190, 90, 150, 26);
+        jTextFieldTempoUso.setBounds(210, 90, 150, 26);
 
         jLabelDescricaoDepreciacaoDiaria.setText("Depreciação Diaria:");
         jPanelSecundario.add(jLabelDescricaoDepreciacaoDiaria);
-        jLabelDescricaoDepreciacaoDiaria.setBounds(20, 120, 145, 20);
+        jLabelDescricaoDepreciacaoDiaria.setBounds(20, 120, 160, 20);
 
         jTextFieldDepreciacaoDiaria.setText("jTextField1");
         jPanelSecundario.add(jTextFieldDepreciacaoDiaria);
-        jTextFieldDepreciacaoDiaria.setBounds(190, 120, 150, 26);
+        jTextFieldDepreciacaoDiaria.setBounds(210, 120, 150, 26);
 
         jTextFieldValorAtual.setText("jTextField1");
         jPanelSecundario.add(jTextFieldValorAtual);
-        jTextFieldValorAtual.setBounds(190, 150, 150, 26);
+        jTextFieldValorAtual.setBounds(210, 150, 150, 26);
 
         jLabelValorAtual.setText("Valor Atual:");
         jPanelSecundario.add(jLabelValorAtual);
-        jLabelValorAtual.setBounds(20, 150, 145, 20);
+        jLabelValorAtual.setBounds(20, 150, 160, 20);
 
         jLabelTempoUsoPorcento.setText("Tempo de Uso %:");
         jPanelSecundario.add(jLabelTempoUsoPorcento);
-        jLabelTempoUsoPorcento.setBounds(20, 180, 145, 20);
+        jLabelTempoUsoPorcento.setBounds(20, 180, 160, 20);
 
         jTextFieldTempoUsoPorcento.setText("jTextField1");
         jPanelSecundario.add(jTextFieldTempoUsoPorcento);
-        jTextFieldTempoUsoPorcento.setBounds(190, 180, 150, 26);
+        jTextFieldTempoUsoPorcento.setBounds(210, 180, 150, 26);
         jPanelSecundario.add(jDateChooserFinalGarantia);
-        jDateChooserFinalGarantia.setBounds(190, 30, 150, 26);
+        jDateChooserFinalGarantia.setBounds(210, 30, 150, 26);
         jPanelSecundario.add(jDateChooserFinalVidaUtil);
-        jDateChooserFinalVidaUtil.setBounds(190, 60, 150, 26);
+        jDateChooserFinalVidaUtil.setBounds(210, 60, 150, 26);
+
+        jLabelGarantiaManutencao.setText("Garantia Manutenção");
+        jPanelSecundario.add(jLabelGarantiaManutencao);
+        jLabelGarantiaManutencao.setBounds(130, 230, 120, 20);
+
+        jLabelInicioGarantiaManutencao.setText("Inicio Garantia Manutenção:");
+        jPanelSecundario.add(jLabelInicioGarantiaManutencao);
+        jLabelInicioGarantiaManutencao.setBounds(20, 260, 160, 20);
+
+        jLabelFimGarantiaManutencao.setText("Fim Garantia Manutenção:");
+        jPanelSecundario.add(jLabelFimGarantiaManutencao);
+        jLabelFimGarantiaManutencao.setBounds(20, 290, 160, 20);
+        jPanelSecundario.add(jDateChooserInicioGarantiaManutencao);
+        jDateChooserInicioGarantiaManutencao.setBounds(210, 260, 150, 26);
+        jPanelSecundario.add(jDateChooserFinalGarantiaManutencao);
+        jDateChooserFinalGarantiaManutencao.setBounds(210, 290, 150, 26);
 
         jTableBens.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -389,7 +477,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
         );
         jDesktopPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -399,22 +487,25 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jDesktopPane1)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jButtonNovo)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonExcluir))
-            .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
-                .addComponent(jPanelSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanelSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jButtonNovo)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonExcluir)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jDesktopPane1)
                 .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonNovo)
-                    .addComponent(jButtonExcluir))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -440,13 +531,13 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             limparCampos();
             jButtonSalvar.setText("Salvar");
         }
+        jTextFieldNomeBen.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         if (modificador == 1) {
             jButtonSalvar.setText("Salvar");
             cadastrarBens();
-
         } else if (modificador == 2) {
             jButtonSalvar.setText("Editar");
             editarBens();
@@ -488,6 +579,117 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         deletarBens();
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
+    private void jTextFieldNomeBenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNomeBenKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNomeBen.getText().equals("")) {
+            jTextFieldNumeroControle.requestFocus();
+            jLabelNomeBens.setForeground(Color.BLACK);
+        } else {
+            jLabelNomeBens.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldNomeBenKeyPressed
+
+    private void jTextFieldNumeroControleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroControleKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNumeroControle.getText().equals("")) {
+            jTextFieldLocal.requestFocus();
+            jLabelNumeroControle.setForeground(Color.BLACK);
+        } else {
+            jLabelNumeroControle.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldNumeroControleKeyPressed
+
+    private void jTextFieldLocalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLocalKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldLocal.getText().equals("")) {
+            jTextFieldModelo.requestFocus();
+            jLabelLocal.setForeground(Color.BLACK);
+        } else {
+            jLabelLocal.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldLocalKeyPressed
+
+    private void jTextFieldModeloKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldModeloKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldModelo.getText().equals("")) {
+            jTextFieldNumeroSerie.requestFocus();
+            jLabelModelo.setForeground(Color.BLACK);
+        } else {
+            jLabelModelo.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldModeloKeyPressed
+
+    private void jTextFieldNumeroSerieKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroSerieKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNumeroSerie.getText().equals("")) {
+            jComboBoxGrupo.requestFocus();
+            jComboBoxGrupo.showPopup();
+            jLabelNumeroSerie.setForeground(Color.BLACK);
+        } else {
+            jLabelNumeroSerie.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldNumeroSerieKeyPressed
+
+    private void jTextFieldNotalFiscalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNotalFiscalKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNotalFiscal.getText().equals("")) {
+            jTextFieldValorCompra.requestFocus();
+            jLabelNotaFiscal.setForeground(Color.BLACK);
+        } else {
+            jLabelNotaFiscal.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldNotalFiscalKeyPressed
+
+    private void jDateChooserDataCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooserDataCompraKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jTextFieldValorCompra.requestFocus();
+            jLabelDataCompra.setForeground(Color.BLACK);
+        } else {
+            jLabelDataCompra.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jDateChooserDataCompraKeyPressed
+
+    private void jTextFieldValorCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorCompraKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldValorCompra.getText().equals("")) {
+            jTextFieldGarantia.requestFocus();
+            jLabelValorCompra.setForeground(Color.BLACK);
+        } else {
+            jLabelValorCompra.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldValorCompraKeyPressed
+
+    private void jTextFieldGarantiaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldGarantiaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldGarantia.getText().equals("")) {
+            jTextFieldVidaUtil.requestFocus();
+            jLabelGarantia.setForeground(Color.BLACK);
+        } else {
+            jLabelGarantia.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldGarantiaKeyPressed
+
+    private void jTextFieldVidaUtilKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldVidaUtilKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldVidaUtil.getText().equals("")) {
+            jTextFieldObservaçoes.requestFocus();
+            jLabelVidaUtil.setForeground(Color.BLACK);
+        } else {
+            jLabelVidaUtil.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldVidaUtilKeyPressed
+
+    private void jTextFieldObservaçoesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldObservaçoesKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButtonSalvar.requestFocus();
+        }
+    }//GEN-LAST:event_jTextFieldObservaçoesKeyPressed
+
+    private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrarBens();
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            editarBens();
+        } else {
+
+        }
+        }
+    }//GEN-LAST:event_jButtonSalvarKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
@@ -500,16 +702,21 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox jComboBoxVoltagen;
     private com.toedter.calendar.JDateChooser jDateChooserDataCompra;
     private com.toedter.calendar.JDateChooser jDateChooserFinalGarantia;
+    private com.toedter.calendar.JDateChooser jDateChooserFinalGarantiaManutencao;
     private com.toedter.calendar.JDateChooser jDateChooserFinalVidaUtil;
+    private com.toedter.calendar.JDateChooser jDateChooserInicioGarantiaManutencao;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabelDataCompra;
     private javax.swing.JLabel jLabelDescricaoDepreciacaoDiaria;
+    private javax.swing.JLabel jLabelFimGarantiaManutencao;
     private javax.swing.JLabel jLabelFinalGarantia;
     private javax.swing.JLabel jLabelFinalVidaUtil;
     private javax.swing.JLabel jLabelFornecedor;
     private javax.swing.JLabel jLabelGarantia;
+    private javax.swing.JLabel jLabelGarantiaManutencao;
     private javax.swing.JLabel jLabelGrupo;
+    private javax.swing.JLabel jLabelInicioGarantiaManutencao;
     private javax.swing.JLabel jLabelLocal;
     private javax.swing.JLabel jLabelModelo;
     private javax.swing.JLabel jLabelNomeBens;
@@ -618,7 +825,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
     private void cadastrarBens() {
         if (jComboBoxGrupo.getSelectedIndex() != 0 && jComboBoxStatus.getSelectedIndex() != 0
-                && jComboBoxFornecedor.getSelectedIndex() != 0 && jComboBoxVoltagen.getSelectedIndex() !=0
+                && jComboBoxFornecedor.getSelectedIndex() != 0 && jComboBoxVoltagen.getSelectedIndex() != 0
                 && !jTextFieldNomeBen.getText().equals("") && !jTextFieldNumeroControle.getText().equals("")
                 && !jTextFieldValorCompra.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
                 && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldLocal.getText().equals("")) {
@@ -640,7 +847,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
             bensTemp.setDataCadastro(ClassUtils.setDateMsqy());
             bensTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
-            bensTemp.setDataCompra(ClassUtils.setDateChooser(jDateChooserDataCompra));
+            bensTemp.setDataCompra(ClassUtils.setDateChooserMysql(jDateChooserDataCompra));
 
             bensDao.cadastraBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()),
                     (String) fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString()));
@@ -681,7 +888,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldObservaçoes.setDocument(new NumeroMaximoCaracters(100));
         jTextFieldValorCompra.setDocument(new FormatDouble(9));
         jTextFieldGarantia.setDocument(new SomenteNumero(8));
-        jTextFieldVidaUtil.setDocument(new SomenteNumero(8));
+        jTextFieldVidaUtil.setDocument(new SomenteNumero(5));
     }
 
     private void itensSelecionados() throws ParseException, Exception {
@@ -693,8 +900,9 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldNotalFiscal.setText(dados.get(seleciona).getNotaFiscal());
         jTextFieldValorCompra.setText(String.valueOf(dados.get(seleciona).getValorCompra()));
 
-        String data = ClassUtils.setFormatData(dados.get(seleciona).getDataCompra());
-        jDateChooserDataCompra.setDate(new Date(data));
+        jDateChooserDataCompra.setDate(ClassUtils.setDateChoose(dados.get(seleciona).getDataCompra()));
+        jDateChooserFinalGarantiaManutencao.setDate(ClassUtils.setDateChoose(dados.get(seleciona).getFinalGarantia()));
+        jDateChooserInicioGarantiaManutencao.setDate(ClassUtils.setDateChoose(dados.get(seleciona).getInicioGarantia()));
 
         jComboBoxGrupo.setSelectedItem(grupoDao.buscarNomeGrupo(String.valueOf(dados.get(seleciona).getIdGrupo())));
         jComboBoxFornecedor.setSelectedItem(dados.get(seleciona).getVoltagem());
@@ -756,7 +964,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
 
     private void editarBens() {
         if (jComboBoxGrupo.getSelectedIndex() != 0 && jComboBoxStatus.getSelectedIndex() != 0
-                && jComboBoxFornecedor.getSelectedIndex() != 0 && jComboBoxVoltagen.getSelectedIndex() !=0
+                && jComboBoxFornecedor.getSelectedIndex() != 0 && jComboBoxVoltagen.getSelectedIndex() != 0
                 && !jTextFieldNomeBen.getText().equals("") && !jTextFieldNumeroControle.getText().equals("")
                 && !jTextFieldValorCompra.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
                 && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldLocal.getText().equals("")) {
@@ -773,15 +981,15 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             bensTemp.setStatus((String) jComboBoxStatus.getSelectedItem());
 
             bensTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
-            bensTemp.setDataCompra(ClassUtils.setDateChooser(jDateChooserDataCompra));
+            bensTemp.setDataCompra(ClassUtils.setDateChooserMysql(jDateChooserDataCompra));
             bensTemp.setIdBens(Integer.parseInt(jTextFieldIdbens.getText()));
             bensTemp.setGarantia(jTextFieldGarantia.getText());
             bensTemp.setVidaUtil(jTextFieldVidaUtil.getText());
             bensTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
 
             bensDao.atualizarBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()),
-                    Integer.parseInt( fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString())));
-            
+                    Integer.parseInt(fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString())));
+
             preencherTabela();
             limparCampos();
             modificadorCampos();
@@ -872,10 +1080,12 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         Double calculo = (tempoUso / vidaUtil) * 100;
         String tempoUsoPorcento = String.valueOf(String.format("%.2f", calculo));
         jTextFieldTempoUsoPorcento.setText(tempoUsoPorcento + "%");
+        garantiaManutencao(jLabelInicioGarantiaManutencao, jLabelFimGarantiaManutencao,
+                jLabelGarantiaManutencao, jDateChooserFinalGarantiaManutencao);
     }
 
     private void finalGarantia(JLabel label, JDateChooser date) {
-        String finalGarantia = ClassUtils.setDateChooser(date).replace("-", "");
+        String finalGarantia = ClassUtils.setDateChooserMysql(date).replace("-", "");
 
         if (Integer.parseInt(dataAtual()) > Integer.parseInt(finalGarantia)) {
             label.setForeground(Color.red);
@@ -886,8 +1096,43 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         }
     }
 
+    private void garantiaManutencao(JLabel labelInicio, JLabel labelFim,
+            JLabel label, JDateChooser fim) {
+
+        String finalGarantia = ClassUtils.setDateChooserMysql(fim).replace("-", "");
+        System.out.println("final " + finalGarantia);
+
+        if (!finalGarantia.equals("20000101")) {
+            jLabelGarantiaManutencao.setVisible(true);
+            jLabelFimGarantiaManutencao.setVisible(true);
+            jLabelInicioGarantiaManutencao.setVisible(true);
+            jDateChooserFinalGarantiaManutencao.setVisible(true);
+            jDateChooserInicioGarantiaManutencao.setVisible(true);
+            if (Integer.parseInt(dataAtual()) > Integer.parseInt(finalGarantia)) {
+                label.setForeground(Color.red);
+                fim.setBackground(Color.red);
+                labelFim.setForeground(Color.red);
+                labelInicio.setForeground(Color.red);
+
+            } else {
+
+                fim.setBackground(Color.BLACK);
+                label.setForeground(Color.BLACK);
+                labelFim.setForeground(Color.BLACK);
+                labelInicio.setForeground(Color.BLACK);
+            }
+        } else {
+            jLabelGarantiaManutencao.setVisible(false);
+            jLabelFimGarantiaManutencao.setVisible(false);
+            jLabelInicioGarantiaManutencao.setVisible(false);
+            jDateChooserFinalGarantiaManutencao.setVisible(false);
+            jDateChooserInicioGarantiaManutencao.setVisible(false);
+        }
+
+    }
+
     private void totalDias(JDateChooser date, JTextField text) {
-        String dataCompra = ClassUtils.setDateChooser(date).replace("-", "");
+        String dataCompra = ClassUtils.setDateChooserMysql(date).replace("-", "");
         int dias = Integer.parseInt(dataAtual()) - Integer.parseInt(dataCompra);
         text.setText(String.valueOf(dias));
 
@@ -901,7 +1146,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }
 
     private void finalVidaUtil(JLabel label, JDateChooser date) {
-        String finalVidaUtil = ClassUtils.setDateChooser(date).replace("-", "");
+        String finalVidaUtil = ClassUtils.setDateChooserMysql(date).replace("-", "");
 
         if (Integer.parseInt(dataAtual()) > Integer.parseInt(finalVidaUtil)) {
             label.setForeground(Color.red);

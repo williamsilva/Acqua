@@ -24,14 +24,14 @@ public class Manutencao {
     private String dataRetorno;
     private String nomeBens;
     private Double valorConserto;
-    private String garantia;
     private String dataCadastro;
     private String ultimaAlteracao;
+    private String finalGarantia;
 
     public Manutencao() {
     }
 
-    public Manutencao(String usuarioCad, String usuarioAlt, int idManutecao, int inBens, String numeroRegistro, String responsavel, String altorizada, String contato, String observacoes, String dataSaida, String dataRetorno, String nomeBens, Double valorConserto, String garantia) {
+    public Manutencao(String usuarioCad, String usuarioAlt, int idManutecao, int inBens, String numeroRegistro, String responsavel, String altorizada, String contato, String observacoes, String dataSaida, String dataRetorno, String nomeBens, Double valorConserto) {
         this.usuarioCad = usuarioCad;
         this.usuarioAlt = usuarioAlt;
         this.idManutecao = idManutecao;
@@ -45,17 +45,8 @@ public class Manutencao {
         this.dataRetorno = dataRetorno;
         this.nomeBens = nomeBens;
         this.valorConserto = valorConserto;
-        this.garantia = garantia;
+        
     }
-
-    public String getGarantia() {
-        return garantia;
-    }
-
-    public void setGarantia(String garantia) {
-        this.garantia = garantia;
-    }
-
     public String getUsuarioCad() {
         return usuarioCad;
     }
@@ -174,6 +165,14 @@ public class Manutencao {
 
     public void setUltimaAlteracao(String ultimaAlteracao) {
         this.ultimaAlteracao = ultimaAlteracao;
+    }
+
+    public String getFinalGarantia() {
+        return finalGarantia;
+    }
+
+    public void setFinalGarantia(String finalGarantia) {
+        this.finalGarantia = finalGarantia;
     }
 
 }

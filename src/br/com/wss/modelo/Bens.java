@@ -31,6 +31,8 @@ public class Bens {
     private String notaFiscal;
     private String garantia;
     private String vidaUtil;
+    private String finalGarantia;
+    private String inicioGarantia;
 
    
 
@@ -218,6 +220,22 @@ public class Bens {
 
     public void setGarantia(String garantia) {
         this.garantia = garantia;
+    }
+
+    public String getFinalGarantia() {
+        return finalGarantia;
+    }
+
+    public void setFinalGarantia(String finalGarantia) {
+        this.finalGarantia = finalGarantia;
+    }
+
+    public String getInicioGarantia() {
+        return inicioGarantia;
+    }
+
+    public void setInicioGarantia(String inicioGarantia) {
+        this.inicioGarantia = inicioGarantia;
     }
     
     }

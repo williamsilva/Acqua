@@ -28,6 +28,10 @@ public class BensDao {
         conexao = ConectionFactory.getConnection();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Bens> listar() {
         ArrayList<Bens> lista;
         lista = new ArrayList<>();
@@ -36,32 +40,35 @@ public class BensDao {
 
         try {
             Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = statmen.executeQuery("select\n"
-                    + "	       bens.nome,\n"
-                    + "        bens.numero_controle,\n"
-                    + "        bens.nota_fiscal,\n"
-                    + "        bens.valor_compra,\n"
-                    + "        bens.data_compra,\n"
-                    + "        bens.id_grupo_bens,\n"
-                    + "        bens.voltagem,\n"
-                    + "        bens.numero_serie,\n"
-                    + "        bens.modelo,\n"
-                    + "        bens.id_fornecedor,\n"
-                    + "        bens.localizacao,\n"
-                    + "        bens.status,\n"
-                    + "        bens.data_cadastro,\n"
-                    + "        bens.ultima_alteracao,\n"
-                    + "        bens.observacao,\n"
-                    + "        bens.id_bens,\n"
-                    + "        bens.vida_util,\n"
-                    + "        bens.garantia,\n"
-                    + "        bens.id_usuario_alt,\n"
-                    + "        bens.id_usuario_cad,\n"
-                    + "        grupo.nome_grupo,\n"
-                    + "        login.nome\n"
-                    + "from bens left join grupo on bens.id_grupo_bens = grupo.id_grupo\n"
-                    + "		  left join login on bens.id_usuario_alt = login.id_login\n"
-                    + "order by bens.nome");
+            ResultSet rs = statmen.executeQuery("select    bens.nome,"
+                    + "                               bens.numero_controle,"
+                    + "                               bens.nota_fiscal,"
+                    + "				      bens.valor_compra,"
+                    + "				      bens.data_compra,"
+                    + "                               bens.id_grupo_bens,"
+                    + "                               bens.voltagem,"
+                    + "                               bens.numero_serie,"
+                    + "                               bens.modelo,"
+                    + "                               bens.id_fornecedor,"
+                    + "                               bens.localizacao,"
+                    + "                               bens.status,"
+                    + "                               bens.data_cadastro,"
+                    + "                               bens.ultima_alteracao,"
+                    + "                               bens.observacao,"
+                    + "                               bens.id_bens,"
+                    + "			              bens.vida_util,"
+                    + "                               bens.garantia,"
+                    + "                               bens.id_usuario_alt,"
+                    + "                               bens.id_usuario_cad,"
+                    + "                               bens.fim_garantia_manutencao,"
+                    + "                               bens.inicio_garantia_manutencao,"
+                    + "                               grupo.nome_grupo,"
+                    + "                               login.nome,"
+                    + "                               manutencao.fim_garantia_manutencao"
+                    + "                    from bens left join grupo on bens.id_grupo_bens = grupo.id_grupo"
+                    + "                    		  left join login on bens.id_usuario_alt = login.id_login"
+                    + "                              left join manutencao on bens.id_bens = manutencao.id_bens"
+                    + "                    order by bens.nome");
             rs.first();
             do {
                 bensTemp = new Bens();
@@ -85,6 +92,8 @@ public class BensDao {
                 bensTemp.setGarantia(rs.getString("garantia"));
                 bensTemp.setIdUsuarioAlt(rs.getString("login.nome"));
                 bensTemp.setIdUsuarioCad(rs.getString("login.nome"));
+                bensTemp.setInicioGarantia(rs.getString("bens.inicio_garantia_manutencao"));
+                bensTemp.setFinalGarantia(rs.getString("bens.fim_garantia_manutencao"));
 
                 lista.add(bensTemp);
             } while (rs.next());
@@ -94,6 +103,12 @@ public class BensDao {
         return lista;
     }
 
+    /**
+     *
+     * @param cadastrar
+     * @param grupo
+     * @param idFornecedor
+     */
     public void cadastraBens(Bens cadastrar, String grupo, String idFornecedor) {
         sql = "insert into bens (numero_controle,nota_fiscal,valor_compra,"
                 + "data_compra,voltagem,numero_serie,modelo,id_fornecedor,status,"
@@ -132,6 +147,12 @@ public class BensDao {
         }
     }
 
+    /**
+     *
+     * @param atualizar
+     * @param grupo
+     * @param idFornecedor
+     */
     public void atualizarBens(Bens atualizar, String grupo, int idFornecedor) {
         sql = "update bens set numero_controle = ?, nota_fiscal =? ,valor_compra =? ,"
                 + "data_compra =? ,voltagem =? ,numero_serie =? ,modelo =? ,id_fornecedor =? ,status =? ,"
@@ -168,6 +189,10 @@ public class BensDao {
         }
     }
 
+    /**
+     *
+     * @param deletar
+     */
     public void deletar(Bens deletar) {
 
         sql = "Delete from bens where id_bens = ?";
@@ -185,6 +210,11 @@ public class BensDao {
         }
     }
 
+    /**
+     *
+     * @param bens
+     * @return
+     */
     public String buscarIdBens(String bens) {
         String idBens = "";
         try {
@@ -197,6 +227,26 @@ public class BensDao {
             Logger.getLogger(GrupoDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return idBens;
+
+    }
+
+    /**
+     *
+     * @param registro
+     * @return
+     */
+    public String getNomeBens(int registro) {
+        String nomeBen = "";
+        try {
+            sql = "select nome from bens where numero_controle = '" + registro + "'";
+            stms = conexao.prepareStatement(sql);
+            result = stms.executeQuery();
+            result.next();
+            nomeBen = result.getString("nome");
+        } catch (SQLException ex) {
+            Logger.getLogger(GrupoDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nomeBen;
 
     }
 

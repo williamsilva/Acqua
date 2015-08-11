@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-08-11T12:09:27 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Relatorio bens" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="edbeb59a-f7f5-4b2b-8fba-6815955bac98">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<queryString>
 		<![CDATA[select
                            bens.nome,
@@ -196,44 +199,44 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
-			<textField>
+		<band height="23" splitType="Stretch">
+			<textField isBlankWhenNull="true">
 				<reportElement x="3" y="0" width="135" height="20" uuid="f9a59ad4-f5ab-44f3-aa4b-3fa9ed0bae1e"/>
 				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="154" y="2" width="63" height="20" uuid="30eadd8a-c127-48e6-b6ba-a0fb41e4be81"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="154" y="1" width="63" height="20" uuid="30eadd8a-c127-48e6-b6ba-a0fb41e4be81"/>
 				<textFieldExpression><![CDATA[$F{numero_controle}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="439" y="2" width="52" height="20" uuid="16a82267-de3f-4e9a-84a2-0571a64faabe"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="438" y="1" width="52" height="20" uuid="16a82267-de3f-4e9a-84a2-0571a64faabe"/>
 				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="580" y="2" width="57" height="20" uuid="8b0cf88c-25c7-4bcd-8f32-326785b00155"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="580" y="1" width="57" height="20" uuid="8b0cf88c-25c7-4bcd-8f32-326785b00155"/>
 				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="673" y="2" width="42" height="20" uuid="3fc23210-49c6-4bd0-94b5-f086151f721b"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="673" y="1" width="42" height="20" uuid="3fc23210-49c6-4bd0-94b5-f086151f721b"/>
 				<textFieldExpression><![CDATA[$F{valor_compra}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="743" y="2" width="42" height="20" uuid="8fc87d89-7fe3-4212-968d-cf4df156277a"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="743" y="1" width="42" height="20" uuid="8fc87d89-7fe3-4212-968d-cf4df156277a"/>
 				<textFieldExpression><![CDATA[$F{data_compra}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="22" width="795" height="1" uuid="d1914ca4-baf2-4150-9dee-5b36c5c56ded"/>
 			</line>
-			<textField>
-				<reportElement x="230" y="5" width="63" height="20" uuid="2c2ce102-ba41-4d89-8b03-413e56aeccf7"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="230" y="3" width="63" height="20" uuid="2c2ce102-ba41-4d89-8b03-413e56aeccf7"/>
 				<textFieldExpression><![CDATA[$F{nota_fiscal}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="329" y="5" width="76" height="20" uuid="d8071300-4499-4b36-94ca-556241c51420"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="329" y="3" width="76" height="20" uuid="d8071300-4499-4b36-94ca-556241c51420"/>
 				<textFieldExpression><![CDATA[$F{nome_fornecedor}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="502" y="5" width="62" height="20" uuid="346ca32a-2bde-42ef-976d-27048a765b46"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="502" y="2" width="62" height="20" uuid="346ca32a-2bde-42ef-976d-27048a765b46"/>
 				<textFieldExpression><![CDATA[$F{nome_grupo}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -244,14 +247,10 @@
 				<reportElement x="3" y="0" width="100" height="20" uuid="5bd235a9-2bb2-4e4e-9729-eb52d4f2e290"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="761" y="0" width="40" height="20" uuid="b31e8629-1eba-43f1-a249-638beb4549e4"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
 			<textField>
-				<reportElement x="697" y="0" width="64" height="20" uuid="34310760-2c67-4c93-ba4d-f07f5a376ca4"/>
+				<reportElement x="716" y="0" width="64" height="20" uuid="34310760-2c67-4c93-ba4d-f07f5a376ca4"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+"/"+$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

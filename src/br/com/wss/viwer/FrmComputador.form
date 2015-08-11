@@ -119,8 +119,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelMac" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabelNomeComputador" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jTId" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
                   </Group>
@@ -145,12 +145,12 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelNomeComputador" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTNomeCoputador" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelMac" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTMacCoputador" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -165,7 +165,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="jLabelNomeComputador">
           <Properties>
             <Property name="text" type="java.lang.String" value="Descri&#xe7;&#xe3;o do Computador:"/>
           </Properties>
@@ -184,16 +184,23 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jButtonSalvarKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTNomeCoputador">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTNomeCoputadorKeyPressed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="jLabelMac">
           <Properties>
             <Property name="text" type="java.lang.String" value="Mac do Computador:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTMacCoputador">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTMacCoputadorKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTId">
           <Properties>

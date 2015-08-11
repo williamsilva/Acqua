@@ -15,6 +15,7 @@ import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.utilidades.NumeroMaximoCaracters;
 import br.com.wss.utilidades.SomenteNumero;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -134,12 +135,24 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jLabelFornecedor.setText("Fornecedor:");
         jPanel2.add(jLabelFornecedor);
         jLabelFornecedor.setBounds(20, 29, 70, 20);
+
+        jTextFieldFornecedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldFornecedorKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldFornecedor);
         jTextFieldFornecedor.setBounds(100, 29, 190, 26);
 
         jLabelContato.setText("Contato:");
         jPanel2.add(jLabelContato);
         jLabelContato.setBounds(20, 60, 70, 20);
+
+        jTextFieldContato.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldContatoKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldContato);
         jTextFieldContato.setBounds(100, 60, 190, 26);
 
@@ -149,8 +162,13 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
                 jButtonSalvarActionPerformed(evt);
             }
         });
+        jButtonSalvar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonSalvarKeyPressed(evt);
+            }
+        });
         jPanel2.add(jButtonSalvar);
-        jButtonSalvar.setBounds(100, 190, 71, 23);
+        jButtonSalvar.setBounds(100, 190, 71, 28);
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -159,13 +177,25 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             }
         });
         jPanel2.add(jButtonCancelar);
-        jButtonCancelar.setBounds(210, 190, 80, 23);
+        jButtonCancelar.setBounds(210, 190, 80, 28);
 
         jLabelTelefone.setText("Telefone:");
         jPanel2.add(jLabelTelefone);
         jLabelTelefone.setBounds(20, 90, 70, 20);
+
+        jTextFieldTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldTelefoneKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldTelefone);
         jTextFieldTelefone.setBounds(100, 90, 190, 26);
+
+        jTextFieldCelular.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldCelularKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldCelular);
         jTextFieldCelular.setBounds(100, 120, 190, 26);
 
@@ -184,12 +214,24 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jLabelBairro.setText("Bairro:");
         jPanel2.add(jLabelBairro);
         jLabelBairro.setBounds(310, 90, 70, 20);
+
+        jTextFieldBairro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldBairroKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldBairro);
         jTextFieldBairro.setBounds(390, 90, 190, 26);
 
         jLabelNumero.setText("Numero:");
         jPanel2.add(jLabelNumero);
         jLabelNumero.setBounds(310, 150, 70, 20);
+
+        jTextFieldNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldNumeroKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldNumero);
         jTextFieldNumero.setBounds(390, 150, 190, 26);
 
@@ -213,8 +255,20 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jLabelEmail.setText("E-mail:");
         jPanel2.add(jLabelEmail);
         jLabelEmail.setBounds(20, 150, 70, 20);
+
+        jTextFieldEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldEmailKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldEmail);
         jTextFieldEmail.setBounds(100, 150, 190, 26);
+
+        jTextFieldEndereco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldEnderecoKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldEndereco);
         jTextFieldEndereco.setBounds(390, 120, 190, 26);
 
@@ -225,6 +279,12 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jLabelCep.setText("Cep:");
         jPanel2.add(jLabelCep);
         jLabelCep.setBounds(310, 180, 70, 20);
+
+        jTextFieldCep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldCepKeyPressed(evt);
+            }
+        });
         jPanel2.add(jTextFieldCep);
         jTextFieldCep.setBounds(390, 180, 190, 26);
 
@@ -291,6 +351,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             limparCampos();
             jButtonSalvar.setText("Salvar");
         }
+        jTextFieldFornecedor.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -341,6 +402,101 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             jButtonSalvar.setText("Editar");
         }
     }//GEN-LAST:event_jTableFornecedorMouseClicked
+
+    private void jTextFieldFornecedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFornecedorKeyPressed
+       if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldFornecedor.getText().equals("")) {
+            jTextFieldContato.requestFocus();
+            jLabelFornecedor.setForeground(Color.BLACK);
+        } else {
+            jLabelFornecedor.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldFornecedorKeyPressed
+
+    private void jTextFieldContatoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldContatoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldContato.getText().equals("")) {
+            jTextFieldTelefone.requestFocus();
+            jLabelContato.setForeground(Color.BLACK);
+        } else {
+            jLabelContato.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldContatoKeyPressed
+
+    private void jTextFieldTelefoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTelefoneKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldTelefone.getText().equals("")) {
+            jTextFieldCelular.requestFocus();
+            jLabelTelefone.setForeground(Color.BLACK);
+        } else {
+            jLabelTelefone.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldTelefoneKeyPressed
+
+    private void jTextFieldCelularKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCelularKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldCelular.getText().equals("")) {
+            jTextFieldEmail.requestFocus();
+            jLabelCelular.setForeground(Color.BLACK);
+        } else {
+            jLabelCelular.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldCelularKeyPressed
+
+    private void jTextFieldEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmailKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldEmail.getText().equals("")) {
+            jComboBoxEstado.requestFocus();
+            jComboBoxEstado.showPopup();
+            jLabelEmail.setForeground(Color.BLACK);
+        } else {
+            jLabelEmail.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldEmailKeyPressed
+
+    private void jTextFieldBairroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBairroKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldBairro.getText().equals("")) {
+            jTextFieldEndereco.requestFocus();
+            jLabelBairro.setForeground(Color.BLACK);
+        } else {
+            jLabelBairro.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldBairroKeyPressed
+
+    private void jTextFieldEnderecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEnderecoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldEndereco.getText().equals("")) {
+            jTextFieldNumero.requestFocus();
+            jLabelEndereco.setForeground(Color.BLACK);
+        } else {
+            jLabelEndereco.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldEnderecoKeyPressed
+
+    private void jTextFieldNumeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNumero.getText().equals("")) {
+            jTextFieldCep.requestFocus();
+            jLabelNumero.setForeground(Color.BLACK);
+        } else {
+            jLabelNumero.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldNumeroKeyPressed
+
+    private void jTextFieldCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCepKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldCep.getText().equals("")) {
+            jButtonSalvar.requestFocus();
+            jLabelCep.setForeground(Color.BLACK);
+        } else {
+            jLabelCep.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextFieldCepKeyPressed
+
+    private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
+        if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrarFornecedor();
+
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            editarFornecedor();
+        } else {
+
+        }
+    }//GEN-LAST:event_jButtonSalvarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
