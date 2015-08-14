@@ -5,6 +5,7 @@
  */
 package br.com.wss.tabelas;
 
+import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Manutencao;
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author William
  */
-public class TabelaManutecao extends Tabela{
+public class TabelaManutecao extends Tabela {
 
     public TabelaManutecao(ArrayList lin, String[] col) {
         super(lin, col);
@@ -20,9 +21,9 @@ public class TabelaManutecao extends Tabela{
 
     @Override
     public Object getValueAt(int numLin, int numCol) {
-        Manutencao manutencao = (Manutencao) getLinhas().get(numLin);       
-        Object[] linha = new String [colunas.length];
-         
+        Manutencao manutencao = (Manutencao) getLinhas().get(numLin);
+        Object[] linha = new String[colunas.length];
+        
         linha[0] = manutencao.getNomeBens();
         linha[1] = manutencao.getNumeroRegistro();
         linha[2] = manutencao.getResponsavel();
@@ -30,8 +31,16 @@ public class TabelaManutecao extends Tabela{
         linha[4] = manutencao.getContato();
         linha[5] = manutencao.getDataSaida();
         linha[6] = manutencao.getDataRetorno();
-        linha[7] = "Em "+manutencao.getDataCadastro()+" Por "+manutencao.getUsuarioCad();
-        linha[8] = "Em "+manutencao.getUsuarioAlt()+" Por "+manutencao.getUsuarioAlt();
+        UsuarioDao dao = new UsuarioDao();
+        String usuario = dao.buscaUsuario(manutencao.getUsuarioCad());
+        if (usuario != null) {
+            linha[7] = "Em " + manutencao.getDataCadastro() + " Por " + usuario;
+            linha[8] = "Em " + manutencao.getUltimaAlteracao() + " Por " + manutencao.getUsuarioAlt();
+        } else {
+            linha[7] = "Em " + manutencao.getDataCadastro() + " Por ";
+            linha[8] = "Em " + manutencao.getUltimaAlteracao() + " Por " + manutencao.getUsuarioAlt();
+        }
+
         return linha[numCol];
-    }    
+    }
 }

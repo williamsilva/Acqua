@@ -46,13 +46,24 @@ public class ManutencaoDao {
         try {
             Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = statmen.executeQuery("select manutencao.id_manutencao,"
-                    + " manutencao.responsavel, manutencao.altorizada, "
-                    + " manutencao.contato, manutencao.descricao, manutencao.valor_conserto,"
-                    + " manutencao.data_retorno, manutencao.data_saida, manutencao.id_bens,"
-                    + " manutencao.data_cadastro,manutencao.ultima_alteracao,"
+                    + " manutencao.responsavel,"
+                    + " manutencao.altorizada, "
+                    + " manutencao.contato, "
+                    + " manutencao.descricao, "
+                    + " manutencao.valor_conserto,"
+                    + " manutencao.data_retorno,"
+                    + " manutencao.data_saida, "
+                    + " manutencao.id_bens,"
+                    + " manutencao.data_cadastro,"
+                    + " manutencao.ultima_alteracao,"
                     + " manutencao.fim_garantia_manutencao,"
-                    + " bens.nome, bens.numero_controle"
-                    + " from manutencao left join bens on manutencao.id_bens = bens.id_Bens");
+                    + " manutencao.id_usuario_alt,"
+                    + " manutencao.id_usuario_cad,"
+                    + " bens.nome, "
+                    + " bens.numero_controle,"
+                    + " login.nome"
+                    + " from manutencao left join bens on manutencao.id_bens = bens.id_Bens"
+                    + "                 left join login on manutencao.id_usuario_alt = login.id_login");
 
             rs.first();
             do {
@@ -71,6 +82,8 @@ public class ManutencaoDao {
                 manutencaoTemp.setDataCadastro(rs.getString("data_cadastro"));
                 manutencaoTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
                 manutencaoTemp.setFinalGarantia(rs.getString("manutencao.fim_garantia_manutencao"));
+                manutencaoTemp.setUsuarioAlt(rs.getString("login.nome"));
+                manutencaoTemp.setUsuarioCad(rs.getString("manutencao.id_usuario_cad"));
 
                 lista.add(manutencaoTemp);
             } while (rs.next());

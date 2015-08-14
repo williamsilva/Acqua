@@ -59,14 +59,14 @@ public class FornecedorDao {
                     + "		login.nome \n"
                     + "from fornecedor left join cidade on fornecedor.id_cidade = cidade.id_cidade\n"
                     + "				left join estado on cidade.idEstado = estado.idestado\n"
-                    + "				left join login  on fornecedor.id_usuario_cad = login.id_login\n"
+                    + "				left join login  on fornecedor.id_usuario_alt = login.id_login\n"
                     + "order by nome_fornecedor");
 
             rs.first();
             do {
                 fornecedorTemp = new Fornecedor();
                 fornecedorTemp.setNomeFornecedor(rs.getString("nome_fornecedor"));
-                fornecedorTemp.setUsuarioCad(rs.getString("login.nome"));
+                fornecedorTemp.setUsuarioCad(rs.getString("fornecedor.id_usuario_cad"));
                 fornecedorTemp.setUsuarioAlt(rs.getString("login.nome"));
                 fornecedorTemp.setCidade(rs.getString("cidade.nome"));
                 fornecedorTemp.setEstado(rs.getString("estado.nome"));

@@ -331,8 +331,8 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             produtoTemp.setValor(Double.parseDouble(jTextFieldValor.getText()));
             produtoTemp.setDataCadastro(ClassUtils.setDateMsqy());
             produtoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
-            produtoTemp.setIdUsuarioAlt(Integer.parseInt(ClassUtils.getIdUsuario()));
-            produtoTemp.setIdUsuarioCad(Integer.parseInt(ClassUtils.getIdUsuario()));
+            produtoTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
+            produtoTemp.setIdUsuarioCad(ClassUtils.getIdUsuario());
 
             produtoDao.cadastrar(produtoTemp);
             limparCampos();
@@ -358,7 +358,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             produtoTemp.setValidade(ClassUtils.setDateChooserMysql(jDateChooserValidade));
             produtoTemp.setValor(Double.parseDouble(jTextFieldValor.getText()));
             produtoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
-            produtoTemp.setIdUsuarioAlt(Integer.parseInt(ClassUtils.getIdUsuario()));
+            produtoTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
             produtoTemp.setIdProduto(Integer.parseInt(jTextFieldIdProduto.getText()));
 
             produtoDao.editar(produtoTemp);

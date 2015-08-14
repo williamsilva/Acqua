@@ -11,8 +11,8 @@ package br.com.wss.modelo;
  */
 public class Produto {
     private int idProduto;
-    private int idUsuarioAlt;
-    private int IdUsuarioCad;
+    private String idUsuarioAlt;
+    private String IdUsuarioCad;
     private String descricao;
     private String validade;
     private Double valor;
@@ -24,7 +24,7 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(int idProduto, int idUsuarioAlt, int IdUsuarioCad, String descricao, String validade, Double valor, String desconto, String status, String dataCadastro, String ultimaAlteracao) {
+    public Produto(int idProduto, String idUsuarioAlt, String IdUsuarioCad, String descricao, String validade, Double valor, String desconto, String status, String dataCadastro, String ultimaAlteracao) {
         this.idProduto = idProduto;
         this.idUsuarioAlt = idUsuarioAlt;
         this.IdUsuarioCad = IdUsuarioCad;
@@ -45,19 +45,19 @@ public class Produto {
         this.idProduto = idProduto;
     }
 
-    public int getIdUsuarioAlt() {
+    public String getIdUsuarioAlt() {
         return idUsuarioAlt;
     }
 
-    public void setIdUsuarioAlt(int idUsuarioAlt) {
+    public void setIdUsuarioAlt(String idUsuarioAlt) {
         this.idUsuarioAlt = idUsuarioAlt;
     }
 
-    public int getIdUsuarioCad() {
+    public String getIdUsuarioCad() {
         return IdUsuarioCad;
     }
 
-    public void setIdUsuarioCad(int IdUsuarioCad) {
+    public void setIdUsuarioCad(String IdUsuarioCad) {
         this.IdUsuarioCad = IdUsuarioCad;
     }
 

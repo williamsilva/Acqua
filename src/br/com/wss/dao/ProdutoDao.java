@@ -8,7 +8,6 @@ package br.com.wss.dao;
 import br.com.wss.modelo.Produto;
 import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,8 +59,8 @@ public class ProdutoDao {
                 produtotemp.setDesconto(rs.getString("produto.desconto"));
                 produtotemp.setDescricao(rs.getString("produto.descricao"));
                 produtotemp.setIdProduto(rs.getInt("produto.id_produto"));
-                produtotemp.setIdUsuarioAlt(rs.getInt("produto.id_usuario_alt"));
-                produtotemp.setIdUsuarioCad(rs.getInt("produto.id_usuario_cad"));
+                produtotemp.setIdUsuarioAlt(rs.getString("login.nome"));
+                produtotemp.setIdUsuarioCad(rs.getString("produto.id_usuario_cad"));
                 produtotemp.setStatus(rs.getString("produto.status"));
                 produtotemp.setUltimaAlteracao(rs.getString("produto.ultima_alteracao"));
                 produtotemp.setValidade(rs.getString("produto.validade"));
@@ -87,8 +86,8 @@ public class ProdutoDao {
             stms.setDouble(3, cadastra.getValor());
             stms.setString(4, cadastra.getDesconto());
             stms.setString(5, cadastra.getStatus());
-            stms.setInt(6, cadastra.getIdUsuarioAlt());
-            stms.setInt(7, cadastra.getIdUsuarioCad());
+            stms.setString(6, cadastra.getIdUsuarioAlt());
+            stms.setString(7, cadastra.getIdUsuarioCad());
             stms.setString(8, cadastra.getUltimaAlteracao());
             stms.setString(9, cadastra.getDataCadastro());
 
@@ -112,7 +111,7 @@ public class ProdutoDao {
             stms.setDouble(3, editar.getValor());
             stms.setString(4, editar.getDesconto());
             stms.setString(5, editar.getStatus());
-            stms.setInt(6, editar.getIdUsuarioAlt());
+            stms.setString(6, editar.getIdUsuarioAlt());
             stms.setString(7, editar.getUltimaAlteracao());
             stms.setInt(8, editar.getIdProduto());
             

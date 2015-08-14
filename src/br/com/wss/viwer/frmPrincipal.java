@@ -16,6 +16,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
     UsuarioDao usuarioDao = new UsuarioDao();
     ClassUtils utilidades = new ClassUtils();
+    String idUsuario;
 
     FrmUsuario frmUsuarios;
     FrmComputador frmComputador;
@@ -32,36 +33,42 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
     private void init() throws InterruptedException {
         this.setExtendedState(MAXIMIZED_BOTH);
-
         initComponents();
         confirmaFechamento();
-        Principal principal = new Principal();
-        String computador = principal.verificaMac().toUpperCase();
-        jLComputador.setText("Logado em: " + computador);
         timer1.start();
         jTextAreaAtalho.setEnabled(false);
+        jTextAreaAtalho.setText(ArquivosIni.LendoArquivo("C:\\WssSolutions\\br\\\\com\\wss\\Config\\Atalhos.txt"));
     }
 
-    public void mostraHora() throws InterruptedException {
+    private void mostraHora() throws InterruptedException {
         jLHora.setText("Hora Atual: " + ClassUtils.mostraHora());
     }
 
-    public void mostraData() {
+    private void mostraData() {
         jLData.setText("Data Atual: " + ClassUtils.mostraData());
+    }
+
+    private void servidor() {
+        jLabelServidor.setText("Servidor: " + ArquivosIni.getServidor());
+    }
+
+    private void computador() {
+        Principal principal = new Principal();
+        String computador = principal.verificaMac().toUpperCase();
+        jLComputador.setText("Logado em: " + computador);
+    }
+
+    private void usuario(String codigo) {
+        String usuario = usuarioDao.buscaUsuario(codigo);
+        jLUsuario.setText("Usúario: "+usuario);
     }
 
     frmPrincipal(Usuario usuarioTemp) throws InterruptedException {
         init();
         String login = usuarioTemp.getUsuario();
-        String idUsuario = usuarioTemp.getCodigo();
-
-        String usuario = usuarioDao.buscaUsuario(idUsuario);
-
+        idUsuario = usuarioTemp.getCodigo();
         ClassUtils.setIdUsuario(idUsuario);
         ClassUtils.setUsuario(login);
-
-        jLUsuario.setText("Usúario Logado: " + usuario);
-        jTextAreaAtalho.setText(ArquivosIni.LendoArquivo("C:\\WssSolutions\\br\\\\com\\wss\\Config\\Atalhos.txt"));
     }
 
     @SuppressWarnings("unchecked")
@@ -74,6 +81,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
         jLComputador = new javax.swing.JLabel();
         jLData = new javax.swing.JLabel();
         jLHora = new javax.swing.JLabel();
+        jLabelServidor = new javax.swing.JLabel();
         jPSecundario = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaAtalho = new javax.swing.JTextArea();
@@ -127,16 +135,20 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
         jLHora.setText("Hora");
 
+        jLabelServidor.setText("Servidor");
+
         javax.swing.GroupLayout jPStatusBarLayout = new javax.swing.GroupLayout(jPStatusBar);
         jPStatusBar.setLayout(jPStatusBarLayout);
         jPStatusBarLayout.setHorizontalGroup(
             jPStatusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPStatusBarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLComputador, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(191, 191, 191)
+                .addComponent(jLComputador, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jLabelServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(jLUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
+                .addGap(114, 114, 114)
                 .addComponent(jLData, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jLHora, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,7 +159,8 @@ public final class frmPrincipal extends javax.swing.JFrame {
                 .addComponent(jLUsuario)
                 .addComponent(jLComputador)
                 .addComponent(jLData)
-                .addComponent(jLHora))
+                .addComponent(jLHora)
+                .addComponent(jLabelServidor))
         );
 
         jPSecundario.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -167,7 +180,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
             jPSecundarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPSecundarioLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 284, Short.MAX_VALUE))
+                .addGap(0, 285, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPPrincipalLayout = new javax.swing.GroupLayout(jPPrincipal);
@@ -378,6 +391,9 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
     private void timer1OnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timer1OnTime
         try {
+            usuario(idUsuario);
+            computador();
+            servidor();
             mostraHora();
             mostraData();
         } catch (InterruptedException ex) {
@@ -389,7 +405,6 @@ public final class frmPrincipal extends javax.swing.JFrame {
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Saída", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
             System.exit(0);
-
         } else {
             repaint();
         }
@@ -437,15 +452,15 @@ public final class frmPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         String url = "C:\\Users\\william\\JaspersoftWorkspace\\MyReports\\Relatorio Total Bens.jasper";
-        utilidades.relatorio(url,"Relátorio Total Bens");
+        utilidades.relatorio(url, "Relátorio Total Bens");
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // jInternalVoucher();
+        jInternalVoucher();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        // jInternalProdutos();
+        jInternalProdutos();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jInternalGrupoBens() {
@@ -697,6 +712,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLData;
     private javax.swing.JLabel jLHora;
     private javax.swing.JLabel jLUsuario;
+    private javax.swing.JLabel jLabelServidor;
     private javax.swing.JMenuItem jMAlterarSenha;
     private javax.swing.JMenuItem jMBloquear;
     private javax.swing.JMenuItem jMComputadores;
@@ -742,5 +758,4 @@ public final class frmPrincipal extends javax.swing.JFrame {
             }
         });
     }
-
 }

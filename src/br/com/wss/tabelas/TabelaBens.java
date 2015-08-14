@@ -5,6 +5,7 @@
  */
 package br.com.wss.tabelas;
 
+import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Bens;
 import java.util.ArrayList;
 
@@ -29,9 +30,15 @@ public class TabelaBens extends Tabela {
         linha[3] = bens.getNumeroControle();
         linha[4] = bens.getNotaFiscal();
         linha[5] = bens.getNumeroSerie();
-        linha[6] = "Em "+bens.getDataCadastro()+" Por "+bens.getIdUsuarioCad();
-        linha[7] = "Em "+bens.getUltimaAlteracao()+" Por "+bens.getIdUsuarioAlt();
-        
+        UsuarioDao dao = new UsuarioDao();
+        String usuario = dao.buscaUsuario(bens.getIdUsuarioCad());
+        if (usuario != null) {
+            linha[6] = "Em " + bens.getDataCadastro() + " Por " + usuario;
+            linha[7] = "Em " + bens.getUltimaAlteracao() + " Por " + bens.getIdUsuarioAlt();
+        } else {
+            linha[6] = "Em " + bens.getDataCadastro() + " Por ";
+            linha[7] = "Em " + bens.getUltimaAlteracao() + " Por " + bens.getIdUsuarioAlt();
+        }              
                 
         return linha[numCol];
     }

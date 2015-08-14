@@ -103,6 +103,22 @@ public class ArquivosIni {
         String arquivoSobre = config.getProperty("ArquivoSobre");
         return arquivoSobre;
     }
+    
+    /**
+     *
+     * @return
+     */
+    public static String getServidor() {
+        Properties config = new Properties();
+        try {
+            config.load(new FileInputStream(diretorioConfig));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            Logger.getLogger(ArquivosIni.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String servidor = config.getProperty("Servidor");
+        return servidor;
+    }
 
     /**
      *

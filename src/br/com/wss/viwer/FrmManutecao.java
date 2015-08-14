@@ -501,10 +501,10 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jTableManutencao.getColumnModel().getColumn(6).setPreferredWidth(103);
         jTableManutencao.getColumnModel().getColumn(6).setResizable(false);
 
-        jTableManutencao.getColumnModel().getColumn(7).setPreferredWidth(225);
+        jTableManutencao.getColumnModel().getColumn(7).setPreferredWidth(325);
         jTableManutencao.getColumnModel().getColumn(7).setResizable(false);
 
-        jTableManutencao.getColumnModel().getColumn(8).setPreferredWidth(225);
+        jTableManutencao.getColumnModel().getColumn(8).setPreferredWidth(325);
         jTableManutencao.getColumnModel().getColumn(8).setResizable(false);
 
         jTableManutencao.getTableHeader().setReorderingAllowed(false);

@@ -61,7 +61,7 @@ public class GrupoDao {
                 grupoTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
                 grupoTemp.setIdGrupo(rs.getInt("id_grupo"));
                 grupoTemp.setUsuarioAlt(rs.getString("login.nome"));
-                grupoTemp.setUsuarioCad(rs.getString("login.nome"));
+                grupoTemp.setUsuarioCad(rs.getString("grupo.id_usuario_cad"));
 
                 lista.add(grupoTemp);
             } while (rs.next());

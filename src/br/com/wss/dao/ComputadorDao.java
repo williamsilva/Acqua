@@ -43,7 +43,7 @@ public class ComputadorDao {
                     + "        computador.id_usuario_alt,\n"
                     + "        computador.id_usuario_cad,\n"
                     + "        login.nome\n"
-                    + " FROM acqua_dados.computador left join login on computador.id_usuario_cad = login.id_login\n"
+                    + " FROM acqua_dados.computador left join login on computador.id_usuario_alt = login.id_login\n"
                     + " order by computador.nome_computador");
             rs.first();
             do {
@@ -53,7 +53,7 @@ public class ComputadorDao {
                 computadorTemp.setMac(rs.getString("mac_computador"));
                 computadorTemp.setDataCadastro(rs.getString("data_cadastro"));
                 computadorTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
-                computadorTemp.setIdUsuarioCad(rs.getString("login.nome"));
+                computadorTemp.setIdUsuarioCad(rs.getString("computador.id_usuario_cad"));
                 computadorTemp.setIdUsuarioAlt(rs.getString("login.nome"));
 
                 lista.add(computadorTemp);

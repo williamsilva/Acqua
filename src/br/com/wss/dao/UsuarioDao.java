@@ -33,7 +33,7 @@ public class UsuarioDao {
                     usuario.setUsuario(result.getString("login"));
                     usuario.setCodigo(result.getString("id_login"));
                     usuario.setNome(result.getString("nome"));
-                    
+
                 }
                 stms.close();
             }
@@ -159,8 +159,8 @@ public class UsuarioDao {
                 usuarioTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
                 usuarioTemp.setAtivo(rs.getString("ativo"));
                 usuarioTemp.setSenha(rs.getString("senha"));
-                usuarioTemp.setIdUsuarioAlt(rs.getString("nome"));
-                usuarioTemp.setIdUsuarioCad(rs.getString("nome"));
+                usuarioTemp.setIdUsuarioAlt(rs.getString("login.id_usuario_alt"));
+                usuarioTemp.setIdUsuarioCad(rs.getString("login.id_usuario_cad"));
 
                 lista.add(usuarioTemp);
             } while (rs.next());
@@ -184,4 +184,5 @@ public class UsuarioDao {
         }
         return usuario;
     }
+   
 }

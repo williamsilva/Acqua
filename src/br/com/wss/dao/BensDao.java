@@ -91,7 +91,7 @@ public class BensDao {
                 bensTemp.setVidaUtil(rs.getString("vida_util"));
                 bensTemp.setGarantia(rs.getString("garantia"));
                 bensTemp.setIdUsuarioAlt(rs.getString("login.nome"));
-                bensTemp.setIdUsuarioCad(rs.getString("login.nome"));
+                bensTemp.setIdUsuarioCad(rs.getString("bens.id_usuario_cad"));
                 bensTemp.setInicioGarantia(rs.getString("bens.inicio_garantia_manutencao"));
                 bensTemp.setFinalGarantia(rs.getString("bens.fim_garantia_manutencao"));
 

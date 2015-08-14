@@ -4,8 +4,6 @@ import br.com.wss.dao.ConectionFactory;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
-import static java.lang.String.format;
-import static java.lang.String.format;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,8 +13,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,7 +29,9 @@ public class ClassUtils {
 
     public void relatorio(String caminho, String titulo) {
         try {
-            JasperPrint jasperPrint = JasperFillManager.fillReport(caminho, new HashMap<>(), ConectionFactory.getConnection());
+            HashMap parametros = new HashMap();
+            parametros.put("bens", "1");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(caminho, parametros, ConectionFactory.getConnection());
             JasperViewer jrviewer = new JasperViewer(jasperPrint, false);
             jrviewer.setExtendedState(MAXIMIZED_BOTH);
             jrviewer.setTitle(titulo);
@@ -242,4 +240,5 @@ public class ClassUtils {
         text.setText(String.valueOf(dias));
 
     }
+  
 }

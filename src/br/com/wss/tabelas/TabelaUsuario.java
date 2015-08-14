@@ -5,6 +5,7 @@
  */
 package br.com.wss.tabelas;
 
+import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Usuario;
 import java.util.ArrayList;
 
@@ -25,8 +26,16 @@ public class TabelaUsuario extends Tabela {
 
         linha[0] = usuario.getNome();
         linha[1] = usuario.getUsuario();
-        linha[2] = "Em "+usuario.getDataCadastro()+" Por "+usuario.getIdUsuarioCad();
-        linha[3] = "Em "+usuario.getUltimaAlteracao()+" Por "+usuario.getIdUsuarioAlt();
+        UsuarioDao dao = new UsuarioDao();
+        String usuarioCad = dao.buscaUsuario(usuario.getIdUsuarioCad());
+        String usuarioAlt = dao.buscaUsuario(usuario.getIdUsuarioAlt());
+        if (usuarioCad != null && usuarioAlt != null) {
+            linha[2] = "Em " + usuario.getDataCadastro() + " Por " + usuarioCad;
+            linha[3] = "Em " + usuario.getUltimaAlteracao() + " Por " + usuarioAlt;
+        } else {
+            linha[2] = "Em " + usuario.getDataCadastro() + " Por ";
+            linha[3] = "Em " + usuario.getUltimaAlteracao() + " Por ";
+        }
         linha[4] = usuario.getAtivo();
         return linha[numCol];
     }

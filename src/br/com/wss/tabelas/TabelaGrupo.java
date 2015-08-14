@@ -5,6 +5,7 @@
  */
 package br.com.wss.tabelas;
 
+import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Grupo;
 import java.util.ArrayList;
 
@@ -30,8 +31,15 @@ public class TabelaGrupo extends Tabela{
         Object[] linha = new String[colunas.length];
         linha[0] = grupo.getNomeGrupo();
         linha[1] = grupo.getDescricao();
-        linha[2] = "Em "+grupo.getDataCadastro()+" Por "+grupo.getUsuarioCad();
-        linha[3] = "Em "+grupo.getUltimaAlteracao()+" Por "+grupo.getUsuarioAlt();
+        UsuarioDao dao = new UsuarioDao();
+        String usuario = dao.buscaUsuario(grupo.getUsuarioCad());
+        if (usuario != null) {
+            linha[2] = "Em " + grupo.getDataCadastro() + " Por " + usuario;
+            linha[3] = "Em " + grupo.getUltimaAlteracao() + " Por " + grupo.getUsuarioAlt();
+        } else {
+            linha[2] = "Em " + grupo.getDataCadastro() + " Por ";
+            linha[3] = "Em " + grupo.getUltimaAlteracao() + " Por " + grupo.getUsuarioAlt();
+        }
         return linha[numCol];
     }
 }
