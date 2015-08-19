@@ -51,13 +51,15 @@ public class FornecedorDao {
                     + "		fornecedor.endereco,\n"
                     + "		fornecedor.ultima_alteracao,\n"
                     + "		fornecedor.data_cadastro,\n"
-                    + "		fornecedor.celular,fornecedor.id_fornecedor,\n"
+                    + "		fornecedor.celular,"
+                    + "         fornecedor.id_fornecedor,\n"
                     + "		fornecedor.bairro,\n"
                     + "		fornecedor.cep,\n"
                     + "		cidade.nome,\n"
                     + "		estado.nome,\n"
-                    + "		login.nome \n"
-                    + "from fornecedor left join cidade on fornecedor.id_cidade = cidade.id_cidade\n"
+                    + "		login.nome,"
+                    + " (select login.nome from login where login.id_login = fornecedor.id_usuario_cad) as usuario_cad "
+                    + " from fornecedor left join cidade on fornecedor.id_cidade = cidade.id_cidade\n"
                     + "				left join estado on cidade.idEstado = estado.idestado\n"
                     + "				left join login  on fornecedor.id_usuario_alt = login.id_login\n"
                     + "order by nome_fornecedor");
@@ -66,7 +68,7 @@ public class FornecedorDao {
             do {
                 fornecedorTemp = new Fornecedor();
                 fornecedorTemp.setNomeFornecedor(rs.getString("nome_fornecedor"));
-                fornecedorTemp.setUsuarioCad(rs.getString("fornecedor.id_usuario_cad"));
+                fornecedorTemp.setUsuarioCad(rs.getString("usuario_cad"));
                 fornecedorTemp.setUsuarioAlt(rs.getString("login.nome"));
                 fornecedorTemp.setCidade(rs.getString("cidade.nome"));
                 fornecedorTemp.setEstado(rs.getString("estado.nome"));
@@ -79,7 +81,7 @@ public class FornecedorDao {
                 fornecedorTemp.setDataCadastro(rs.getString("data_cadastro"));
                 fornecedorTemp.setCelular(rs.getString("celular"));
                 fornecedorTemp.setBairro(rs.getString("bairro"));
-                fornecedorTemp.setIdFornecedor(rs.getInt("fornecedor.id_fornecedor"));
+                fornecedorTemp.setIdFornecedor(rs.getInt("id_fornecedor"));
                 fornecedorTemp.setCep(rs.getString("cep"));
 
                 lista.add(fornecedorTemp);

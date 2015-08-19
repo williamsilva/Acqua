@@ -7,7 +7,6 @@ package br.com.wss.tabelas;
 
 import br.com.wss.modelo.Computador;
 import java.util.ArrayList;
-import br.com.wss.dao.UsuarioDao;
 
 /**
  *
@@ -26,15 +25,9 @@ public class TabelaComputador extends Tabela {
 
         linha[0] = computador.getComputador();
         linha[1] = computador.getMac();
-        UsuarioDao dao = new UsuarioDao();
-        String usuario = dao.buscaUsuario(computador.getIdUsuarioCad());
-        if (usuario != null) {
-            linha[2] = "Em " + computador.getDataCadastro() + " Por " + usuario;
-            linha[3] = "Em " + computador.getUltimaAlteracao() + " Por " + computador.getIdUsuarioAlt();
-        } else {
-            linha[2] = "Em " + computador.getDataCadastro() + " Por ";
-            linha[3] = "Em " + computador.getUltimaAlteracao() + " Por " + computador.getIdUsuarioAlt();
-        }
+        linha[2] = "Em " + computador.getDataCadastro() + " Por " + computador.getIdUsuarioCad();
+        linha[3] = "Em " + computador.getUltimaAlteracao() + " Por " + computador.getIdUsuarioAlt();
+
         return linha[numCol];
     }
 

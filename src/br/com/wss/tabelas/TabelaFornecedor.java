@@ -5,7 +5,6 @@
  */
 package br.com.wss.tabelas;
 
-import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Fornecedor;
 import java.util.ArrayList;
 
@@ -35,15 +34,9 @@ public class TabelaFornecedor extends Tabela {
         linha[3] = fornecedor.getTelefone();
         linha[4] = fornecedor.getEstado();
         linha[5] = fornecedor.getCidade();
-        UsuarioDao dao = new UsuarioDao();
-        String usuario = dao.buscaUsuario(fornecedor.getUsuarioCad());
-        if (usuario != null) {
-            linha[6] = "Em " + fornecedor.getDataCadastro() + " Por " + usuario;
-            linha[7] = "Em " + fornecedor.getUltimaAlteracao() + " Por " + fornecedor.getUsuarioAlt();
-        } else {
-            linha[6] = "Em " + fornecedor.getDataCadastro() + " Por ";
-            linha[7] = "Em " + fornecedor.getUltimaAlteracao() + " Por " + fornecedor.getUsuarioAlt();
-        }
+        linha[6] = "Em " + fornecedor.getDataCadastro() + " Por " + fornecedor.getUsuarioCad();
+        linha[7] = "Em " + fornecedor.getUltimaAlteracao() + " Por " + fornecedor.getUsuarioAlt();
+
         return linha[numCol];
     }
 }

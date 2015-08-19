@@ -48,7 +48,8 @@ public class ProdutoDao {
                     + "        produto.id_usuario_cad,"
                     + "	       produto.ultima_alteracao,"
                     + "        produto.data_cadastro,"
-                    + "        login.nome"
+                    + "        login.nome,"
+                    + "(select login.nome from login where login.id_login = produto.id_usuario_cad) as usuario_cad"
                     + "  from produto left join login on produto.id_usuario_alt = login.id_login"
                     + "  order by produto.descricao");
 
@@ -60,7 +61,7 @@ public class ProdutoDao {
                 produtotemp.setDescricao(rs.getString("produto.descricao"));
                 produtotemp.setIdProduto(rs.getInt("produto.id_produto"));
                 produtotemp.setIdUsuarioAlt(rs.getString("login.nome"));
-                produtotemp.setIdUsuarioCad(rs.getString("produto.id_usuario_cad"));
+                produtotemp.setIdUsuarioCad(rs.getString("usuario_cad"));
                 produtotemp.setStatus(rs.getString("produto.status"));
                 produtotemp.setUltimaAlteracao(rs.getString("produto.ultima_alteracao"));
                 produtotemp.setValidade(rs.getString("produto.validade"));

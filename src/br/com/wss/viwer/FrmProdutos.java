@@ -60,10 +60,8 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
         jPanelProdutos = new javax.swing.JPanel();
         jLabelDescricao = new javax.swing.JLabel();
-        jTextFieldDescricao = new javax.swing.JTextField();
         jLabelValidade = new javax.swing.JLabel();
         jLabelValor = new javax.swing.JLabel();
-        jTextFieldValor = new javax.swing.JTextField();
         jLabelDesconto = new javax.swing.JLabel();
         jTextFieldDesconto = new javax.swing.JTextField();
         jDateChooserValidade = new com.toedter.calendar.JDateChooser();
@@ -72,6 +70,8 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jTextFieldIdProduto = new javax.swing.JTextField();
+        jTextFieldDescricao = new javax.swing.JTextField();
+        jTextFieldValor = new javax.swing.JTextField();
         jButtonExcluir = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
 
@@ -116,12 +116,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jPanelProdutos.add(jLabelDescricao);
         jLabelDescricao.setBounds(10, 20, 80, 20);
 
-        jTextFieldDescricao.setText("jTextField1");
-        jTextFieldDescricao.setSelectionEnd(0);
-        jTextFieldDescricao.setSelectionStart(0);
-        jPanelProdutos.add(jTextFieldDescricao);
-        jTextFieldDescricao.setBounds(100, 20, 200, 26);
-
         jLabelValidade.setText("Validade:");
         jPanelProdutos.add(jLabelValidade);
         jLabelValidade.setBounds(10, 50, 80, 20);
@@ -129,12 +123,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jLabelValor.setText("Valor:");
         jPanelProdutos.add(jLabelValor);
         jLabelValor.setBounds(10, 80, 80, 20);
-
-        jTextFieldValor.setText("jTextField1");
-        jTextFieldValor.setSelectionEnd(0);
-        jTextFieldValor.setSelectionStart(0);
-        jPanelProdutos.add(jTextFieldValor);
-        jTextFieldValor.setBounds(100, 80, 200, 26);
 
         jLabelDesconto.setText("Desconto:");
         jPanelProdutos.add(jLabelDesconto);
@@ -177,6 +165,14 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jTextFieldIdProduto.setText("Id");
         jPanelProdutos.add(jTextFieldIdProduto);
         jTextFieldIdProduto.setBounds(10, 180, 40, 30);
+
+        jTextFieldDescricao.setText("jTextField1");
+        jPanelProdutos.add(jTextFieldDescricao);
+        jTextFieldDescricao.setBounds(100, 20, 200, 26);
+
+        jTextFieldValor.setText("jTextField1");
+        jPanelProdutos.add(jTextFieldValor);
+        jTextFieldValor.setBounds(100, 80, 200, 26);
 
         jButtonExcluir.setText("Excluir");
         jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {

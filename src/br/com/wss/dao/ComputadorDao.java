@@ -35,16 +35,19 @@ public class ComputadorDao {
         try {
             Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = statmen.executeQuery("SELECT \n"
-                    + "		computador.nome_computador,\n"
-                    + "        computador.mac_computador,\n"
-                    + "        computador.data_cadastro,\n"
-                    + "        computador.id_computador,\n"
-                    + "		computador.ultima_alteracao,\n"
-                    + "        computador.id_usuario_alt,\n"
-                    + "        computador.id_usuario_cad,\n"
-                    + "        login.nome\n"
-                    + " FROM acqua_dados.computador left join login on computador.id_usuario_alt = login.id_login\n"
-                    + " order by computador.nome_computador");
+                    + "                    	computador.nome_computador,\n"
+                    + "                            computador.mac_computador,\n"
+                    + "                            computador.data_cadastro,\n"
+                    + "                            computador.id_computador,\n"
+                    + "                    		computador.ultima_alteracao,\n"
+                    + "                            computador.id_usuario_alt,\n"
+                    + "                            computador.id_usuario_cad as id_cad,\n"
+                    + "                            login.nome,\n"
+                    + "                            (select login.nome\n"
+                    + "                            from login\n"
+                    + "                            where login.id_login = computador.id_usuario_cad) as usuario_cad\n"
+                    + "                     FROM acqua_dados.computador left join login on computador.id_usuario_alt = login.id_login\n"
+                    + "                     order by computador.nome_computador");
             rs.first();
             do {
                 computadorTemp = new Computador();
@@ -53,7 +56,7 @@ public class ComputadorDao {
                 computadorTemp.setMac(rs.getString("mac_computador"));
                 computadorTemp.setDataCadastro(rs.getString("data_cadastro"));
                 computadorTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
-                computadorTemp.setIdUsuarioCad(rs.getString("computador.id_usuario_cad"));
+                computadorTemp.setIdUsuarioCad(rs.getString("usuario_cad"));
                 computadorTemp.setIdUsuarioAlt(rs.getString("login.nome"));
 
                 lista.add(computadorTemp);

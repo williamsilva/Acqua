@@ -64,7 +64,8 @@ public class BensDao {
                     + "                               bens.inicio_garantia_manutencao,"
                     + "                               grupo.nome_grupo,"
                     + "                               login.nome,"
-                    + "                               manutencao.fim_garantia_manutencao"
+                    + "                               manutencao.fim_garantia_manutencao,"
+                    + "          (select login.nome from login where login.id_login = bens.id_usuario_cad) as usuario_cad"
                     + "                    from bens left join grupo on bens.id_grupo_bens = grupo.id_grupo"
                     + "                    		  left join login on bens.id_usuario_alt = login.id_login"
                     + "                              left join manutencao on bens.id_bens = manutencao.id_bens"
@@ -91,7 +92,7 @@ public class BensDao {
                 bensTemp.setVidaUtil(rs.getString("vida_util"));
                 bensTemp.setGarantia(rs.getString("garantia"));
                 bensTemp.setIdUsuarioAlt(rs.getString("login.nome"));
-                bensTemp.setIdUsuarioCad(rs.getString("bens.id_usuario_cad"));
+                bensTemp.setIdUsuarioCad(rs.getString("usuario_cad"));
                 bensTemp.setInicioGarantia(rs.getString("bens.inicio_garantia_manutencao"));
                 bensTemp.setFinalGarantia(rs.getString("bens.fim_garantia_manutencao"));
 
@@ -241,13 +242,12 @@ public class BensDao {
             sql = "select nome from bens where numero_controle = '" + registro + "'";
             stms = conexao.prepareStatement(sql);
             result = stms.executeQuery();
-            result.next();
-            nomeBen = result.getString("nome");
+            if (result.first()) {
+                nomeBen = result.getString("nome");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(GrupoDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return nomeBen;
-
     }
-
 }

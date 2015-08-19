@@ -139,16 +139,20 @@ public class UsuarioDao {
         try {
             Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ResultSet rs = statmen.executeQuery("SELECT \n"
-                    + "         login.ativo,\n"
-                    + "        login.data_cadastro,\n"
-                    + "        login.id_login,\n"
-                    + "        login.id_usuario_alt,\n"
-                    + "        login.id_usuario_cad,\n"
-                    + "        login.login,\n"
-                    + "        login.nome,\n"
-                    + "        login.senha,\n"
-                    + "        login.ultima_alteracao \n"
-                    + " from login order by login.nome");
+                    + "	log.ativo,\n"
+                    + "	log.data_cadastro,\n"
+                    + "	log.id_login,\n"
+                    + "	log.id_usuario_alt,\n"
+                    + "	log.id_usuario_cad,\n"
+                    + "	log.login,\n"
+                    + "	log.nome,\n"
+                    + "	LOG.SENHA,\n"
+                    + "	LOG.LOGADO,\n"
+                    + "	LOG.ULTIMA_ALTERACAO,\n"
+                    + "	(SELECT logsbsql1.NOME FROM LOGIN logsbsql1 WHERE logsbsql1.ID_LOGIN = LOG.ID_USUARIO_CAD) AS USUARIO_CAD,\n"
+                    + "	(SELECT logsbsql2.NOME FROM LOGIN logsbsql2 WHERE logsbsql2.ID_LOGIN = LOG.ID_USUARIO_ALT) AS USUARIO_ALT\n"
+                    + "from login log \n"
+                    + "order by log.nome");
             rs.first();
             do {
                 usuarioTemp = new Usuario();
@@ -159,8 +163,9 @@ public class UsuarioDao {
                 usuarioTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
                 usuarioTemp.setAtivo(rs.getString("ativo"));
                 usuarioTemp.setSenha(rs.getString("senha"));
-                usuarioTemp.setIdUsuarioAlt(rs.getString("login.id_usuario_alt"));
-                usuarioTemp.setIdUsuarioCad(rs.getString("login.id_usuario_cad"));
+                usuarioTemp.setIdUsuarioAlt(rs.getString("usuario_alt"));
+                usuarioTemp.setIdUsuarioCad(rs.getString("usuario_cad"));
+                usuarioTemp.setLogado(rs.getString("log.logado"));
 
                 lista.add(usuarioTemp);
             } while (rs.next());
@@ -184,5 +189,5 @@ public class UsuarioDao {
         }
         return usuario;
     }
-   
+
 }

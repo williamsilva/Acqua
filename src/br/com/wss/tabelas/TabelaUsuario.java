@@ -26,17 +26,11 @@ public class TabelaUsuario extends Tabela {
 
         linha[0] = usuario.getNome();
         linha[1] = usuario.getUsuario();
-        UsuarioDao dao = new UsuarioDao();
-        String usuarioCad = dao.buscaUsuario(usuario.getIdUsuarioCad());
-        String usuarioAlt = dao.buscaUsuario(usuario.getIdUsuarioAlt());
-        if (usuarioCad != null && usuarioAlt != null) {
-            linha[2] = "Em " + usuario.getDataCadastro() + " Por " + usuarioCad;
-            linha[3] = "Em " + usuario.getUltimaAlteracao() + " Por " + usuarioAlt;
-        } else {
-            linha[2] = "Em " + usuario.getDataCadastro() + " Por ";
-            linha[3] = "Em " + usuario.getUltimaAlteracao() + " Por ";
-        }
-        linha[4] = usuario.getAtivo();
+        linha[2] = usuario.getLogado();
+        linha[3] = usuario.getAtivo();
+        linha[4] = "Em " + usuario.getDataCadastro() + " Por " + usuario.getIdUsuarioCad();
+        linha[5] = "Em " + usuario.getUltimaAlteracao() + " Por " + usuario.getIdUsuarioAlt();
+        
         return linha[numCol];
     }
 }

@@ -27,6 +27,11 @@ public class ClassUtils {
     private static String usuario;
     private static String idUsuario;
 
+    /**
+     *
+     * @param caminho
+     * @param titulo
+     */
     public void relatorio(String caminho, String titulo) {
         try {
             HashMap parametros = new HashMap();

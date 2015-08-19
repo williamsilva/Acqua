@@ -5,7 +5,6 @@
  */
 package br.com.wss.tabelas;
 
-import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Produto;
 import java.util.ArrayList;
 
@@ -26,16 +25,10 @@ public class TabelaProduto extends Tabela {
 
         linha[0] = produto.getDescricao();
         linha[1] = produto.getValidade();
-        linha[2] = produto.getStatus();
-        UsuarioDao dao = new UsuarioDao();
-        String usuario = dao.buscaUsuario(produto.getIdUsuarioCad());
-        if (usuario != null) {
-            linha[3] = "Em " + produto.getDataCadastro() + " Por " + usuario;
-            linha[4] = "Em " + produto.getUltimaAlteracao() + " Por " + produto.getIdUsuarioCad();
-        } else {
-            linha[3] = "Em " + produto.getDataCadastro() + " Por ";
-            linha[4] = "Em " + produto.getUltimaAlteracao() + " Por " + produto.getIdUsuarioCad();
-        }
+        linha[2] = produto.getStatus();      
+        linha[3] = "Em " + produto.getDataCadastro() + " Por " + produto.getIdUsuarioCad();
+        linha[4] = "Em " + produto.getUltimaAlteracao() + " Por " + produto.getIdUsuarioAlt();
+        
         return linha[numCol];
     }
 

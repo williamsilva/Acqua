@@ -48,8 +48,9 @@ public class GrupoDao {
                     + "        grupo.id_usuario_cad,\n"
                     + "        grupo.nome_grupo,\n"
                     + "        grupo.ultima_alteracao,\n"
-                    + "        login.nome\n"
-                    + "from grupo left join login on grupo.id_usuario_alt = login.id_login\n"
+                    + "        login.nome,"
+                    + "(select login.nome from login where login.id_login = grupo.id_usuario_cad) as usuario_cad"
+                    + " from grupo left join login on grupo.id_usuario_alt = login.id_login\n"
                     + "order by grupo.nome_grupo");
             rs.first();
             do {
@@ -61,7 +62,7 @@ public class GrupoDao {
                 grupoTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
                 grupoTemp.setIdGrupo(rs.getInt("id_grupo"));
                 grupoTemp.setUsuarioAlt(rs.getString("login.nome"));
-                grupoTemp.setUsuarioCad(rs.getString("grupo.id_usuario_cad"));
+                grupoTemp.setUsuarioCad(rs.getString("usuario_cad"));
 
                 lista.add(grupoTemp);
             } while (rs.next());

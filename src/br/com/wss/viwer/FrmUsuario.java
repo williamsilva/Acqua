@@ -516,7 +516,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldUsuarioKeyPressed
 
     private void jPasswordFieldSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldSenhaKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jPasswordFieldSenha.getText().equals("")) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jPasswordFieldSenha.getPassword().equals("")) {
             jPasswordFieldConfirmeSenha.requestFocus();
             jLabelSenha.setForeground(Color.BLACK);
         } else {
@@ -525,7 +525,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jPasswordFieldSenhaKeyPressed
 
     private void jPasswordFieldConfirmeSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordFieldConfirmeSenhaKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jPasswordFieldConfirmeSenha.getText().equals("")) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jPasswordFieldConfirmeSenha.getPassword().equals("")) {
             jButtonSalvarSenha.requestFocus();
             jLabelConfirmeSenha.setForeground(Color.BLACK);
         } else {
@@ -680,7 +680,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void preencherTabela() {
 
-        String[] Colunas = new String[]{"Nome", "Usuário", "Data Castro", "Última Alteração", "Ativo", "Logado Em"};
+        String[] Colunas = new String[]{"Nome", "Usuário", "Logado Em", "Ativo", "Data Castro", "Ultima Alteração"};
 
         UsuarioDao usuarioDao = new UsuarioDao();
         dados = usuarioDao.listar();
@@ -690,19 +690,19 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(210);
         jTabelaUsuario.getColumnModel().getColumn(0).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(200);
+        jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(150);
         jTabelaUsuario.getColumnModel().getColumn(1).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(2).setPreferredWidth(325);
+        jTabelaUsuario.getColumnModel().getColumn(2).setPreferredWidth(150);
         jTabelaUsuario.getColumnModel().getColumn(2).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(3).setPreferredWidth(325);
+        jTabelaUsuario.getColumnModel().getColumn(3).setPreferredWidth(55);
         jTabelaUsuario.getColumnModel().getColumn(3).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(4).setPreferredWidth(55);
+        jTabelaUsuario.getColumnModel().getColumn(4).setPreferredWidth(325);
         jTabelaUsuario.getColumnModel().getColumn(4).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(5).setPreferredWidth(200);
+        jTabelaUsuario.getColumnModel().getColumn(5).setPreferredWidth(325);
         jTabelaUsuario.getColumnModel().getColumn(5).setResizable(false);
 
         jTabelaUsuario.getTableHeader().setReorderingAllowed(false);

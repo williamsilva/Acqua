@@ -11,15 +11,17 @@ import br.com.wss.dao.GrupoDao;
 import br.com.wss.modelo.Bens;
 import br.com.wss.tabelas.Tabela;
 import br.com.wss.tabelas.TabelaBens;
+import br.com.wss.utilidades.ClassEvents;
 import br.com.wss.utilidades.ClassUtils;
+import br.com.wss.utilidades.FocusLost;
 import br.com.wss.utilidades.FormatDouble;
 import br.com.wss.utilidades.NumeroMaximoCaracters;
 import br.com.wss.utilidades.SomenteNumero;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         preencherComboStatus();
         preencherComboFornecedor();
         preencherTabela();
+        enventFocus();
 
         this.setLocation(260, 0);
         this.setSize(1100, 660);
@@ -98,8 +101,20 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanelBens = new javax.swing.JPanel();
-        jLabelNumeroControle = new javax.swing.JLabel();
-        jLabelNotaFiscal = new javax.swing.JLabel();
+        jTextFieldNomeBen = new javax.swing.JTextField();
+        jTextFieldNumeroControle = new javax.swing.JTextField();
+        jTextFieldLocal = new javax.swing.JTextField();
+        jTextFieldModelo = new javax.swing.JTextField();
+        jTextFieldNumeroSerie = new javax.swing.JTextField();
+        jComboBoxGrupo = new javax.swing.JComboBox();
+        jComboBoxVoltagen = new javax.swing.JComboBox();
+        jComboBoxFornecedor = new javax.swing.JComboBox();
+        jComboBoxStatus = new javax.swing.JComboBox();
+        jTextFieldNotalFiscal = new javax.swing.JTextField();
+        jDateChooserDataCompra = new com.toedter.calendar.JDateChooser();
+        jTextFieldValorCompra = new javax.swing.JTextField();
+        jTextFieldGarantia = new javax.swing.JTextField();
+        jTextFieldVidaUtil = new javax.swing.JTextField();
         jLabelValorCompra = new javax.swing.JLabel();
         jLabelDataCompra = new javax.swing.JLabel();
         jLabelGrupo = new javax.swing.JLabel();
@@ -107,31 +122,19 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jLabelNumeroSerie = new javax.swing.JLabel();
         jLabelModelo = new javax.swing.JLabel();
         jLabelStatus = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jComboBoxStatus = new javax.swing.JComboBox();
-        jTextFieldModelo = new javax.swing.JTextField();
-        jTextFieldNumeroSerie = new javax.swing.JTextField();
-        jComboBoxFornecedor = new javax.swing.JComboBox();
-        jComboBoxGrupo = new javax.swing.JComboBox();
-        jTextFieldValorCompra = new javax.swing.JTextField();
-        jTextFieldNotalFiscal = new javax.swing.JTextField();
-        jTextFieldNumeroControle = new javax.swing.JTextField();
-        jTextFieldLocal = new javax.swing.JTextField();
-        jLabelLocal = new javax.swing.JLabel();
+        jLabelObservacoes = new javax.swing.JLabel();
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jLabelNomeBens = new javax.swing.JLabel();
-        jTextFieldNomeBen = new javax.swing.JTextField();
-        jDateChooserDataCompra = new com.toedter.calendar.JDateChooser();
-        jTextFieldVidaUtil = new javax.swing.JTextField();
-        jLabelFornecedor = new javax.swing.JLabel();
-        jLabelVidaUtil = new javax.swing.JLabel();
-        jTextFieldGarantia = new javax.swing.JTextField();
-        jLabelGarantia = new javax.swing.JLabel();
         jTextFieldIdbens = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextFieldObservaçoes = new javax.swing.JTextArea();
-        jComboBoxVoltagen = new javax.swing.JComboBox();
+        jLabelFornecedor = new javax.swing.JLabel();
+        jLabelVidaUtil = new javax.swing.JLabel();
+        jLabelLocal = new javax.swing.JLabel();
+        jLabelGarantia = new javax.swing.JLabel();
+        jLabelNumeroControle = new javax.swing.JLabel();
+        jLabelNotaFiscal = new javax.swing.JLabel();
         jButtonNovo = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
         jPanelSecundario = new javax.swing.JPanel();
@@ -160,18 +163,132 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("Cadastro de Bens");
-        setEnabled(false);
 
         jPanelBens.setBorder(javax.swing.BorderFactory.createTitledBorder("Grupos"));
         jPanelBens.setLayout(null);
 
-        jLabelNumeroControle.setText("N° de controle:");
-        jPanelBens.add(jLabelNumeroControle);
-        jLabelNumeroControle.setBounds(19, 59, 110, 20);
+        jTextFieldNomeBen.setText("jTextField1");
+        jTextFieldNomeBen.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldNomeBenFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldNomeBen);
+        jTextFieldNomeBen.setBounds(144, 29, 190, 26);
+        jTextFieldNomeBen.getAccessibleContext().setAccessibleParent(this);
 
-        jLabelNotaFiscal.setText("Nº Notal Fiscal:");
-        jPanelBens.add(jLabelNotaFiscal);
-        jLabelNotaFiscal.setBounds(362, 59, 110, 20);
+        jTextFieldNumeroControle.setText("jTextField1");
+        jTextFieldNumeroControle.setSelectionEnd(12);
+        jTextFieldNumeroControle.setSelectionStart(12);
+        jTextFieldNumeroControle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldNumeroControleFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldNumeroControle);
+        jTextFieldNumeroControle.setBounds(144, 59, 190, 26);
+        jTextFieldNumeroControle.getAccessibleContext().setAccessibleParent(this);
+
+        jTextFieldLocal.setText("jTextField8");
+        jTextFieldLocal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldLocalFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldLocal);
+        jTextFieldLocal.setBounds(144, 89, 190, 26);
+
+        jTextFieldModelo.setText("jTextField1");
+        jTextFieldModelo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldModeloFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldModelo);
+        jTextFieldModelo.setBounds(144, 119, 190, 26);
+
+        jTextFieldNumeroSerie.setText("jTextField1");
+        jTextFieldNumeroSerie.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldNumeroSerieFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldNumeroSerie);
+        jTextFieldNumeroSerie.setBounds(144, 149, 190, 26);
+
+        jComboBoxGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxGrupo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxGrupoFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jComboBoxGrupo);
+        jComboBoxGrupo.setBounds(144, 179, 190, 26);
+
+        jComboBoxVoltagen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
+        jComboBoxVoltagen.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxVoltagenFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jComboBoxVoltagen);
+        jComboBoxVoltagen.setBounds(144, 211, 190, 26);
+
+        jComboBoxFornecedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
+        jComboBoxFornecedor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxFornecedorFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jComboBoxFornecedor);
+        jComboBoxFornecedor.setBounds(144, 240, 190, 26);
+
+        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxStatus.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxStatusFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jComboBoxStatus);
+        jComboBoxStatus.setBounds(482, 29, 190, 26);
+
+        jTextFieldNotalFiscal.setText("jTextField1");
+        jTextFieldNotalFiscal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldNotalFiscalFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldNotalFiscal);
+        jTextFieldNotalFiscal.setBounds(482, 59, 190, 26);
+        jPanelBens.add(jDateChooserDataCompra);
+        jDateChooserDataCompra.setBounds(482, 89, 190, 26);
+
+        jTextFieldValorCompra.setText("jTextField1");
+        jTextFieldValorCompra.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldValorCompraFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldValorCompra);
+        jTextFieldValorCompra.setBounds(482, 119, 190, 26);
+
+        jTextFieldGarantia.setText("jTextField1");
+        jTextFieldGarantia.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldGarantiaFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldGarantia);
+        jTextFieldGarantia.setBounds(482, 149, 190, 26);
+
+        jTextFieldVidaUtil.setText("jTextField1");
+        jTextFieldVidaUtil.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldVidaUtilFocusLost(evt);
+            }
+        });
+        jPanelBens.add(jTextFieldVidaUtil);
+        jTextFieldVidaUtil.setBounds(482, 179, 190, 26);
 
         jLabelValorCompra.setText("Valor de Compra:");
         jPanelBens.add(jLabelValorCompra);
@@ -202,82 +319,9 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jPanelBens.add(jLabelStatus);
         jLabelStatus.setBounds(362, 29, 110, 20);
 
-        jLabel11.setText("Observações:");
-        jPanelBens.add(jLabel11);
-        jLabel11.setBounds(492, 211, 100, 20);
-
-        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanelBens.add(jComboBoxStatus);
-        jComboBoxStatus.setBounds(482, 29, 190, 26);
-
-        jTextFieldModelo.setText("jTextField1");
-        jTextFieldModelo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldModeloKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldModelo);
-        jTextFieldModelo.setBounds(144, 119, 190, 26);
-
-        jTextFieldNumeroSerie.setText("jTextField1");
-        jTextFieldNumeroSerie.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldNumeroSerieKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldNumeroSerie);
-        jTextFieldNumeroSerie.setBounds(144, 149, 190, 26);
-
-        jComboBoxFornecedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
-        jPanelBens.add(jComboBoxFornecedor);
-        jComboBoxFornecedor.setBounds(144, 240, 190, 26);
-
-        jComboBoxGrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanelBens.add(jComboBoxGrupo);
-        jComboBoxGrupo.setBounds(144, 179, 190, 26);
-
-        jTextFieldValorCompra.setText("jTextField1");
-        jTextFieldValorCompra.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldValorCompraKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldValorCompra);
-        jTextFieldValorCompra.setBounds(482, 119, 190, 26);
-
-        jTextFieldNotalFiscal.setText("jTextField1");
-        jTextFieldNotalFiscal.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldNotalFiscalKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldNotalFiscal);
-        jTextFieldNotalFiscal.setBounds(482, 59, 190, 26);
-
-        jTextFieldNumeroControle.setText("jTextField1");
-        jTextFieldNumeroControle.setSelectionEnd(0);
-        jTextFieldNumeroControle.setSelectionStart(0);
-        jTextFieldNumeroControle.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldNumeroControleKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldNumeroControle);
-        jTextFieldNumeroControle.setBounds(144, 59, 190, 26);
-        jTextFieldNumeroControle.getAccessibleContext().setAccessibleParent(this);
-
-        jTextFieldLocal.setText("jTextField8");
-        jTextFieldLocal.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldLocalKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldLocal);
-        jTextFieldLocal.setBounds(144, 89, 190, 26);
-
-        jLabelLocal.setText("Local:");
-        jPanelBens.add(jLabelLocal);
-        jLabelLocal.setBounds(19, 89, 110, 20);
+        jLabelObservacoes.setText("Observações:");
+        jPanelBens.add(jLabelObservacoes);
+        jLabelObservacoes.setBounds(492, 211, 100, 20);
 
         jButtonSalvar.setText("Variavel");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -306,31 +350,17 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jPanelBens.add(jLabelNomeBens);
         jLabelNomeBens.setBounds(19, 29, 110, 20);
 
-        jTextFieldNomeBen.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldNomeBenKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldNomeBen);
-        jTextFieldNomeBen.setBounds(144, 29, 190, 26);
-        jTextFieldNomeBen.getAccessibleContext().setAccessibleParent(this);
+        jTextFieldIdbens.setText("IdBENS");
+        jPanelBens.add(jTextFieldIdbens);
+        jTextFieldIdbens.setBounds(19, 290, 41, 20);
 
-        jDateChooserDataCompra.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jDateChooserDataCompraKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jDateChooserDataCompra);
-        jDateChooserDataCompra.setBounds(482, 89, 190, 26);
+        jTextFieldObservaçoes.setColumns(20);
+        jTextFieldObservaçoes.setRows(5);
+        jTextFieldObservaçoes.setText("\n\n\n\n\n\n\n");
+        jScrollPane1.setViewportView(jTextFieldObservaçoes);
 
-        jTextFieldVidaUtil.setText("jTextField1");
-        jTextFieldVidaUtil.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldVidaUtilKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldVidaUtil);
-        jTextFieldVidaUtil.setBounds(482, 179, 190, 26);
+        jPanelBens.add(jScrollPane1);
+        jScrollPane1.setBounds(352, 243, 320, 70);
 
         jLabelFornecedor.setText("Fornecedor:");
         jPanelBens.add(jLabelFornecedor);
@@ -340,39 +370,21 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jPanelBens.add(jLabelVidaUtil);
         jLabelVidaUtil.setBounds(362, 179, 110, 20);
 
-        jTextFieldGarantia.setText("jTextField1");
-        jTextFieldGarantia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldGarantiaKeyPressed(evt);
-            }
-        });
-        jPanelBens.add(jTextFieldGarantia);
-        jTextFieldGarantia.setBounds(482, 149, 190, 26);
+        jLabelLocal.setText("Local:");
+        jPanelBens.add(jLabelLocal);
+        jLabelLocal.setBounds(19, 89, 110, 20);
 
         jLabelGarantia.setText("Garantia em Dias:");
         jPanelBens.add(jLabelGarantia);
         jLabelGarantia.setBounds(362, 149, 110, 20);
 
-        jTextFieldIdbens.setText("IdBENS");
-        jPanelBens.add(jTextFieldIdbens);
-        jTextFieldIdbens.setBounds(19, 290, 41, 20);
+        jLabelNumeroControle.setText("N° de controle:");
+        jPanelBens.add(jLabelNumeroControle);
+        jLabelNumeroControle.setBounds(19, 59, 110, 20);
 
-        jTextFieldObservaçoes.setColumns(20);
-        jTextFieldObservaçoes.setRows(5);
-        jTextFieldObservaçoes.setText("\n\n\n\n\n\n\n");
-        jTextFieldObservaçoes.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldObservaçoesKeyPressed(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTextFieldObservaçoes);
-
-        jPanelBens.add(jScrollPane1);
-        jScrollPane1.setBounds(352, 243, 320, 70);
-
-        jComboBoxVoltagen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1" }));
-        jPanelBens.add(jComboBoxVoltagen);
-        jComboBoxVoltagen.setBounds(144, 211, 190, 26);
+        jLabelNotaFiscal.setText("Nº Notal Fiscal:");
+        jPanelBens.add(jLabelNotaFiscal);
+        jLabelNotaFiscal.setBounds(362, 59, 110, 20);
 
         jButtonNovo.setText("Novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -477,7 +489,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
         );
         jDesktopPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -488,11 +500,11 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             .addComponent(jDesktopPane1)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(jButtonNovo)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonExcluir)
@@ -502,14 +514,19 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jDesktopPane1)
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(11, 11, 11)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanelSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addComponent(jPanelSecundario, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonNovo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelBens, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pack();
@@ -579,116 +596,71 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         deletarBens();
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
-    private void jTextFieldNomeBenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNomeBenKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNomeBen.getText().equals("")) {
-            jTextFieldNumeroControle.requestFocus();
-            jLabelNomeBens.setForeground(Color.BLACK);
-        } else {
-            jLabelNomeBens.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldNomeBenKeyPressed
-
-    private void jTextFieldNumeroControleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroControleKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNumeroControle.getText().equals("")) {
-            jTextFieldLocal.requestFocus();
-            jLabelNumeroControle.setForeground(Color.BLACK);
-        } else {
-            jLabelNumeroControle.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldNumeroControleKeyPressed
-
-    private void jTextFieldLocalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldLocalKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldLocal.getText().equals("")) {
-            jTextFieldModelo.requestFocus();
-            jLabelLocal.setForeground(Color.BLACK);
-        } else {
-            jLabelLocal.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldLocalKeyPressed
-
-    private void jTextFieldModeloKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldModeloKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldModelo.getText().equals("")) {
-            jTextFieldNumeroSerie.requestFocus();
-            jLabelModelo.setForeground(Color.BLACK);
-        } else {
-            jLabelModelo.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldModeloKeyPressed
-
-    private void jTextFieldNumeroSerieKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroSerieKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNumeroSerie.getText().equals("")) {
-            jComboBoxGrupo.requestFocus();
-            jComboBoxGrupo.showPopup();
-            jLabelNumeroSerie.setForeground(Color.BLACK);
-        } else {
-            jLabelNumeroSerie.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldNumeroSerieKeyPressed
-
-    private void jTextFieldNotalFiscalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNotalFiscalKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNotalFiscal.getText().equals("")) {
-            jTextFieldValorCompra.requestFocus();
-            jLabelNotaFiscal.setForeground(Color.BLACK);
-        } else {
-            jLabelNotaFiscal.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldNotalFiscalKeyPressed
-
-    private void jDateChooserDataCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jDateChooserDataCompraKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jTextFieldValorCompra.requestFocus();
-            jLabelDataCompra.setForeground(Color.BLACK);
-        } else {
-            jLabelDataCompra.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jDateChooserDataCompraKeyPressed
-
-    private void jTextFieldValorCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorCompraKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldValorCompra.getText().equals("")) {
-            jTextFieldGarantia.requestFocus();
-            jLabelValorCompra.setForeground(Color.BLACK);
-        } else {
-            jLabelValorCompra.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldValorCompraKeyPressed
-
-    private void jTextFieldGarantiaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldGarantiaKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldGarantia.getText().equals("")) {
-            jTextFieldVidaUtil.requestFocus();
-            jLabelGarantia.setForeground(Color.BLACK);
-        } else {
-            jLabelGarantia.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldGarantiaKeyPressed
-
-    private void jTextFieldVidaUtilKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldVidaUtilKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldVidaUtil.getText().equals("")) {
-            jTextFieldObservaçoes.requestFocus();
-            jLabelVidaUtil.setForeground(Color.BLACK);
-        } else {
-            jLabelVidaUtil.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldVidaUtilKeyPressed
-
-    private void jTextFieldObservaçoesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldObservaçoesKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jButtonSalvar.requestFocus();
-        }
-    }//GEN-LAST:event_jTextFieldObservaçoesKeyPressed
-
     private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (modificador == 1) {
-            jButtonSalvar.setText("Salvar");
-            cadastrarBens();
-        } else if (modificador == 2) {
-            jButtonSalvar.setText("Editar");
-            editarBens();
-        } else {
+                jButtonSalvar.setText("Salvar");
+                cadastrarBens();
+            } else if (modificador == 2) {
+                jButtonSalvar.setText("Editar");
+                editarBens();
+            } else {
 
-        }
+            }
         }
     }//GEN-LAST:event_jButtonSalvarKeyPressed
+
+    private void jTextFieldNomeBenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNomeBenFocusLost
+        ClassEvents.focusLostTextField(jLabelNomeBens, jTextFieldNomeBen);
+    }//GEN-LAST:event_jTextFieldNomeBenFocusLost
+
+    private void jTextFieldNumeroControleFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNumeroControleFocusLost
+        ClassEvents.focusLostTextField(jLabelNumeroControle, jTextFieldNumeroControle);
+    }//GEN-LAST:event_jTextFieldNumeroControleFocusLost
+
+    private void jTextFieldLocalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldLocalFocusLost
+        ClassEvents.focusLostTextField(jLabelLocal, jTextFieldLocal);
+    }//GEN-LAST:event_jTextFieldLocalFocusLost
+
+    private void jTextFieldModeloFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldModeloFocusLost
+       ClassEvents.focusLostTextField(jLabelModelo,jTextFieldModelo);
+    }//GEN-LAST:event_jTextFieldModeloFocusLost
+
+    private void jTextFieldNumeroSerieFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNumeroSerieFocusLost
+        ClassEvents.focusLostTextField(jLabelNumeroSerie, jTextFieldNumeroSerie);
+    }//GEN-LAST:event_jTextFieldNumeroSerieFocusLost
+
+    private void jTextFieldNotalFiscalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNotalFiscalFocusLost
+        ClassEvents.focusLostTextField(jLabelNotaFiscal, jTextFieldNotalFiscal);
+    }//GEN-LAST:event_jTextFieldNotalFiscalFocusLost
+
+    private void jTextFieldValorCompraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorCompraFocusLost
+        ClassEvents.focusLostTextField(jLabelValorCompra, jTextFieldValorCompra);
+    }//GEN-LAST:event_jTextFieldValorCompraFocusLost
+
+    private void jTextFieldGarantiaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldGarantiaFocusLost
+        ClassEvents.focusLostTextField(jLabelGarantia, jTextFieldGarantia);
+    }//GEN-LAST:event_jTextFieldGarantiaFocusLost
+
+    private void jTextFieldVidaUtilFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldVidaUtilFocusLost
+       ClassEvents.focusLostTextField(jLabelVidaUtil, jTextFieldVidaUtil);
+    }//GEN-LAST:event_jTextFieldVidaUtilFocusLost
+
+    private void jComboBoxGrupoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxGrupoFocusLost
+        ClassEvents.focusLostCombobox(jLabelGrupo, jComboBoxGrupo);
+    }//GEN-LAST:event_jComboBoxGrupoFocusLost
+
+    private void jComboBoxVoltagenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxVoltagenFocusLost
+        ClassEvents.focusLostCombobox(jLabelVoltagem, jComboBoxVoltagen);
+    }//GEN-LAST:event_jComboBoxVoltagenFocusLost
+
+    private void jComboBoxFornecedorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxFornecedorFocusLost
+        ClassEvents.focusLostCombobox(jLabelFornecedor, jComboBoxFornecedor);
+    }//GEN-LAST:event_jComboBoxFornecedorFocusLost
+
+    private void jComboBoxStatusFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxStatusFocusLost
+        ClassEvents.focusLostCombobox(jLabelStatus, jComboBoxStatus);
+    }//GEN-LAST:event_jComboBoxStatusFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -706,7 +678,6 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser jDateChooserFinalVidaUtil;
     private com.toedter.calendar.JDateChooser jDateChooserInicioGarantiaManutencao;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabelDataCompra;
     private javax.swing.JLabel jLabelDescricaoDepreciacaoDiaria;
     private javax.swing.JLabel jLabelFimGarantiaManutencao;
@@ -723,6 +694,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabelNotaFiscal;
     private javax.swing.JLabel jLabelNumeroControle;
     private javax.swing.JLabel jLabelNumeroSerie;
+    private javax.swing.JLabel jLabelObservacoes;
     private javax.swing.JLabel jLabelStatus;
     private javax.swing.JLabel jLabelTempoUsoPorcento;
     private javax.swing.JLabel jLabelValorAtual;
@@ -919,6 +891,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         modificador = 2;
         modificadorCampos();
         panelSecundario();
+        jTextFieldNomeBen.requestFocus();
 
     }
 
@@ -1100,8 +1073,6 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             JLabel label, JDateChooser fim) {
 
         String finalGarantia = ClassUtils.setDateChooserMysql(fim).replace("-", "");
-        System.out.println("final " + finalGarantia);
-
         if (!finalGarantia.equals("20000101")) {
             jLabelGarantiaManutencao.setVisible(true);
             jLabelFimGarantiaManutencao.setVisible(true);
@@ -1156,4 +1127,27 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             label.setForeground(Color.BLACK);
         }
     }
-}
+
+    private void enventFocus() {
+        ArrayList<Component> order = new ArrayList<>();
+        order.add(jTextFieldNomeBen);
+        order.add(jTextFieldNumeroControle);
+        order.add(jTextFieldLocal);
+        order.add(jTextFieldModelo);
+        order.add(jTextFieldNumeroSerie);
+        order.add(jComboBoxGrupo);
+        order.add(jComboBoxVoltagen);
+        order.add(jComboBoxFornecedor);
+        order.add(jComboBoxStatus);
+        order.add(jTextFieldNotalFiscal);
+        order.add(jTextFieldValorCompra);
+        order.add(jTextFieldGarantia);
+        order.add(jTextFieldVidaUtil);
+        order.add(jButtonSalvar);
+        order.add(jButtonCancelar);
+        
+        FocusLost focus = new FocusLost(order);
+        setFocusTraversalPolicy(focus);
+    }
+
+    }

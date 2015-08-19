@@ -549,8 +549,8 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             fornecedorTemp.setNumero(jTextFieldNumero.getText());
             fornecedorTemp.setTelefone(jTextFieldTelefone.getText());
             fornecedorTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
-            fornecedorTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
-            fornecedorTemp.setUsuarioCad((ClassUtils.getIdUsuario()));
+            fornecedorTemp.setUsuarioAlt(ClassUtils.getIdUsuario());
+            fornecedorTemp.setUsuarioCad(ClassUtils.getIdUsuario());
 
             fornecedorDao.cadastra(fornecedorTemp,
                     Integer.parseInt(cidadeDao.buscarIdcidade(jComboBoxCidade.getSelectedItem().toString())));
@@ -589,7 +589,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             fornecedorTemp.setNumero(jTextFieldNumero.getText());
             fornecedorTemp.setTelefone(jTextFieldTelefone.getText());
             fornecedorTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
-            fornecedorTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
+            fornecedorTemp.setUsuarioAlt(ClassUtils.getIdUsuario());
             fornecedorTemp.setCep(jTextFieldCep.getText());
             fornecedorTemp.setIdFornecedor(Integer.parseInt(jTextFieldIdFornecedor.getText()));           
           

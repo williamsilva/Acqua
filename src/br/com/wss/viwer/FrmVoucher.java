@@ -5,7 +5,9 @@
  */
 package br.com.wss.viwer;
 
+import java.awt.event.KeyEvent;
 import java.util.Date;
+import javax.swing.JTextField;
 
 /**
  *
@@ -239,4 +241,5 @@ public class FrmVoucher extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldNumeroControle1;
     private javax.swing.JTextField jTextFieldNumeroControle3;
     // End of variables declaration//GEN-END:variables
+
 }

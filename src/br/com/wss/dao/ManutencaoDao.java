@@ -61,7 +61,8 @@ public class ManutencaoDao {
                     + " manutencao.id_usuario_cad,"
                     + " bens.nome, "
                     + " bens.numero_controle,"
-                    + " login.nome"
+                    + " login.nome,"
+                    + "(select login.nome from login where login.id_login = manutencao.id_usuario_cad) as usuario_cad"
                     + " from manutencao left join bens on manutencao.id_bens = bens.id_Bens"
                     + "                 left join login on manutencao.id_usuario_alt = login.id_login");
 
@@ -83,7 +84,7 @@ public class ManutencaoDao {
                 manutencaoTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
                 manutencaoTemp.setFinalGarantia(rs.getString("manutencao.fim_garantia_manutencao"));
                 manutencaoTemp.setUsuarioAlt(rs.getString("login.nome"));
-                manutencaoTemp.setUsuarioCad(rs.getString("manutencao.id_usuario_cad"));
+                manutencaoTemp.setUsuarioCad(rs.getString("usuario_cad"));
 
                 lista.add(manutencaoTemp);
             } while (rs.next());

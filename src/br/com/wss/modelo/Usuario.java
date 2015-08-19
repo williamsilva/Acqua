@@ -11,6 +11,7 @@ public class Usuario {
     private String senha;
     private String idUsuarioCad;
     private String idUsuarioAlt;
+    private String logado;
 
     public Usuario() {
     }
@@ -97,6 +98,14 @@ public class Usuario {
 
     public void setIdUsuarioCad(String idUsuarioCad) {
         this.idUsuarioCad = idUsuarioCad;
+    }
+
+    public String getLogado() {
+        return logado;
+    }
+
+    public void setLogado(String logado) {
+        this.logado = logado;
     }
 
 }

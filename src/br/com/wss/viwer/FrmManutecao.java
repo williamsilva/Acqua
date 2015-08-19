@@ -53,6 +53,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jDateChooserDataRetorno.setDate(new Date());
         jTextFieldEquipamento.setEnabled(false);
         jTextFieldIdManutencao.setVisible(false);
+        jButtonSalvar.setEnabled(false);
 
         validaCampos();
         preencherTabela();
@@ -683,8 +684,16 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
 
     private void buscaBen() {
         if (!jTextFieldNumeroRegistro.getText().equals("")) {
-            jTextFieldEquipamento.setText(bensDao.getNomeBens(Integer.parseInt(jTextFieldNumeroRegistro.getText())));
+            String equip = bensDao.getNomeBens(Integer.parseInt(jTextFieldNumeroRegistro.getText()));
+            if (!equip.equalsIgnoreCase("")) {
+                jTextFieldEquipamento.setText(equip);
+                jTextFieldEquipamento.setDisabledTextColor(Color.BLACK);
+                jButtonSalvar.setEnabled(true);
+            } else {
+                jTextFieldEquipamento.setText("Equipamento nao existe...");
+                jTextFieldEquipamento.setDisabledTextColor(Color.red);
+                jButtonSalvar.setEnabled(false);
+            }
         }
     }
-
 }
