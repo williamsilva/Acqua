@@ -24,6 +24,9 @@ public class BensDao {
     ResultSet result;
     String sql;
 
+    /**
+     *
+     */
     public BensDao() {
         conexao = ConectionFactory.getConnection();
     }
@@ -64,11 +67,9 @@ public class BensDao {
                     + "                               bens.inicio_garantia_manutencao,"
                     + "                               grupo.nome_grupo,"
                     + "                               login.nome,"
-                    + "                               manutencao.fim_garantia_manutencao,"
                     + "          (select login.nome from login where login.id_login = bens.id_usuario_cad) as usuario_cad"
                     + "                    from bens left join grupo on bens.id_grupo_bens = grupo.id_grupo"
                     + "                    		  left join login on bens.id_usuario_alt = login.id_login"
-                    + "                              left join manutencao on bens.id_bens = manutencao.id_bens"
                     + "                    order by bens.nome");
             rs.first();
             do {
@@ -109,8 +110,10 @@ public class BensDao {
      * @param cadastrar
      * @param grupo
      * @param idFornecedor
+     * @return
      */
-    public void cadastraBens(Bens cadastrar, String grupo, String idFornecedor) {
+    public boolean cadastraBens(Bens cadastrar, String grupo, String idFornecedor) {
+        boolean retorno;
         sql = "insert into bens (numero_controle,nota_fiscal,valor_compra,"
                 + "data_compra,voltagem,numero_serie,modelo,id_fornecedor,status,"
                 + "localizacao,observacao,id_grupo_bens,data_cadastro,ultima_alteracao,"
@@ -141,11 +144,14 @@ public class BensDao {
 
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
 
         } catch (SQLException | HeadlessException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "Numero de registro " + "'" + cadastrar.getNumeroControle() + "'" + " já existe...");
         }
+        return retorno;
     }
 
     /**
@@ -153,8 +159,10 @@ public class BensDao {
      * @param atualizar
      * @param grupo
      * @param idFornecedor
+     * @return
      */
-    public void atualizarBens(Bens atualizar, String grupo, int idFornecedor) {
+    public boolean atualizarBens(Bens atualizar, String grupo, int idFornecedor) {
+        boolean retorno;
         sql = "update bens set numero_controle = ?, nota_fiscal =? ,valor_compra =? ,"
                 + "data_compra =? ,voltagem =? ,numero_serie =? ,modelo =? ,id_fornecedor =? ,status =? ,"
                 + "localizacao =? ,observacao =? ,id_grupo_bens =? ,"
@@ -183,19 +191,22 @@ public class BensDao {
 
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
-
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "Numero de registro " + "'" + atualizar.getNumeroControle() + "'" + " já existe...");
         }
+        return retorno;
     }
 
     /**
      *
      * @param deletar
+     * @return
      */
-    public void deletar(Bens deletar) {
-
+    public boolean deletar(Bens deletar) {
+        boolean retorno = true;
         sql = "Delete from bens where id_bens = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -204,11 +215,14 @@ public class BensDao {
             if (confirma == JOptionPane.YES_OPTION) {
                 stms.execute();
                 stms.close();
+                retorno = true;
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
             }
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"O item possui registros sendo utilizados!");
         }
+        return retorno;
     }
 
     /**

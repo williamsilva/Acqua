@@ -28,10 +28,17 @@ public class FornecedorDao {
     ResultSet result;
     String sql;
 
+    /**
+     *
+     */
     public FornecedorDao() {
         conexao = ConectionFactory.getConnection();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Fornecedor> listar() {
         ArrayList<Fornecedor> lista;
         lista = new ArrayList<>();
@@ -93,7 +100,14 @@ public class FornecedorDao {
         return lista;
     }
 
-    public void cadastra(Fornecedor cadastrar, int idCidade) {
+    /**
+     *
+     * @param cadastrar
+     * @param idCidade
+     * @return
+     */
+    public boolean cadastra(Fornecedor cadastrar, int idCidade) {
+        boolean retorno;
         sql = "insert into fornecedor (nome_fornecedor,id_usuario_cad,id_usuario_alt,"
                 + "id_cidade,numero,contato,email,telefone,endereco,"
                 + "ultima_alteracao,data_cadastro,celular, bairro,cep)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -117,14 +131,24 @@ public class FornecedorDao {
 
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
 
         } catch (SQLException | HeadlessException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"Numero de registro " + "'" + cadastrar.getNomeFornecedor()+ "'" + " já existe...");
         }
+        return retorno;
     }
 
-    public void atualizar(Fornecedor atualizar, int idCidade) {
+    /**
+     *
+     * @param atualizar
+     * @param idCidade
+     * @return
+     */
+    public boolean atualizar(Fornecedor atualizar, int idCidade) {
+        boolean retorno;
         sql = "update fornecedor set "
                 + "nome_fornecedor = ?,"
                 + "id_usuario_alt = ?,"
@@ -158,16 +182,22 @@ public class FornecedorDao {
 
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
-
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"Numero de registro " + "'" + atualizar.getNomeFornecedor() + "'" + " já existe...");
         }
-
+        return retorno;
     }
 
-    public void deletar(Fornecedor deletar) {
-
+    /**
+     *
+     * @param deletar
+     * @return
+     */
+    public boolean deletar(Fornecedor deletar) {
+        boolean retorno = false;
         sql = "Delete from fornecedor where id_fornecedor = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -176,13 +206,20 @@ public class FornecedorDao {
             if (confirma == JOptionPane.YES_OPTION) {
                 stms.execute();
                 stms.close();
+                retorno = true;
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
             }
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"O item possui registros sendo utilizados!");
         }
+        return retorno;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Object> listarFornecedor() {
         ArrayList<Object> objetos = new ArrayList<>();
 
@@ -202,6 +239,11 @@ public class FornecedorDao {
         return objetos;
     }
 
+    /**
+     *
+     * @param fornecedor
+     * @return
+     */
     public String getIdFornecedor(String fornecedor) {
         String idFornecedor = "";
         try {
@@ -217,6 +259,11 @@ public class FornecedorDao {
         return idFornecedor;
     }
 
+    /**
+     *
+     * @param fornecedor
+     * @return
+     */
     public String getNomeFornecedor(String fornecedor) {
         String idFornecedor = "";
         try {

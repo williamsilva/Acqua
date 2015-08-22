@@ -99,8 +99,10 @@ public class ManutencaoDao {
      *
      * @param manutencao
      * @param bens
+     * @return
      */
-    public void cadastrarManutencao(Manutencao manutencao, String bens) {
+    public boolean cadastrarManutencao(Manutencao manutencao, String bens) {
+        boolean retorno;
         sql = ("insert into manutencao (altorizada, contato, data_retorno, "
                 + "data_saida, descricao, responsavel, valor_conserto, id_bens, "
                 + "id_usuario_cad,id_usuario_alt,data_cadastro,"
@@ -125,19 +127,23 @@ public class ManutencaoDao {
 
             stms.execute();
             stms.close();
-
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         } catch (SQLException | HeadlessException error) {
+            retorno = false;
             JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + error);
         }
+        return retorno;
     }
 
     /**
      *
      * @param manutencao
      * @param bens
+     * @return
      */
-    public void atualizarManutencao(Manutencao manutencao, String bens) {
+    public boolean atualizarManutencao(Manutencao manutencao, String bens) {
+        boolean retorno;
         sql = "update manutencao set altorizada = ?, contato = ?, data_retorno = ?, "
                 + "data_saida = ?, descricao = ?, responsavel = ?, "
                 + "valor_conserto = ?, id_bens = ?, "
@@ -162,18 +168,22 @@ public class ManutencaoDao {
 
             stms.execute();
             stms.close();
-
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException | HeadlessException error) {
+            retorno = false;
             JOptionPane.showMessageDialog(null, "Erro ao Atualizar dados. \n Erro:" + error);
         }
+        return retorno;
     }
 
     /**
      *
      * @param deletar
+     * @return
      */
-    public void deletarManutencao(Manutencao deletar) {
+    public boolean deletarManutencao(Manutencao deletar) {
+        boolean retorno = false;
         sql = "Delete from manutencao where id_manutencao = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -182,19 +192,24 @@ public class ManutencaoDao {
             if (confirma == JOptionPane.YES_OPTION) {
                 stms.execute();
                 stms.close();
+                retorno = true;
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
             }
 
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"O item possui registros sendo utilizados!");
         }
+        return retorno;
     }
 
     /**
      *
      * @param atualizar
+     * @return 
      */
-    public void setGarantiaManutencao(Manutencao atualizar) {
+    public boolean setGarantiaManutencao(Manutencao atualizar) {
+        boolean retorno;
         sql = "update bens set inicio_garantia_manutencao = ?,fim_garantia_manutencao = ?,"
                 + "ultima_alteracao =?, id_usuario_alt =? where numero_controle= ?";
         try {
@@ -207,11 +222,12 @@ public class ManutencaoDao {
 
             stms.execute();
             stms.close();
-
+            retorno = true;
         } catch (SQLException error) {
+            retorno = false;
             JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
         }
-
+        return retorno;
     }
 
 }

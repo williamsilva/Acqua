@@ -11,8 +11,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
+/**
+ *
+ * @author William
+ */
 public class Principal {
 
+    /**
+     *
+     * @param args
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws UnsupportedLookAndFeelException
+     * @throws IOException
+     */
     public static void main(String[] args) throws ClassNotFoundException,
             InstantiationException, IllegalAccessException,
             UnsupportedLookAndFeelException, IOException {
@@ -21,6 +34,10 @@ public class Principal {
         principal.chamar();
 
     }
+
+    /**
+     *
+     */
     public static String computador;
 
     Connection conexao;
@@ -33,10 +50,17 @@ public class Principal {
     File origemFolderCopy = new File(ArquivosIni.getCopyDirOrigem());
     File destinoFolderCopy = new File(ArquivosIni.getCopyDirDestino());
 
+    /**
+     *
+     */
     public Principal() {
         conexao = ConectionFactory.getConnection();
     }
 
+    /**
+     *
+     * @return
+     */
     public static String getMac() {
         StringBuilder sb = new StringBuilder();
         String verifica = "";
@@ -59,6 +83,10 @@ public class Principal {
         return verifica;
     }
 
+    /**
+     *
+     * @return
+     */
     public String verificaMac() {
         String nome = "";
         String mac = getMac();
@@ -78,6 +106,9 @@ public class Principal {
         return nome;
     }
 
+    /**
+     *
+     */
     public void chamar() {
         String macComputador = getMac();
         String macBanco = verificaMac();
@@ -111,6 +142,9 @@ public class Principal {
         }
     }
 
+    /**
+     *
+     */
     public void newForm() {
 
         try {

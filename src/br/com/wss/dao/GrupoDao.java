@@ -28,10 +28,17 @@ public class GrupoDao {
     ResultSet result;
     String sql;
 
+    /**
+     *
+     */
     public GrupoDao() {
         conexao = ConectionFactory.getConnection();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Grupo> listar() {
         ArrayList<Grupo> lista;
         lista = new ArrayList<>();
@@ -73,7 +80,13 @@ public class GrupoDao {
         return lista;
     }
 
-    public void cadastrarGrupo(Grupo cadastrar) {
+    /**
+     *
+     * @param cadastrar
+     * @return
+     */
+    public boolean cadastrarGrupo(Grupo cadastrar) {
+        boolean retorno;
         sql = ("insert into grupo (nome_grupo,descricao,data_cadastro,"
                 + "ultima_alteracao,id_usuario_cad,id_usuario_alt)values (?,?,?,?,?,?)");
         try {
@@ -87,14 +100,22 @@ public class GrupoDao {
 
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         } catch (SQLException | HeadlessException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"Numero de registro " + "'" + cadastrar.getNomeGrupo() + "'" + " já existe...");
         }
+        return retorno;
     }
 
-    public void atualizar(Grupo atualizar) {
-
+    /**
+     *
+     * @param atualizar
+     * @return
+     */
+    public boolean atualizar(Grupo atualizar) {
+        boolean retorno;
         sql = ("update Grupo set nome_grupo= ?, descricao = ?, ultima_alteracao = ?,"
                 + "id_usuario_alt = ? where id_grupo = ?");
 
@@ -108,15 +129,22 @@ public class GrupoDao {
 
             stms.execute();
             stms.close();
-
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"Numero de registro " + "'" + atualizar.getNomeGrupo() + "'" + " já existe...");
         }
+        return retorno;
     }
 
-    public void deletar(Grupo deletar) {
-
+    /**
+     *
+     * @param deletar
+     * @return
+     */
+    public boolean deletar(Grupo deletar) {
+        boolean retorno = false;
         sql = "Delete from grupo where id_grupo = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -125,15 +153,20 @@ public class GrupoDao {
             if (confirma == JOptionPane.YES_OPTION) {
                 stms.execute();
                 stms.close();
+                retorno = true;
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
-
             }
-
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"O item possui registros sendo utilizados!");
         }
+        return retorno;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Object> listarGrupos() {
 
         ArrayList<Object> objetos = new ArrayList<>();
@@ -154,6 +187,11 @@ public class GrupoDao {
         return objetos;
     }
 
+    /**
+     *
+     * @param grupo
+     * @return
+     */
     public String buscarIdGrupo(String grupo) {
         String idGrupo = "";
         try {
@@ -171,6 +209,11 @@ public class GrupoDao {
         return idGrupo;
     }
 
+    /**
+     *
+     * @param nome
+     * @return
+     */
     public String buscarNomeGrupo(String nome) {
         String nomeGrupo = "";
         try {

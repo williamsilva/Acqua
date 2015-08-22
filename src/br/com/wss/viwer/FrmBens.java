@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -61,7 +62,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         preencherComboStatus();
         preencherComboFornecedor();
         preencherTabela();
-        enventFocus();
+        eventFocus();
 
         this.setLocation(260, 0);
         this.setSize(1100, 660);
@@ -514,7 +515,6 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jDesktopPane1)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(45, 45, 45)
@@ -590,6 +590,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             modificador = 2;
             jButtonSalvar.setText("Editar");
         }
+        jTextFieldNomeBen.requestFocus();
     }//GEN-LAST:event_jTableBensMouseClicked
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
@@ -623,7 +624,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldLocalFocusLost
 
     private void jTextFieldModeloFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldModeloFocusLost
-       ClassEvents.focusLostTextField(jLabelModelo,jTextFieldModelo);
+        ClassEvents.focusLostTextField(jLabelModelo, jTextFieldModelo);
     }//GEN-LAST:event_jTextFieldModeloFocusLost
 
     private void jTextFieldNumeroSerieFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNumeroSerieFocusLost
@@ -643,7 +644,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextFieldGarantiaFocusLost
 
     private void jTextFieldVidaUtilFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldVidaUtilFocusLost
-       ClassEvents.focusLostTextField(jLabelVidaUtil, jTextFieldVidaUtil);
+        ClassEvents.focusLostTextField(jLabelVidaUtil, jTextFieldVidaUtil);
     }//GEN-LAST:event_jTextFieldVidaUtilFocusLost
 
     private void jComboBoxGrupoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxGrupoFocusLost
@@ -776,12 +777,12 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         jTextFieldNotalFiscal.setText("");
         jTextFieldValorCompra.setText("");
         jTextFieldValorCompra.setText("");
-        jComboBoxGrupo.setSelectedIndex(0);
-        jComboBoxFornecedor.setSelectedIndex(0);
+        jComboBoxGrupo.setSelectedIndex(0);        
         jTextFieldNumeroSerie.setText("");
         jTextFieldModelo.setText("");
         jComboBoxFornecedor.setSelectedIndex(0);
         jComboBoxStatus.setSelectedIndex(0);
+        jComboBoxVoltagen.setSelectedIndex(0);
         jTextFieldLocal.setText("");
         jTextFieldObservaçoes.setText("");
         jTextFieldNomeBen.setText("");
@@ -796,11 +797,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }
 
     private void cadastrarBens() {
-        if (jComboBoxGrupo.getSelectedIndex() != 0 && jComboBoxStatus.getSelectedIndex() != 0
-                && jComboBoxFornecedor.getSelectedIndex() != 0 && jComboBoxVoltagen.getSelectedIndex() != 0
-                && !jTextFieldNomeBen.getText().equals("") && !jTextFieldNumeroControle.getText().equals("")
-                && !jTextFieldValorCompra.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
-                && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldLocal.getText().equals("")) {
+        if (valida()) {
 
             bensTemp.setNome(jTextFieldNomeBen.getText());
             bensTemp.setNumeroControle(jTextFieldNumeroControle.getText());
@@ -821,31 +818,18 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             bensTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
             bensTemp.setDataCompra(ClassUtils.setDateChooserMysql(jDateChooserDataCompra));
 
-            bensDao.cadastraBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()),
-                    (String) fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString()));
+            if (bensDao.cadastraBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()),
+                    (String) fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString()))) {
 
-            preencherTabela();
-            limparCampos();
-            modificadorCampos();
-            jPanelBens.setVisible(false);
-            jPanelSecundario.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
+                preencherTabela();
+                limparCampos();
+                modificadorCampos();
+                jPanelBens.setVisible(false);
+                jPanelSecundario.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
 
-        } else {
-            jLabelNumeroControle.setForeground(Color.red);
-            jLabelNotaFiscal.setForeground(Color.red);
-            jLabelValorCompra.setForeground(Color.red);
-            jLabelGrupo.setForeground(Color.red);
-            jLabelVoltagem.setForeground(Color.red);
-            jLabelNumeroSerie.setForeground(Color.red);
-            jLabelModelo.setForeground(Color.red);
-            jLabelFornecedor.setForeground(Color.red);
-            jLabelStatus.setForeground(Color.red);
-            jLabelLocal.setForeground(Color.red);
-            jLabelNomeBens.setForeground(Color.red);
-            jLabelGarantia.setForeground(Color.red);
-            jLabelVidaUtil.setForeground(Color.red);
+            }
         }
     }
 
@@ -936,12 +920,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
     }
 
     private void editarBens() {
-        if (jComboBoxGrupo.getSelectedIndex() != 0 && jComboBoxStatus.getSelectedIndex() != 0
-                && jComboBoxFornecedor.getSelectedIndex() != 0 && jComboBoxVoltagen.getSelectedIndex() != 0
-                && !jTextFieldNomeBen.getText().equals("") && !jTextFieldNumeroControle.getText().equals("")
-                && !jTextFieldValorCompra.getText().equals("") && !jTextFieldNotalFiscal.getText().equals("")
-                && !jTextFieldNumeroSerie.getText().equals("") && !jTextFieldLocal.getText().equals("")) {
-
+        if (valida()) {
             bensTemp.setNome(jTextFieldNomeBen.getText());
             bensTemp.setNumeroControle(jTextFieldNumeroControle.getText());
             bensTemp.setNotaFiscal(jTextFieldNotalFiscal.getText());
@@ -960,44 +939,31 @@ public final class FrmBens extends javax.swing.JInternalFrame {
             bensTemp.setVidaUtil(jTextFieldVidaUtil.getText());
             bensTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
 
-            bensDao.atualizarBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()),
-                    Integer.parseInt(fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString())));
-
-            preencherTabela();
-            limparCampos();
-            modificadorCampos();
-            jPanelBens.setVisible(false);
-            jPanelSecundario.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
-        } else {
-            jLabelNumeroControle.setForeground(Color.red);
-            jLabelNotaFiscal.setForeground(Color.red);
-            jLabelValorCompra.setForeground(Color.red);
-            jLabelGrupo.setForeground(Color.red);
-            jLabelVoltagem.setForeground(Color.red);
-            jLabelNumeroSerie.setForeground(Color.red);
-            jLabelModelo.setForeground(Color.red);
-            jLabelFornecedor.setForeground(Color.red);
-            jLabelStatus.setForeground(Color.red);
-            jLabelLocal.setForeground(Color.red);
-            jLabelNomeBens.setForeground(Color.red);
-            jLabelGarantia.setForeground(Color.red);
-            jLabelVidaUtil.setForeground(Color.red);
+            if (bensDao.atualizarBens(bensTemp, (String) grupoDao.buscarIdGrupo(jComboBoxGrupo.getSelectedItem().toString()),
+                    Integer.parseInt(fornecedorDao.getIdFornecedor(jComboBoxFornecedor.getSelectedItem().toString())))) {
+                preencherTabela();
+                limparCampos();
+                modificadorCampos();
+                jPanelBens.setVisible(false);
+                jPanelSecundario.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
+            }
         }
     }
 
     private void deletarBens() {
         bensTemp.setIdBens(Integer.parseInt(jTextFieldIdbens.getText()));
 
-        bensDao.deletar(bensTemp);
-        limparCampos();
-        preencherTabela();
-        jPanelBens.setVisible(false);
-        jPanelSecundario.setVisible(false);
-        jButtonNovo.setEnabled(true);
-        jButtonExcluir.setEnabled(false);
-        modificador = 1;
+        if (bensDao.deletar(bensTemp)) {
+            limparCampos();
+            preencherTabela();
+            jPanelBens.setVisible(false);
+            jPanelSecundario.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+            modificador = 1;
+        }
     }
 
     private void modificadorCampos() {
@@ -1128,7 +1094,7 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         }
     }
 
-    private void enventFocus() {
+    private void eventFocus() {
         ArrayList<Component> order = new ArrayList<>();
         order.add(jTextFieldNomeBen);
         order.add(jTextFieldNumeroControle);
@@ -1145,9 +1111,68 @@ public final class FrmBens extends javax.swing.JInternalFrame {
         order.add(jTextFieldVidaUtil);
         order.add(jButtonSalvar);
         order.add(jButtonCancelar);
-        
+
         FocusLost focus = new FocusLost(order);
         setFocusTraversalPolicy(focus);
     }
 
+    private boolean valida() {
+        boolean retorno = true;
+        if (jTextFieldNomeBen.getText().equals("")) {
+            retorno = false;
+            jLabelNomeBens.setForeground(Color.red);
+        }
+        if (jTextFieldNumeroControle.getText().equals("")) {
+            retorno = false;
+            jLabelNumeroControle.setForeground(Color.red);
+        }
+        if (jTextFieldNotalFiscal.getText().equals("")) {
+            retorno = false;
+            jLabelNotaFiscal.setForeground(Color.red);
+        }
+        if (jTextFieldLocal.getText().equals("")) {
+            retorno = false;
+            jLabelLocal.setForeground(Color.red);
+        }
+        if (jTextFieldModelo.getText().equals("")) {
+            retorno = false;
+            jLabelModelo.setForeground(Color.red);
+        }
+        if (jTextFieldNumeroSerie.getText().equals("")) {
+            retorno = false;
+            jLabelNumeroSerie.setForeground(Color.red);
+        }
+        if (jTextFieldValorCompra.getText().equals("")) {
+            retorno = false;
+            jLabelValorCompra.setForeground(Color.red);
+        }
+        if (jTextFieldGarantia.getText().equals("")) {
+            retorno = false;
+            jLabelGarantia.setForeground(Color.red);
+        }
+        if (jTextFieldVidaUtil.getText().equals("")) {
+            retorno = false;
+            jLabelVidaUtil.setForeground(Color.red);
+        }
+        if (jComboBoxFornecedor.getSelectedIndex() == 0) {
+            retorno = false;
+            jLabelFornecedor.setForeground(Color.red);
+        }
+        if (jComboBoxGrupo.getSelectedIndex() == 0) {
+            retorno = false;
+            jLabelGrupo.setForeground(Color.red);
+        }
+        if (jComboBoxStatus.getSelectedIndex() == 0) {
+            retorno = false;
+            jLabelStatus.setForeground(Color.red);
+        }
+        if (jComboBoxVoltagen.getSelectedIndex() == 0) {
+            retorno = false;
+            jLabelVoltagem.setForeground(Color.red);
+        }
+        if (retorno == false) {
+            JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
+        }
+        return retorno;
     }
+}

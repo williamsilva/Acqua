@@ -14,6 +14,9 @@ import javax.swing.JOptionPane;
 
 public final class frmLogin extends javax.swing.JFrame {
 
+    /**
+     *
+     */
     public frmLogin() {
         initComponents();
         this.setResizable(false);
@@ -209,7 +212,7 @@ public final class frmLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField jtSenha;
     // End of variables declaration//GEN-END:variables
 
-    public void confirmaFechamento() {
+    private void confirmaFechamento() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override

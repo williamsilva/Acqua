@@ -10,8 +10,11 @@ import br.com.wss.tabelas.Tabela;
 import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.dao.*;
 import br.com.wss.modelo.*;
+import br.com.wss.utilidades.ClassEvents;
+import br.com.wss.utilidades.FocusLost;
 import br.com.wss.utilidades.NumeroMaximoCaracters;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -27,6 +30,9 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     ArrayList<Usuario> dados;
     String usuario = "";
     String usuarioSenha = "";
+    String ativo = "";
+    String logado = "";
+    String idUsuario = "";
     int modificador = 1;
 
     /**
@@ -35,9 +41,13 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     public FrmUsuario() {
         init();
         preencherTabela();
+        eventFocus();
         jBExcluir.setEnabled(false);
         jPUsuario.setVisible(false);
         jPanelSenha.setVisible(false);
+        jPopuMenuAtivar.setEnabled(false);
+        jPopuMenuBloquear.setEnabled(false);
+        jPopuMenuLibertar.setEnabled(false);
         jTextFieldNome.setDocument(new NumeroMaximoCaracters(30));
         jTextFieldUsuario.setDocument(new NumeroMaximoCaracters(20));
 
@@ -45,18 +55,42 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void init() {
         initComponents();
-        timer1.start();
         jTId.setVisible(false);
     }
 
     private void intensSelecionado() {
         int seleciona = jTabelaUsuario.getSelectedRow();
-
         jTId.setText(String.valueOf(dados.get(seleciona).getCodigo()));
         jTextFieldNome.setText(dados.get(seleciona).getNome());
         jTextFieldUsuario.setText(dados.get(seleciona).getUsuario());
         jPasswordFieldSenha.setText(dados.get(seleciona).getSenha());
         jPasswordFieldConfirmeSenha.setText(dados.get(seleciona).getSenha());
+        modificadorCampos();
+        modificador = 2;
+    }
+
+    private void itensPopuMenu() {
+        int seleciona = jTabelaUsuario.getSelectedRow();
+
+        if (seleciona != -1) {
+            ativo = String.valueOf(dados.get(seleciona).getAtivo());
+            logado = String.valueOf(dados.get(seleciona).getLogado());
+            idUsuario = String.valueOf(dados.get(seleciona).getCodigo());
+
+            if (ativo.equals("Sim")) {
+                jPopuMenuAtivar.setEnabled(false);
+                jPopuMenuBloquear.setEnabled(true);
+            } else {
+                jPopuMenuAtivar.setEnabled(true);
+                jPopuMenuBloquear.setEnabled(false);
+            }
+            if (logado.equals("")) {
+                jPopuMenuLibertar.setEnabled(false);
+            } else {
+                jPopuMenuLibertar.setEnabled(true);
+            }
+            modificadorCampos();
+        }
     }
 
     /**
@@ -69,7 +103,11 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         rBStatus = new javax.swing.ButtonGroup();
-        timer1 = new org.netbeans.examples.lib.timerbean.Timer();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopuMenuAtivar = new javax.swing.JMenuItem();
+        jPopuMenuBloquear = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jPopuMenuLibertar = new javax.swing.JMenuItem();
         jPUsuario = new javax.swing.JPanel();
         jLNome = new javax.swing.JLabel();
         jLUsuario = new javax.swing.JLabel();
@@ -77,10 +115,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jBCancelar = new javax.swing.JButton();
         jTextFieldUsuario = new javax.swing.JTextField();
         jTextFieldNome = new javax.swing.JTextField();
-        jRSim = new javax.swing.JRadioButton();
-        jRNao = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
-        jLUsuarioCadastro1 = new javax.swing.JLabel();
+        jButtonDefinirSenha = new javax.swing.JButton();
         jTId = new javax.swing.JTextField();
         jBExcluir = new javax.swing.JButton();
         jBNovo = new javax.swing.JButton();
@@ -95,19 +130,48 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jButtonSalvarSenha = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
 
+        jPopuMenuAtivar.setText("Ativar");
+        jPopuMenuAtivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPopuMenuAtivarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jPopuMenuAtivar);
+
+        jPopuMenuBloquear.setText("Desativar");
+        jPopuMenuBloquear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPopuMenuBloquearActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jPopuMenuBloquear);
+        jPopupMenu1.add(jSeparator1);
+
+        jPopuMenuLibertar.setText("Libertar");
+        jPopuMenuLibertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPopuMenuLibertarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jPopuMenuLibertar);
+
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setClosable(true);
         setIconifiable(true);
         setTitle("Cadastro de Usúario");
-        setEnabled(false);
 
-        jPUsuario.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Usuário"));
+        jPUsuario.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Usuário"));
+        jPUsuario.setLayout(null);
 
-        jLNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLNome.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLNome.setText("Nome:");
+        jPUsuario.add(jLNome);
+        jLNome.setBounds(19, 30, 110, 20);
 
-        jLUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLUsuario.setText("Usuário:");
+        jPUsuario.add(jLUsuario);
+        jLUsuario.setBounds(19, 60, 110, 20);
 
         jButtonSalvar.setText("variavel");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -120,6 +184,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 jButtonSalvarKeyPressed(evt);
             }
         });
+        jPUsuario.add(jButtonSalvar);
+        jButtonSalvar.setBounds(140, 100, 80, 26);
 
         jBCancelar.setText("Cancelar");
         jBCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -127,103 +193,48 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 jBCancelarActionPerformed(evt);
             }
         });
+        jPUsuario.add(jBCancelar);
+        jBCancelar.setBounds(250, 100, 80, 26);
 
+        jTextFieldUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldUsuarioFocusLost(evt);
+            }
+        });
         jTextFieldUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldUsuarioKeyPressed(evt);
             }
         });
+        jPUsuario.add(jTextFieldUsuario);
+        jTextFieldUsuario.setBounds(144, 60, 190, 26);
 
+        jTextFieldNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldNomeFocusLost(evt);
+            }
+        });
         jTextFieldNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldNomeKeyPressed(evt);
             }
         });
+        jPUsuario.add(jTextFieldNome);
+        jTextFieldNome.setBounds(144, 30, 190, 26);
 
-        rBStatus.add(jRSim);
-        jRSim.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jRSim.setSelected(true);
-        jRSim.setText("Ativo");
-
-        rBStatus.add(jRNao);
-        jRNao.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jRNao.setText("Bloqueado");
-
-        jButton1.setText("Definir Senha");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonDefinirSenha.setText("Definir Senha");
+        jButtonDefinirSenha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonDefinirSenhaActionPerformed(evt);
             }
         });
-
-        jLUsuarioCadastro1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLUsuarioCadastro1.setText("Status Usuário:");
+        jPUsuario.add(jButtonDefinirSenha);
+        jButtonDefinirSenha.setBounds(10, 100, 110, 26);
 
         jTId.setEditable(false);
         jTId.setText("iD");
-
-        javax.swing.GroupLayout jPUsuarioLayout = new javax.swing.GroupLayout(jPUsuario);
-        jPUsuario.setLayout(jPUsuarioLayout);
-        jPUsuarioLayout.setHorizontalGroup(
-            jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPUsuarioLayout.createSequentialGroup()
-                .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPUsuarioLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPUsuarioLayout.createSequentialGroup()
-                                .addComponent(jLUsuarioCadastro1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRSim)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRNao))
-                            .addGroup(jPUsuarioLayout.createSequentialGroup()
-                                .addGap(176, 176, 176)
-                                .addComponent(jBCancelar)
-                                .addGap(43, 43, 43)
-                                .addComponent(jButton1))
-                            .addGroup(jPUsuarioLayout.createSequentialGroup()
-                                .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLUsuario)
-                                    .addGroup(jPUsuarioLayout.createSequentialGroup()
-                                        .addGap(11, 11, 11)
-                                        .addComponent(jLNome)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldNome))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(16, 16, 16))))
-                    .addGroup(jPUsuarioLayout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(jButtonSalvar)))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        jPUsuarioLayout.setVerticalGroup(
-            jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPUsuarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLNome)
-                    .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLUsuario))
-                .addGap(18, 18, 18)
-                .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLUsuarioCadastro1)
-                    .addComponent(jRSim)
-                    .addComponent(jRNao))
-                .addGap(18, 18, 18)
-                .addGroup(jPUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalvar)
-                    .addComponent(jBCancelar)
-                    .addComponent(jButton1))
-                .addGap(64, 64, 64))
-        );
+        jPUsuario.add(jTId);
+        jTId.setBounds(196, 138, 26, 20);
 
         jBExcluir.setText("Excluir");
         jBExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -254,6 +265,9 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabelaUsuarioMouseClicked(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTabelaUsuarioMouseReleased(evt);
+            }
         });
         jScrollPane1.setViewportView(jTabelaUsuario);
 
@@ -265,27 +279,46 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
         );
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jPanelSenha.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Senha"));
+        jPanelSenha.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Senha"));
+        jPanelSenha.setLayout(null);
 
+        jPasswordFieldSenha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jPasswordFieldSenhaFocusLost(evt);
+            }
+        });
         jPasswordFieldSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordFieldSenhaKeyPressed(evt);
             }
         });
+        jPanelSenha.add(jPasswordFieldSenha);
+        jPasswordFieldSenha.setBounds(144, 30, 190, 26);
 
         jLabelSenha.setText("Senha:");
+        jPanelSenha.add(jLabelSenha);
+        jLabelSenha.setBounds(19, 30, 110, 20);
 
         jLabelConfirmeSenha.setText("Confirme Senha:");
+        jPanelSenha.add(jLabelConfirmeSenha);
+        jLabelConfirmeSenha.setBounds(19, 60, 110, 20);
 
+        jPasswordFieldConfirmeSenha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jPasswordFieldConfirmeSenhaFocusLost(evt);
+            }
+        });
         jPasswordFieldConfirmeSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordFieldConfirmeSenhaKeyPressed(evt);
             }
         });
+        jPanelSenha.add(jPasswordFieldConfirmeSenha);
+        jPasswordFieldConfirmeSenha.setBounds(144, 60, 190, 26);
 
         jButtonSalvarSenha.setText("Salvar");
         jButtonSalvarSenha.addActionListener(new java.awt.event.ActionListener() {
@@ -298,6 +331,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 jButtonSalvarSenhaKeyPressed(evt);
             }
         });
+        jPanelSenha.add(jButtonSalvarSenha);
+        jButtonSalvarSenha.setBounds(140, 110, 80, 26);
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -305,47 +340,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 jButtonCancelarActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanelSenhaLayout = new javax.swing.GroupLayout(jPanelSenha);
-        jPanelSenha.setLayout(jPanelSenhaLayout);
-        jPanelSenhaLayout.setHorizontalGroup(
-            jPanelSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelSenhaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelSenhaLayout.createSequentialGroup()
-                        .addGroup(jPanelSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelConfirmeSenha)
-                            .addComponent(jLabelSenha))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPasswordFieldSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPasswordFieldConfirmeSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSenhaLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jButtonSalvarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonCancelar)
-                        .addGap(22, 22, 22))))
-        );
-        jPanelSenhaLayout.setVerticalGroup(
-            jPanelSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSenhaLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanelSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelSenha)
-                    .addComponent(jPasswordFieldSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanelSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelConfirmeSenha)
-                    .addComponent(jPasswordFieldConfirmeSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addGroup(jPanelSenhaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalvarSenha)
-                    .addComponent(jButtonCancelar))
-                .addGap(20, 20, 20))
-        );
+        jPanelSenha.add(jButtonCancelar);
+        jButtonCancelar.setBounds(260, 110, 80, 26);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -355,33 +351,31 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jBNovo)
-                        .addGap(50, 50, 50)
-                        .addComponent(jBExcluir))
+                        .addComponent(jPUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanelSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanelSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                        .addComponent(jBNovo)
+                        .addGap(49, 49, 49)
+                        .addComponent(jBExcluir)))
+                .addGap(72, 424, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jDesktopPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBExcluir)
-                    .addComponent(jBNovo))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jBNovo)
+                    .addComponent(jBExcluir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanelSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
+                    .addComponent(jPanelSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        setBounds(0, 0, 787, 538);
+        setBounds(0, 0, 1139, 538);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
@@ -398,13 +392,14 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         Usuario usuarioTemp = new Usuario();
         usuarioTemp.setUsuario(jTextFieldUsuario.getText());
         UsuarioDao dao = new UsuarioDao();
-        dao.deletar(usuarioTemp);
+        if (dao.deletar(usuarioTemp)) {
 
-        jPUsuario.setVisible(false);
-        jBNovo.setEnabled(true);
-        jBExcluir.setEnabled(false);
-        preencherTabela();
-        limparCanpos();
+            jPUsuario.setVisible(false);
+            jBNovo.setEnabled(true);
+            jBExcluir.setEnabled(false);
+            preencherTabela();
+            limparCanpos();
+        }
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     private void jBNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoActionPerformed
@@ -438,8 +433,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         jBExcluir.setEnabled(false);
         limparCanpos();
         modificador = 1;
-        jLNome.setForeground(Color.black);
-        jLUsuario.setForeground(Color.black);
+        modificadorCampos();
     }//GEN-LAST:event_jBCancelarActionPerformed
 
     private void jTabelaUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaUsuarioMouseClicked
@@ -458,14 +452,10 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTabelaUsuarioMouseClicked
 
-    private void timer1OnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timer1OnTime
-
-    }//GEN-LAST:event_timer1OnTime
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonDefinirSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDefinirSenhaActionPerformed
         jPanelSenha.setVisible(true);
         jPUsuario.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonDefinirSenhaActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         jPanelSenha.setVisible(false);
@@ -507,11 +497,14 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void jTextFieldUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldUsuario.getText().equals("")) {
-            jPanelSenha.setVisible(true);
-            jPasswordFieldSenha.requestFocus();
-            jLUsuario.setForeground(Color.BLACK);
-        } else {
-            jLUsuario.setForeground(Color.red);
+
+            if (!jPasswordFieldConfirmeSenha.getPassword().equals("") && !jPasswordFieldSenha.getPassword().equals("")) {
+                jPanelSenha.setVisible(false);
+                jButtonSalvar.requestFocus();
+                jPasswordFieldSenha.requestFocus();
+            } else {
+                jPanelSenha.setVisible(true);
+            }
         }
     }//GEN-LAST:event_jTextFieldUsuarioKeyPressed
 
@@ -563,34 +556,70 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonSalvarKeyPressed
 
+    private void jTabelaUsuarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaUsuarioMouseReleased
+        if (evt.isPopupTrigger()) {
+            jPopupMenu1.show(this, evt.getX(), evt.getY());
+            itensPopuMenu();
+        }
+    }//GEN-LAST:event_jTabelaUsuarioMouseReleased
+
+    private void jPopuMenuAtivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopuMenuAtivarActionPerformed
+        ativarUsuario();
+    }//GEN-LAST:event_jPopuMenuAtivarActionPerformed
+
+    private void jPopuMenuBloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopuMenuBloquearActionPerformed
+        desativarUsuario();
+    }//GEN-LAST:event_jPopuMenuBloquearActionPerformed
+
+    private void jPopuMenuLibertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPopuMenuLibertarActionPerformed
+        libertaUsuario();
+    }//GEN-LAST:event_jPopuMenuLibertarActionPerformed
+
+    private void jTextFieldNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNomeFocusLost
+        ClassEvents.focusLostTextField(jLNome, jTextFieldNome);
+    }//GEN-LAST:event_jTextFieldNomeFocusLost
+
+    private void jTextFieldUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUsuarioFocusLost
+        ClassEvents.focusLostTextField(jLUsuario, jTextFieldUsuario);
+    }//GEN-LAST:event_jTextFieldUsuarioFocusLost
+
+    private void jPasswordFieldSenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldSenhaFocusLost
+        ClassEvents.focusLostTextField(jLabelSenha, jPasswordFieldSenha);
+    }//GEN-LAST:event_jPasswordFieldSenhaFocusLost
+
+    private void jPasswordFieldConfirmeSenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldConfirmeSenhaFocusLost
+        ClassEvents.focusLostTextField(jLabelConfirmeSenha, jPasswordFieldConfirmeSenha);
+    }//GEN-LAST:event_jPasswordFieldConfirmeSenhaFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBCancelar;
     private javax.swing.JButton jBExcluir;
     private javax.swing.JButton jBNovo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonDefinirSenha;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JButton jButtonSalvarSenha;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLNome;
     private javax.swing.JLabel jLUsuario;
-    private javax.swing.JLabel jLUsuarioCadastro1;
     private javax.swing.JLabel jLabelConfirmeSenha;
     private javax.swing.JLabel jLabelSenha;
     private javax.swing.JPanel jPUsuario;
     private javax.swing.JPanel jPanelSenha;
     private javax.swing.JPasswordField jPasswordFieldConfirmeSenha;
     private javax.swing.JPasswordField jPasswordFieldSenha;
-    private javax.swing.JRadioButton jRNao;
-    private javax.swing.JRadioButton jRSim;
+    private javax.swing.JMenuItem jPopuMenuAtivar;
+    private javax.swing.JMenuItem jPopuMenuBloquear;
+    private javax.swing.JMenuItem jPopuMenuLibertar;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextField jTId;
     private javax.swing.JTable jTabelaUsuario;
     private javax.swing.JTextField jTextFieldNome;
     private javax.swing.JTextField jTextFieldUsuario;
     private javax.swing.ButtonGroup rBStatus;
-    private org.netbeans.examples.lib.timerbean.Timer timer1;
     // End of variables declaration//GEN-END:variables
 
     private void limparCanpos() {
@@ -609,34 +638,73 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         usuarioTemp.setSenha(new String(jPasswordFieldSenha.getPassword()));
         usuarioTemp.setCodigo(jTId.getText());
         usuarioTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
-
         usuarioTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
 
-        if (jRSim.isSelected()) {
-            usuarioTemp.setAtivo("Sim");
-        } else if (jRNao.isSelected()) {
-            usuarioTemp.setAtivo("Nao");
-        }
-
         UsuarioDao dao = new UsuarioDao();
-        dao.atualizar(usuarioTemp);
-        limparCanpos();
-        preencherTabela();
+        if (dao.atualizar(usuarioTemp)) {
+            limparCanpos();
+            preencherTabela();
+            modificadorCampos();
 
-        jLabelSenha.setForeground(Color.BLACK);
-        jLabelConfirmeSenha.setForeground(Color.BLACK);
-        jPUsuario.setVisible(false);
-        jPanelSenha.setVisible(false);
-        jBNovo.setVisible(true);
-        jBNovo.setEnabled(true);
-        jBExcluir.setVisible(true);
-        jBExcluir.setEnabled(false);
-        jButtonSalvar.setVisible(true);
-        limparCanpos();
+            jPUsuario.setVisible(false);
+            jPanelSenha.setVisible(false);
+            jBNovo.setVisible(true);
+            jBNovo.setEnabled(true);
+            jBExcluir.setVisible(true);
+            jBExcluir.setEnabled(false);
+            jButtonSalvar.setVisible(true);
+            limparCanpos();
+
+        }
+    }
+
+    private void ativarUsuario() {
+        if (!idUsuario.equals("") && !ativo.equals("")) {
+            Usuario usuarioTemp = new Usuario();
+            usuarioTemp.setCodigo(idUsuario);
+            usuarioTemp.setAtivo("Sim");
+            usuarioTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            usuarioTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
+
+            UsuarioDao dao = new UsuarioDao();
+            if (dao.ativarUsuario(usuarioTemp)) {
+                jPopuMenuAtivar.setEnabled(false);
+                preencherTabela();
+            }
+        }
+    }
+
+    private void libertaUsuario() {
+        if (!logado.equals("")) {
+            Usuario usuarioTemp = new Usuario();
+            usuarioTemp.setLogado("");
+            usuarioTemp.setCodigo(idUsuario);
+            UsuarioDao dao = new UsuarioDao();
+            if (dao.libertar(usuarioTemp)) {
+                jPopuMenuLibertar.setEnabled(false);
+                preencherTabela();
+            }
+        }
+    }
+
+    private void desativarUsuario() {
+        if (!idUsuario.equals("") && !ativo.equals("")) {
+            Usuario usuarioTemp = new Usuario();
+            usuarioTemp.setCodigo(idUsuario);
+            usuarioTemp.setAtivo("Não");
+            usuarioTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            usuarioTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
+
+            UsuarioDao dao = new UsuarioDao();
+            if (dao.ativarUsuario(usuarioTemp)) {
+                jPopuMenuBloquear.setEnabled(false);
+                preencherTabela();
+            }
+        }
     }
 
     private void cadastrar() {
-        if (!jTextFieldNome.getText().equals("") && !jTextFieldUsuario.getText().equals("")) {
+        if (valida()) {
             if (!new String(jPasswordFieldSenha.getPassword()).equals("") && !new String(jPasswordFieldConfirmeSenha.getPassword()).equals("")) {
 
                 Usuario usuarioTemp = new Usuario();
@@ -647,34 +715,31 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 usuarioTemp.setSenha(new String(jPasswordFieldSenha.getPassword()));
                 usuarioTemp.setIdUsuarioCad((ClassUtils.getIdUsuario()));
                 usuarioTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
+                usuarioTemp.setAtivo("Sim");
 
-                if (jRSim.isSelected()) {
-                    usuarioTemp.setAtivo("Sim");
-                } else if (jRNao.isSelected()) {
-                    usuarioTemp.setAtivo("Não");
-                }
                 UsuarioDao dao = new UsuarioDao();
-                dao.cadastrarUsuario(usuarioTemp);
-                limparCanpos();
-                jPUsuario.setVisible(false);
-                jPanelSenha.setVisible(false);
-                jBNovo.setEnabled(true);
-                jBExcluir.setEnabled(false);
-                jLabelSenha.setForeground(Color.BLACK);
-                jLabelConfirmeSenha.setForeground(Color.BLACK);
-                preencherTabela();
 
+                if (dao.cadastrarUsuario(usuarioTemp)) {
+                    limparCanpos();
+                    jPUsuario.setVisible(false);
+                    jPanelSenha.setVisible(false);
+                    jBNovo.setEnabled(true);
+                    jBExcluir.setEnabled(false);
+                    preencherTabela();
+                    modificadorCampos();
+                } else {
+                    jTextFieldNome.requestFocus();
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Necessario Cadastrar Uma Senha!");
                 jPUsuario.setVisible(true);
                 jPanelSenha.setVisible(true);
-                jLNome.setForeground(Color.red);
-                jLUsuario.setForeground(Color.red);
+                jPasswordFieldSenha.requestFocus();
             }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
-            jLNome.setForeground(Color.red);
-            jLUsuario.setForeground(Color.red);
+            jTextFieldUsuario.requestFocus();
+            jLUsuario.setBackground(Color.red);
         }
     }
 
@@ -711,4 +776,48 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     }
 
+    private boolean valida() {
+        boolean retorno = true;
+        if (jTextFieldNome.getText().equals("")) {
+            retorno = false;
+            jLNome.setForeground(Color.red);
+        }
+        if (jTextFieldUsuario.getText().equals("")) {
+            retorno = false;
+            jLUsuario.setForeground(Color.red);
+        }
+        if (jPasswordFieldConfirmeSenha.getPassword().equals("")) {
+            retorno = false;
+            jLabelConfirmeSenha.setForeground(Color.red);
+        }
+        if (jPasswordFieldSenha.getPassword().equals("")) {
+            retorno = false;
+            jLabelSenha.setForeground(Color.red);
+        }
+        return retorno;
+    }
+
+    private void eventFocus() {
+
+        ArrayList<Component> order = new ArrayList<>();
+        order.add(jTextFieldNome);
+        order.add(jTextFieldUsuario);
+        order.add(jButtonSalvar);
+        order.add(jPasswordFieldSenha);
+        order.add(jPasswordFieldConfirmeSenha);
+        order.add(jButtonSalvarSenha);
+        order.add(jButtonCancelar);
+        order.add(jButtonSalvar);
+        order.add(jBCancelar);
+
+        FocusLost focus = new FocusLost(order);
+        setFocusTraversalPolicy(focus);
+    }
+
+    private void modificadorCampos() {
+        jLabelConfirmeSenha.setForeground(Color.BLACK);
+        jLabelSenha.setForeground(Color.BLACK);
+        jLNome.setForeground(Color.BLACK);
+        jLUsuario.setForeground(Color.BLACK);
+    }
 }

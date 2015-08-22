@@ -10,17 +10,21 @@ import br.com.wss.dao.ManutencaoDao;
 import br.com.wss.modelo.Manutencao;
 import br.com.wss.tabelas.Tabela;
 import br.com.wss.tabelas.TabelaManutecao;
+import br.com.wss.utilidades.ClassEvents;
 import br.com.wss.utilidades.ClassUtils;
+import br.com.wss.utilidades.FocusLost;
 import br.com.wss.utilidades.FormatDouble;
 import br.com.wss.utilidades.NumeroMaximoCaracters;
 import br.com.wss.utilidades.SomenteNumero;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
@@ -54,6 +58,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jTextFieldEquipamento.setEnabled(false);
         jTextFieldIdManutencao.setVisible(false);
         jButtonSalvar.setEnabled(false);
+        eventFocus();
 
         validaCampos();
         preencherTabela();
@@ -104,7 +109,6 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("Cadastro de Manutenção");
-        setEnabled(false);
 
         jPanelManutencao.setBorder(javax.swing.BorderFactory.createTitledBorder("Manutenção"));
         jPanelManutencao.setLayout(null);
@@ -114,6 +118,11 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jLabelNumeroRegistro.setBounds(20, 30, 110, 20);
 
         jTextFieldNumeroRegistro.setText("jTextField1");
+        jTextFieldNumeroRegistro.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldNumeroRegistroFocusLost(evt);
+            }
+        });
         jTextFieldNumeroRegistro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldNumeroRegistroKeyPressed(evt);
@@ -127,9 +136,9 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jLabelResponsavel.setBounds(20, 90, 110, 20);
 
         jTextFieldResponsavel.setText("jTextField1");
-        jTextFieldResponsavel.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldResponsavelKeyPressed(evt);
+        jTextFieldResponsavel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldResponsavelFocusLost(evt);
             }
         });
         jPanelManutencao.add(jTextFieldResponsavel);
@@ -148,9 +157,9 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jLabelAltorizada.setBounds(20, 120, 110, 20);
 
         jTextFieldValorConserto.setText("jTextField1");
-        jTextFieldValorConserto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldValorConsertoKeyPressed(evt);
+        jTextFieldValorConserto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldValorConsertoFocusLost(evt);
             }
         });
         jPanelManutencao.add(jTextFieldValorConserto);
@@ -188,9 +197,9 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jLabelContanto.setBounds(20, 150, 110, 20);
 
         jTextFieldContato.setText("jTextField1");
-        jTextFieldContato.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldContatoKeyPressed(evt);
+        jTextFieldContato.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldContatoFocusLost(evt);
             }
         });
         jPanelManutencao.add(jTextFieldContato);
@@ -217,9 +226,9 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jLabelValorConserto.setBounds(360, 120, 110, 20);
 
         jTextFieldAltorizada.setText("jTextField1");
-        jTextFieldAltorizada.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldAltorizadaKeyPressed(evt);
+        jTextFieldAltorizada.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldAltorizadaFocusLost(evt);
             }
         });
         jPanelManutencao.add(jTextFieldAltorizada);
@@ -228,11 +237,6 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         jTextFieldObservacoes.setColumns(20);
         jTextFieldObservacoes.setRows(5);
         jTextFieldObservacoes.setText("\n\n\n\n\n\n\n");
-        jTextFieldObservacoes.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldObservacoesKeyPressed(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTextFieldObservacoes);
 
         jPanelManutencao.add(jScrollPane1);
@@ -348,6 +352,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         if (evt.getClickCount() == 2) {
             try {
                 itensSelecionados();
+                jButtonSalvar.setEnabled(true);
             } catch (ParseException ex) {
                 Logger.getLogger(FrmManutecao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -385,39 +390,6 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTextFieldNumeroRegistroKeyPressed
 
-    private void jTextFieldResponsavelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldResponsavelKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldResponsavel.getText().equals("")) {
-            jTextFieldAltorizada.requestFocus();
-            jLabelResponsavel.setForeground(Color.BLACK);
-        } else {
-            jLabelResponsavel.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldResponsavelKeyPressed
-
-    private void jTextFieldAltorizadaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldAltorizadaKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldAltorizada.getText().equals("")) {
-            jTextFieldContato.requestFocus();
-            jLabelAltorizada.setForeground(Color.BLACK);
-        } else {
-            jLabelAltorizada.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldAltorizadaKeyPressed
-
-    private void jTextFieldContatoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldContatoKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldContato.getText().equals("")) {
-            jTextFieldValorConserto.requestFocus();
-            jLabelContanto.setForeground(Color.BLACK);
-        } else {
-            jLabelContanto.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldContatoKeyPressed
-
-    private void jTextFieldValorConsertoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldValorConsertoKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jTextFieldObservacoes.requestFocus();
-        }
-    }//GEN-LAST:event_jTextFieldValorConsertoKeyPressed
-
     private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
         if (modificador == 1) {
             jButtonSalvar.setText("Salvar");
@@ -431,11 +403,28 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonSalvarKeyPressed
 
-    private void jTextFieldObservacoesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldObservacoesKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            jButtonSalvar.requestFocus();
+    private void jTextFieldNumeroRegistroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNumeroRegistroFocusLost
+        if(buscaBen()){
+            jTextFieldResponsavel.requestFocus();
+        ClassEvents.focusLostTextField(jLabelNumeroRegistro, jTextFieldNumeroRegistro);
         }
-    }//GEN-LAST:event_jTextFieldObservacoesKeyPressed
+    }//GEN-LAST:event_jTextFieldNumeroRegistroFocusLost
+
+    private void jTextFieldResponsavelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldResponsavelFocusLost
+        ClassEvents.focusLostTextField(jLabelResponsavel, jTextFieldResponsavel);
+    }//GEN-LAST:event_jTextFieldResponsavelFocusLost
+
+    private void jTextFieldAltorizadaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldAltorizadaFocusLost
+        ClassEvents.focusLostTextField(jLabelAltorizada, jTextFieldAltorizada);
+    }//GEN-LAST:event_jTextFieldAltorizadaFocusLost
+
+    private void jTextFieldContatoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldContatoFocusLost
+        ClassEvents.focusLostTextField(jLabelContanto, jTextFieldContato);
+    }//GEN-LAST:event_jTextFieldContatoFocusLost
+
+    private void jTextFieldValorConsertoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorConsertoFocusLost
+        ClassEvents.focusLostTextField(jLabelValorConserto, jTextFieldValorConserto);
+    }//GEN-LAST:event_jTextFieldValorConsertoFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -515,9 +504,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
     }
 
     private void cadastrarManutencao() {
-        if (!jTextFieldAltorizada.getText().equals("")
-                && !jTextFieldNumeroRegistro.getText().equals("")
-                && !jTextFieldResponsavel.getText().equals("")) {
+        if (valida()) {
 
             manutencaoTemp.setAltorizada(jTextFieldAltorizada.getText());
             manutencaoTemp.setContato(jTextFieldContato.getText());
@@ -532,22 +519,15 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
             manutencaoTemp.setDataCadastro(ClassUtils.setDateMsqy());
             manutencaoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
 
-            manutencaoDao.cadastrarManutencao(manutencaoTemp, bensDao.buscarIdBens(jTextFieldNumeroRegistro.getText()));
-            cadastrarGarantiaManutencao();
-            limparCampos();
-            modificadorCampos();
-            preencherTabela();
-            jPanelManutencao.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
-
-        } else {
-            jLabelAltorizada.setForeground(Color.red);
-            jLabelContanto.setForeground(Color.red);
-            jLabelEquipamento.setForeground(Color.red);
-            jLabelNumeroRegistro.setForeground(Color.red);
-            jLabelResponsavel.setForeground(Color.red);
-            jLabelFinalGarantia.setForeground(Color.red);
+            if (manutencaoDao.cadastrarManutencao(manutencaoTemp, bensDao.buscarIdBens(jTextFieldNumeroRegistro.getText()))) {
+                cadastrarGarantiaManutencao();
+                limparCampos();
+                modificadorCampos();
+                preencherTabela();
+                jPanelManutencao.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
+            }
         }
     }
 
@@ -562,28 +542,19 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
             manutencaoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
             manutencaoTemp.setNumeroRegistro(jTextFieldNumeroRegistro.getText());
 
-            manutencaoDao.setGarantiaManutencao(manutencaoTemp);
-            limparCampos();
-            modificadorCampos();
-            preencherTabela();
-            jPanelManutencao.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
-
-        } else {
-            jLabelAltorizada.setForeground(Color.red);
-            jLabelContanto.setForeground(Color.red);
-            jLabelEquipamento.setForeground(Color.red);
-            jLabelNumeroRegistro.setForeground(Color.red);
-            jLabelResponsavel.setForeground(Color.red);
-            jLabelFinalGarantia.setForeground(Color.red);
+            if (manutencaoDao.setGarantiaManutencao(manutencaoTemp)) {
+                limparCampos();
+                modificadorCampos();
+                preencherTabela();
+                jPanelManutencao.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
+            }
         }
     }
 
     private void editarManutencao() {
-        if (!jTextFieldAltorizada.getText().equals("")
-                && !jTextFieldNumeroRegistro.getText().equals("")
-                && !jTextFieldResponsavel.getText().equals("")) {
+        if (valida()) {
             manutencaoTemp.setAltorizada(jTextFieldAltorizada.getText());
             manutencaoTemp.setContato(jTextFieldContato.getText());
             manutencaoTemp.setDataRetorno(ClassUtils.setDateChooserMysql(jDateChooserDataRetorno));
@@ -596,34 +567,29 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
             manutencaoTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
             manutencaoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
 
-            manutencaoDao.atualizarManutencao(manutencaoTemp, bensDao.buscarIdBens(jTextFieldNumeroRegistro.getText()));
-            cadastrarGarantiaManutencao();
-            limparCampos();
-            modificadorCampos();
-            preencherTabela();
-            jPanelManutencao.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
-            modificador = 1;
-        } else {
-            jLabelAltorizada.setForeground(Color.red);
-            jLabelContanto.setForeground(Color.red);
-            jLabelEquipamento.setForeground(Color.red);
-            jLabelNumeroRegistro.setForeground(Color.red);
-            jLabelResponsavel.setForeground(Color.red);
-            jLabelFinalGarantia.setForeground(Color.red);
+            if (manutencaoDao.atualizarManutencao(manutencaoTemp, bensDao.buscarIdBens(jTextFieldNumeroRegistro.getText()))) {
+                cadastrarGarantiaManutencao();
+                limparCampos();
+                modificadorCampos();
+                preencherTabela();
+                jPanelManutencao.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
+                modificador = 1;
+            }
         }
     }
 
     private void deletarManutencao() {
         manutencaoTemp.setIdManutecao(Integer.parseInt(jTextFieldIdManutencao.getText()));
-        manutencaoDao.deletarManutencao(manutencaoTemp);
-        limparCampos();
-        preencherTabela();
-        jPanelManutencao.setVisible(false);
-        jButtonNovo.setEnabled(true);
-        jButtonExcluir.setEnabled(false);
-        modificador = 1;
+        if (manutencaoDao.deletarManutencao(manutencaoTemp)) {
+            limparCampos();
+            preencherTabela();
+            jPanelManutencao.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+            modificador = 1;
+        }
     }
 
     private void itensSelecionados() throws ParseException {
@@ -682,18 +648,61 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
 
     }
 
-    private void buscaBen() {
+    private boolean buscaBen() {
+        boolean retorno = false;
         if (!jTextFieldNumeroRegistro.getText().equals("")) {
             String equip = bensDao.getNomeBens(Integer.parseInt(jTextFieldNumeroRegistro.getText()));
             if (!equip.equalsIgnoreCase("")) {
+                retorno = true;
                 jTextFieldEquipamento.setText(equip);
                 jTextFieldEquipamento.setDisabledTextColor(Color.BLACK);
                 jButtonSalvar.setEnabled(true);
             } else {
+                retorno = false;
                 jTextFieldEquipamento.setText("Equipamento nao existe...");
                 jTextFieldEquipamento.setDisabledTextColor(Color.red);
                 jButtonSalvar.setEnabled(false);
             }
         }
+        return retorno;
+    }
+
+    private boolean valida() {
+        boolean retorno = true;
+        if (jTextFieldAltorizada.getText().equals("")) {
+            retorno = false;
+            jLabelAltorizada.setForeground(Color.red);
+        }
+        if (jTextFieldContato.getText().equals("")) {
+            retorno = false;
+            jLabelContanto.setForeground(Color.red);
+        }
+        if (jTextFieldNumeroRegistro.getText().equals("")) {
+            retorno = false;
+            jLabelNumeroRegistro.setForeground(Color.red);
+        }
+        if (jTextFieldResponsavel.getText().equals("")) {
+            retorno = false;
+            jLabelResponsavel.setForeground(Color.red);
+        }
+        if (retorno == false) {
+            JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
+        }
+        return retorno;
+    }
+
+    private void eventFocus() {
+        ArrayList<Component> order = new ArrayList<>();
+        order.add(jTextFieldNumeroRegistro);
+        order.add(jTextFieldEquipamento);
+        order.add(jTextFieldResponsavel);
+        order.add(jTextFieldAltorizada);
+        order.add(jTextFieldContato);
+        order.add(jTextFieldValorConserto);
+        order.add(jButtonSalvar);
+        order.add(jButtonCancelar);
+
+        FocusLost focus = new FocusLost(order);
+        setFocusTraversalPolicy(focus);
     }
 }

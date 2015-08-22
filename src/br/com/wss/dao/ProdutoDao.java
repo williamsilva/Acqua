@@ -26,10 +26,17 @@ public class ProdutoDao {
     ResultSet rs;
     String sql;
 
+    /**
+     *
+     */
     public ProdutoDao() {
         conexao = ConectionFactory.getConnection();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Produto> listar() {
         ArrayList<Produto> lista;
         lista = new ArrayList<>();
@@ -76,7 +83,13 @@ public class ProdutoDao {
         return lista;
     }
 
-    public void cadastrar(Produto cadastra) {
+    /**
+     *
+     * @param cadastra
+     * @return
+     */
+    public boolean cadastrar(Produto cadastra) {
+        boolean retorno;
         sql = "insert into produto (descricao,validade,valor,desconto,status,id_usuario_alt,id_usuario_cad,"
                 + "ultima_alteracao,data_cadastro)values(?,?,?,?,?,?,?,?,?)";
 
@@ -94,15 +107,24 @@ public class ProdutoDao {
 
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         } catch (SQLException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + e);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
         }
+        return retorno;
     }
 
-    public void editar(Produto editar) {
+    /**
+     *
+     * @param editar
+     * @return
+     */
+    public boolean editar(Produto editar) {
+        boolean retorno;
         sql = "update produto set descricao = ?,validade = ?,valor = ?,desconto = ?,"
-                + "status = ?,id_usuario_alt = ?,ultima_alteracao = ?"
+                + "id_usuario_alt = ?,ultima_alteracao = ?"
                 + "where id_produto = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -111,21 +133,28 @@ public class ProdutoDao {
             stms.setString(2, editar.getValidade());
             stms.setDouble(3, editar.getValor());
             stms.setString(4, editar.getDesconto());
-            stms.setString(5, editar.getStatus());
-            stms.setString(6, editar.getIdUsuarioAlt());
-            stms.setString(7, editar.getUltimaAlteracao());
-            stms.setInt(8, editar.getIdProduto());
-            
+            stms.setString(5, editar.getIdUsuarioAlt());
+            stms.setString(6, editar.getUltimaAlteracao());
+            stms.setInt(7, editar.getIdProduto());
+
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException | HeadlessException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + e);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
         }
-
+        return retorno;
     }
 
-    public void deletar(Produto deletar) {
+    /**
+     *
+     * @param deletar
+     * @return
+     */
+    public boolean deletar(Produto deletar) {
+        boolean retorno = false;
         sql = "Delete from produto where id_produto = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -134,10 +163,33 @@ public class ProdutoDao {
             if (confirma == JOptionPane.YES_OPTION) {
                 stms.execute();
                 stms.close();
+                retorno = true;
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
             }
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
         }
+        return retorno;
+    }
+
+    public boolean ativarUsuario(Produto ativar) {
+        boolean retorno;
+        sql = "update produto set ultima_alteracao = ?,status = ?, id_usuario_alt =? where id_produto = ?";
+        try {
+            stms = conexao.prepareCall(sql);
+            stms.setString(1, ativar.getUltimaAlteracao());
+            stms.setString(2, ativar.getStatus());
+            stms.setString(3, ativar.getIdUsuarioAlt());
+            stms.setInt(4, ativar.getIdProduto());
+
+            stms.execute();
+            stms.close();
+            retorno = true;
+        } catch (SQLException error) {
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
+        }
+        return retorno;
     }
 }

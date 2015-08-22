@@ -10,6 +10,7 @@ import br.com.wss.dao.GrupoDao;
 import br.com.wss.modelo.Grupo;
 import br.com.wss.tabelas.Tabela;
 import br.com.wss.tabelas.TabelaGrupo;
+import br.com.wss.utilidades.ClassEvents;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -134,18 +135,18 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         jTId.setBounds(16, 96, 42, 20);
 
         jTextFieldGrupo.setText("jTextField1");
-        jTextFieldGrupo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldGrupoKeyPressed(evt);
+        jTextFieldGrupo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldGrupoFocusLost(evt);
             }
         });
         jPanelGrupos.add(jTextFieldGrupo);
         jTextFieldGrupo.setBounds(100, 20, 200, 26);
 
         jTextFieldDescricao.setText("jTextField1");
-        jTextFieldDescricao.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldDescricaoKeyPressed(evt);
+        jTextFieldDescricao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldDescricaoFocusLost(evt);
             }
         });
         jPanelGrupos.add(jTextFieldDescricao);
@@ -200,7 +201,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             jPanelGrupos.setVisible(true);
             jButtonExcluir.setEnabled(false);
             jButtonNovo.setEnabled(false);
-           
+
             jButtonSalvar.setText("Salvar");
             limparCampos();
         } else {
@@ -208,7 +209,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             jPanelGrupos.setVisible(true);
             jButtonExcluir.setEnabled(false);
             jButtonNovo.setEnabled(false);
-            
+
             jButtonSalvar.setText("Salvar");
             limparCampos();
         }
@@ -244,14 +245,13 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         grupoTemp.setIdGrupo(Integer.parseInt(jTId.getText()));
 
         GrupoDao dao = new GrupoDao();
-        dao.deletar(grupoTemp);
-
-        jPanelGrupos.setVisible(false);
-        jButtonNovo.setEnabled(true);
-        jButtonExcluir.setEnabled(false);
-        limparCampos();
-        preencherTabela();
-
+        if (dao.deletar(grupoTemp)) {
+            jPanelGrupos.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+            limparCampos();
+            preencherTabela();
+        }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
@@ -265,7 +265,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
-         if (modificador == 1) {
+        if (modificador == 1) {
             jButtonSalvar.setText("Salvar");
             cadastrar();
         } else if (modificador == 2) {
@@ -274,24 +274,13 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonSalvarKeyPressed
 
-    private void jTextFieldGrupoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldGrupoKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldGrupo.getText().equals("")) {
-            jTextFieldDescricao.requestFocus();
-            jLabelNomeGrupo.setForeground(Color.BLACK);
-        } else {
-            jLabelNomeGrupo.setForeground(Color.red);
-            jTextFieldGrupo.requestFocus();
-        }
-    }//GEN-LAST:event_jTextFieldGrupoKeyPressed
+    private void jTextFieldGrupoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldGrupoFocusLost
+        ClassEvents.focusLostTextField(jLabelNomeGrupo, jTextFieldGrupo);
+    }//GEN-LAST:event_jTextFieldGrupoFocusLost
 
-    private void jTextFieldDescricaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDescricaoKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldDescricao.getText().equals("")) {
-            jButtonSalvar.requestFocus();
-            jLabelDescricao.setForeground(Color.BLACK);
-        } else {
-            jLabelDescricao.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldDescricaoKeyPressed
+    private void jTextFieldDescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldDescricaoFocusLost
+        ClassEvents.focusLostTextField(jLabelDescricao, jTextFieldDescricao);
+    }//GEN-LAST:event_jTextFieldDescricaoFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -352,7 +341,7 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
     }
 
     private void cadastrar() {
-        if (!jTextFieldGrupo.getText().equals("")) {
+        if (valida()) {
 
             Grupo grupoTemp = new Grupo();
 
@@ -364,20 +353,17 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
             grupoTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
 
             GrupoDao dao = new GrupoDao();
-            dao.cadastrarGrupo(grupoTemp);
+            if (dao.cadastrarGrupo(grupoTemp)) {
 
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
-            limparCampos();
-            preencherTabela();
-            jPanelGrupos.setVisible(false);
-            jButtonNovo.setEnabled(true);
-        jButtonExcluir.setEnabled(false);
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
-            repaint();
-        }
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
+                limparCampos();
+                preencherTabela();
+                jPanelGrupos.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
+            }
+        } 
     }
 
     private void atualizar() {
@@ -390,12 +376,29 @@ public final class FrmGrupoBens extends javax.swing.JInternalFrame {
         grupoTemp.setUsuarioAlt((ClassUtils.getIdUsuario()));
 
         GrupoDao dao = new GrupoDao();
-        dao.atualizar(grupoTemp);
+        if (dao.atualizar(grupoTemp)) {
 
-        preencherTabela();
+            preencherTabela();
 
-        jPanelGrupos.setVisible(false);
-        jButtonNovo.setEnabled(true);
-        jButtonExcluir.setEnabled(false);
+            jPanelGrupos.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+        }
+    }
+
+    private boolean valida() {
+        boolean retorno = true;
+        if (jTextFieldDescricao.getText().equals("")) {
+            retorno = false;
+            jLabelDescricao.setForeground(Color.red);
+        }
+        if (jTextFieldGrupo.getText().equals("")) {
+            retorno = false;
+            jLabelNomeGrupo.setForeground(Color.red);
+        }
+        if(retorno == false){
+            JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
+        }
+        return retorno;
     }
 }

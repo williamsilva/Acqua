@@ -27,6 +27,8 @@ import javax.swing.ListSelectionModel;
 public class FrmProdutos extends javax.swing.JInternalFrame {
 
     int modificador = 1;
+    String ativo;
+    String idProduto;
     Produto produtoTemp = new Produto();
     ProdutoDao produtoDao = new ProdutoDao();
     ArrayList<Produto> dados;
@@ -36,11 +38,13 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
      */
     public FrmProdutos() {
         initComponents();
+        jMenuItemAtivo.setEnabled(false);
+        jMenuItemBloqueado.setEnabled(false);
         jTextFieldIdProduto.setVisible(false);
         jDateChooserValidade.setEnabled(false);
         jDateChooserValidade.setDate(new Date());
         jDateChooserValidade.getCalendarButton().setEnabled(true);
-        preecherComboStatus();
+
         preencherTabela();
         jPanelProdutos.setVisible(false);
         validaCampos();
@@ -55,6 +59,9 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItemAtivo = new javax.swing.JMenuItem();
+        jMenuItemBloqueado = new javax.swing.JMenuItem();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -65,8 +72,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jLabelDesconto = new javax.swing.JLabel();
         jTextFieldDesconto = new javax.swing.JTextField();
         jDateChooserValidade = new com.toedter.calendar.JDateChooser();
-        jLabelStatus = new javax.swing.JLabel();
-        jComboBoxStatus = new javax.swing.JComboBox();
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jTextFieldIdProduto = new javax.swing.JTextField();
@@ -74,6 +79,22 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jTextFieldValor = new javax.swing.JTextField();
         jButtonExcluir = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
+
+        jMenuItemAtivo.setText("Ativar");
+        jMenuItemAtivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAtivoActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItemAtivo);
+
+        jMenuItemBloqueado.setText("Bloquear");
+        jMenuItemBloqueado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemBloqueadoActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItemBloqueado);
 
         setClosable(true);
         setIconifiable(true);
@@ -94,6 +115,9 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable1MouseReleased(evt);
+            }
         });
         jScrollPane1.setViewportView(jTable1);
 
@@ -105,7 +129,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
         );
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -136,14 +160,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jPanelProdutos.add(jDateChooserValidade);
         jDateChooserValidade.setBounds(100, 50, 200, 26);
 
-        jLabelStatus.setText("Status:");
-        jPanelProdutos.add(jLabelStatus);
-        jLabelStatus.setBounds(10, 140, 80, 20);
-
-        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanelProdutos.add(jComboBoxStatus);
-        jComboBoxStatus.setBounds(100, 140, 200, 26);
-
         jButtonSalvar.setText("Variavel");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,7 +167,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             }
         });
         jPanelProdutos.add(jButtonSalvar);
-        jButtonSalvar.setBounds(100, 180, 80, 26);
+        jButtonSalvar.setBounds(100, 160, 80, 26);
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -160,7 +176,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             }
         });
         jPanelProdutos.add(jButtonCancelar);
-        jButtonCancelar.setBounds(220, 180, 80, 26);
+        jButtonCancelar.setBounds(220, 160, 80, 26);
 
         jTextFieldIdProduto.setText("Id");
         jPanelProdutos.add(jTextFieldIdProduto);
@@ -275,21 +291,37 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+        if (evt.isPopupTrigger()) {
+            jPopupMenu1.show(this, evt.getX(), evt.getY());
+            itensPopuMenu();
+        }
+    }//GEN-LAST:event_jTable1MouseReleased
+
+    private void jMenuItemAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAtivoActionPerformed
+        ativarUsuario();
+    }//GEN-LAST:event_jMenuItemAtivoActionPerformed
+
+    private void jMenuItemBloqueadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBloqueadoActionPerformed
+        desativarUsuario();
+    }//GEN-LAST:event_jMenuItemBloqueadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JComboBox jComboBoxStatus;
     private com.toedter.calendar.JDateChooser jDateChooserValidade;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabelDesconto;
     private javax.swing.JLabel jLabelDescricao;
-    private javax.swing.JLabel jLabelStatus;
     private javax.swing.JLabel jLabelValidade;
     private javax.swing.JLabel jLabelValor;
+    private javax.swing.JMenuItem jMenuItemAtivo;
+    private javax.swing.JMenuItem jMenuItemBloqueado;
     private javax.swing.JPanel jPanelProdutos;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextFieldDesconto;
@@ -302,7 +334,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jTextFieldDesconto.setText("");
         jTextFieldDescricao.setText("");
         jTextFieldValor.setText("");
-        jComboBoxStatus.setSelectedIndex(0);
     }
 
     private void deletar() {
@@ -318,11 +349,11 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     }
 
     private void cadastrar() {
-        if (jComboBoxStatus.getSelectedIndex() != 0 && !jTextFieldDescricao.getText().equals("")
+        if (!jTextFieldDescricao.getText().equals("")
                 && !jTextFieldValor.getText().equals("")) {
             produtoTemp.setDescricao(jTextFieldDescricao.getText());
             produtoTemp.setDesconto(jTextFieldDesconto.getText());
-            produtoTemp.setStatus((String) jComboBoxStatus.getSelectedItem());
+            produtoTemp.setStatus("Sim");
             produtoTemp.setValidade(ClassUtils.setDateChooserMysql(jDateChooserValidade));
             produtoTemp.setValor(Double.parseDouble(jTextFieldValor.getText()));
             produtoTemp.setDataCadastro(ClassUtils.setDateMsqy());
@@ -340,17 +371,16 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
 
         } else {
             jLabelDescricao.setForeground(Color.red);
-            jLabelStatus.setForeground(Color.red);
             jLabelValor.setForeground(Color.red);
         }
     }
 
     private void editar() {
-        if (jComboBoxStatus.getSelectedIndex() != 0 && !jTextFieldDescricao.getText().equals("")
+        if (!jTextFieldDescricao.getText().equals("")
                 && !jTextFieldValor.getText().equals("")) {
             produtoTemp.setDescricao(jTextFieldDescricao.getText());
             produtoTemp.setDesconto(jTextFieldDesconto.getText());
-            produtoTemp.setStatus((String) jComboBoxStatus.getSelectedItem());
+
             produtoTemp.setValidade(ClassUtils.setDateChooserMysql(jDateChooserValidade));
             produtoTemp.setValor(Double.parseDouble(jTextFieldValor.getText()));
             produtoTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
@@ -367,7 +397,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
 
         } else {
             jLabelDescricao.setForeground(Color.red);
-            jLabelStatus.setForeground(Color.red);
             jLabelValor.setForeground(Color.red);
         }
     }
@@ -375,16 +404,8 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     private void modificadorCampos() {
         jLabelDesconto.setForeground(Color.BLACK);
         jLabelDescricao.setForeground(Color.BLACK);
-        jLabelStatus.setForeground(Color.BLACK);
         jLabelValidade.setForeground(Color.BLACK);
         jLabelValor.setForeground(Color.BLACK);
-    }
-
-    private void preecherComboStatus() {
-        jComboBoxStatus.removeAllItems();
-        jComboBoxStatus.addItem("");
-        jComboBoxStatus.addItem("Sim");
-        jComboBoxStatus.addItem("Não");
     }
 
     private void preencherTabela() {
@@ -422,7 +443,6 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jTextFieldDescricao.setText(dados.get(seleciona).getDescricao());
         jTextFieldIdProduto.setText(String.valueOf(dados.get(seleciona).getIdProduto()));
         jTextFieldValor.setText(String.valueOf(dados.get(seleciona).getValor()));
-        jComboBoxStatus.setSelectedItem(dados.get(seleciona).getStatus());
 
         modificador = 2;
         modificadorCampos();
@@ -432,5 +452,50 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jTextFieldDesconto.setDocument(new FormatDouble(3));
         jTextFieldDescricao.setDocument(new NumeroMaximoCaracters(45));
         jTextFieldValor.setDocument(new FormatDouble(9));
+    }
+
+    private void itensPopuMenu() {
+        int seleciona = jTable1.getSelectedRow();
+        if (seleciona != -1) {
+            ativo = String.valueOf(dados.get(seleciona).getStatus());
+            idProduto = String.valueOf(dados.get(seleciona).getIdProduto());
+            if (ativo.equals("Sim")) {
+                jMenuItemAtivo.setEnabled(false);
+                jMenuItemBloqueado.setEnabled(true);
+            } else {
+                jMenuItemAtivo.setEnabled(true);
+                jMenuItemBloqueado.setEnabled(false);
+            }
+        }
+    }
+    private void ativarUsuario() {
+        if (!idProduto.equals("") && !ativo.equals("")) {
+            Produto produtTemp = new Produto();
+            produtTemp.setIdProduto(Integer.parseInt(idProduto));
+            produtTemp.setStatus("Sim");
+            produtTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            produtTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
+
+            ProdutoDao dao = new ProdutoDao();
+            if (dao.ativarUsuario(produtTemp)) {
+                jMenuItemAtivo.setEnabled(false);
+                preencherTabela();
+            }
+        }
+    }
+    private void desativarUsuario() {
+       if (!idProduto.equals("") && !ativo.equals("")) {
+            Produto produtTemp = new Produto();
+            produtTemp.setIdProduto(Integer.parseInt(idProduto));
+            produtTemp.setStatus("Não");
+            produtTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            produtTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
+
+            ProdutoDao dao = new ProdutoDao();
+            if (dao.ativarUsuario(produtTemp)) {
+                jMenuItemBloqueado.setEnabled(false);
+                preencherTabela();
+            }
+        }
     }
 }

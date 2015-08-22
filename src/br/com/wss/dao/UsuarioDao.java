@@ -12,10 +12,18 @@ public class UsuarioDao {
     ResultSet result;
     String sql;
 
+    /**
+     *
+     */
     public UsuarioDao() {
         conexao = ConectionFactory.getConnection();
     }
 
+    /**
+     *
+     * @param login
+     * @return
+     */
     public Usuario logar(Usuario login) {
         Usuario usuario = null;
         try {
@@ -33,7 +41,7 @@ public class UsuarioDao {
                     usuario.setUsuario(result.getString("login"));
                     usuario.setCodigo(result.getString("id_login"));
                     usuario.setNome(result.getString("nome"));
-
+                    usuario.setLogado(result.getString("logado"));
                 }
                 stms.close();
             }
@@ -43,8 +51,13 @@ public class UsuarioDao {
         return usuario;
     }
 
-    public void cadastrarUsuario(Usuario usuario) {
-
+    /**
+     *
+     * @param usuario
+     * @return
+     */
+    public boolean cadastrarUsuario(Usuario usuario) {
+        boolean retorno ;
         sql = "insert into login (Nome,Login,Senha,data_cadastro,ultima_alteracao,"
                 + "ativo,id_usuario_cad,id_usuario_alt) values (?,?,?,?,?,?,?,?)";
         try {
@@ -60,40 +73,101 @@ public class UsuarioDao {
 
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
 
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + error);
+            JOptionPane.showMessageDialog(null, "Nome de Usuário " + "'" + usuario.getUsuario() + "'" + " já existe...");
+            retorno = false;
         }
-
+        return retorno;
     }
 
-    public void atualizar(Usuario atualizar) {
+    /**
+     *
+     * @param ativar
+     * @return
+     */
+    public boolean ativarUsuario(Usuario ativar) {
+        boolean retorno;
+        sql = "update login set ultima_alteracao = ?,ativo = ?, id_usuario_alt =? where id_login = ?";
+        try {
+            stms = conexao.prepareCall(sql);
+            stms.setString(1, ativar.getUltimaAlteracao());
+            stms.setString(2, ativar.getAtivo());
+            stms.setString(3, ativar.getIdUsuarioAlt());
+            stms.setString(4, ativar.getCodigo());
 
+            stms.execute();
+            stms.close();
+            retorno = true;
+        } catch (SQLException error) {
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
+        }
+        return retorno;
+    }
+
+    /**
+     *
+     * @param libertar
+     * @return
+     */
+    public boolean libertar(Usuario libertar) {
+        boolean retorno;
+        sql = "update login set logado = ? where id_login = ?";
+        try {
+            stms = conexao.prepareCall(sql);
+            stms.setString(1, libertar.getLogado());
+            stms.setString(2, libertar.getCodigo());
+
+            stms.execute();
+            stms.close();
+            retorno = true;
+        } catch (SQLException error) {
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
+        }
+        return retorno;
+    }
+
+    /**
+     *
+     * @param atualizar
+     * @return
+     */
+    public boolean atualizar(Usuario atualizar) {
+        boolean retorno;
         sql = "update login set nome = ?, login = ?, ultima_alteracao = ?,"
-                + "ativo = ?, senha = ?, id_usuario_alt =? where id_login = ?";
+                + "senha = ?, id_usuario_alt =? where id_login = ?";
 
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, atualizar.getNome());
             stms.setString(2, atualizar.getUsuario());
             stms.setString(3, atualizar.getUltimaAlteracao());
-            stms.setString(4, atualizar.getAtivo());
-            stms.setString(5, atualizar.getSenha());
-            stms.setString(6, atualizar.getIdUsuarioAlt());
-            stms.setString(7, atualizar.getCodigo());
+            stms.setString(4, atualizar.getSenha());
+            stms.setString(5, atualizar.getIdUsuarioAlt());
+            stms.setString(6, atualizar.getCodigo());
 
             stms.execute();
             stms.close();
-
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "Nome de Usuário " + "'" + atualizar.getUsuario() + "'" + " já existe...");
         }
+        return retorno;
     }
 
-    public void atualizarSenha(Usuario atualizar) {
-
+    /**
+     *
+     * @param atualizar
+     * @return
+     */
+    public boolean atualizarSenha(Usuario atualizar) {
+        boolean retorno;
         sql = "update login set senha= ?, ultima_alteracao = ?,id_usuario_alt =? where login = ?";
 
         try {
@@ -105,14 +179,22 @@ public class UsuarioDao {
 
             stms.execute();
             stms.close();
-
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException error) {
+            retorno = false;
             JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
         }
+        return retorno;
     }
 
-    public void deletar(Usuario deletar) {
+    /**
+     *
+     * @param deletar
+     * @return
+     */
+    public boolean deletar(Usuario deletar) {
+        boolean retorno = true;
         sql = "Delete from login where Login = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -121,15 +203,21 @@ public class UsuarioDao {
             if (confirma == JOptionPane.YES_OPTION) {
                 stms.execute();
                 stms.close();
+                retorno = true;
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
-
             }
 
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"O item possui registros sendo utilizados!");
         }
+        return retorno;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Usuario> listar() {
         ArrayList<Usuario> lista;
         lista = new ArrayList<>();
@@ -175,6 +263,11 @@ public class UsuarioDao {
         return lista;
     }
 
+    /**
+     *
+     * @param buscar
+     * @return
+     */
     public String buscaUsuario(String buscar) {
         String usuario = "";
         try {

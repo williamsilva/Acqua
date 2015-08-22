@@ -11,14 +11,17 @@ import br.com.wss.dao.FornecedorDao;
 import br.com.wss.modelo.Fornecedor;
 import br.com.wss.tabelas.Tabela;
 import br.com.wss.tabelas.TabelaFornecedor;
+import br.com.wss.utilidades.ClassEvents;
 import br.com.wss.utilidades.ClassUtils;
+import br.com.wss.utilidades.FocusLost;
 import br.com.wss.utilidades.NumeroMaximoCaracters;
 import br.com.wss.utilidades.SomenteNumero;
 import java.awt.Color;
-import java.awt.event.KeyEvent;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
@@ -27,7 +30,7 @@ import javax.swing.ListSelectionModel;
  * @author William
  */
 public class FrmFornecedor extends javax.swing.JInternalFrame {
-
+    
     int modificador = 1;
     String idEstado;
     CidadeDao cidadeDao = new CidadeDao();
@@ -50,6 +53,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jComboBoxCidade.addItem("Selecione uma Cidade");
         jTextFieldIdFornecedor.setVisible(false);
         validaCampos();
+        eventFocus();
     }
 
     /**
@@ -97,7 +101,6 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("Cadastro Fornecedor");
-        setEnabled(false);
 
         jTableFornecedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,9 +139,9 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jPanel2.add(jLabelFornecedor);
         jLabelFornecedor.setBounds(20, 29, 70, 20);
 
-        jTextFieldFornecedor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldFornecedorKeyPressed(evt);
+        jTextFieldFornecedor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldFornecedorFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldFornecedor);
@@ -148,9 +151,9 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jPanel2.add(jLabelContato);
         jLabelContato.setBounds(20, 60, 70, 20);
 
-        jTextFieldContato.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldContatoKeyPressed(evt);
+        jTextFieldContato.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldContatoFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldContato);
@@ -183,17 +186,17 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jPanel2.add(jLabelTelefone);
         jLabelTelefone.setBounds(20, 90, 70, 20);
 
-        jTextFieldTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldTelefoneKeyPressed(evt);
+        jTextFieldTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldTelefoneFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldTelefone);
         jTextFieldTelefone.setBounds(100, 90, 190, 26);
 
-        jTextFieldCelular.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldCelularKeyPressed(evt);
+        jTextFieldCelular.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldCelularFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldCelular);
@@ -215,9 +218,9 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jPanel2.add(jLabelBairro);
         jLabelBairro.setBounds(310, 90, 70, 20);
 
-        jTextFieldBairro.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldBairroKeyPressed(evt);
+        jTextFieldBairro.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldBairroFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldBairro);
@@ -227,19 +230,29 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jPanel2.add(jLabelNumero);
         jLabelNumero.setBounds(310, 150, 70, 20);
 
-        jTextFieldNumero.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldNumeroKeyPressed(evt);
+        jTextFieldNumero.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldNumeroFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldNumero);
         jTextFieldNumero.setBounds(390, 150, 190, 26);
 
         jComboBoxCidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxCidade.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxCidadeFocusLost(evt);
+            }
+        });
         jPanel2.add(jComboBoxCidade);
         jComboBoxCidade.setBounds(390, 60, 190, 26);
 
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxEstado.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxEstadoFocusLost(evt);
+            }
+        });
         jComboBoxEstado.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
             public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
@@ -256,17 +269,17 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jPanel2.add(jLabelEmail);
         jLabelEmail.setBounds(20, 150, 70, 20);
 
-        jTextFieldEmail.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldEmailKeyPressed(evt);
+        jTextFieldEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldEmailFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldEmail);
         jTextFieldEmail.setBounds(100, 150, 190, 26);
 
-        jTextFieldEndereco.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldEnderecoKeyPressed(evt);
+        jTextFieldEndereco.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldEnderecoFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldEndereco);
@@ -280,9 +293,9 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jPanel2.add(jLabelCep);
         jLabelCep.setBounds(310, 180, 70, 20);
 
-        jTextFieldCep.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldCepKeyPressed(evt);
+        jTextFieldCep.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldCepFocusLost(evt);
             }
         });
         jPanel2.add(jTextFieldCep);
@@ -361,7 +374,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jComboBoxCidade.setEnabled(false);
         limparCampos();
         modificador = 1;
-
+        
         modificadorCampos();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
@@ -369,12 +382,12 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         if (modificador == 1) {
             jButtonSalvar.setText("Salvar");
             cadastrarFornecedor();
-
+            
         } else if (modificador == 2) {
             jButtonSalvar.setText("Editar");
             editarFornecedor();
         } else {
-
+            
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -403,100 +416,64 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTableFornecedorMouseClicked
 
-    private void jTextFieldFornecedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFornecedorKeyPressed
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldFornecedor.getText().equals("")) {
-            jTextFieldContato.requestFocus();
-            jLabelFornecedor.setForeground(Color.BLACK);
-        } else {
-            jLabelFornecedor.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldFornecedorKeyPressed
-
-    private void jTextFieldContatoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldContatoKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldContato.getText().equals("")) {
-            jTextFieldTelefone.requestFocus();
-            jLabelContato.setForeground(Color.BLACK);
-        } else {
-            jLabelContato.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldContatoKeyPressed
-
-    private void jTextFieldTelefoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTelefoneKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldTelefone.getText().equals("")) {
-            jTextFieldCelular.requestFocus();
-            jLabelTelefone.setForeground(Color.BLACK);
-        } else {
-            jLabelTelefone.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldTelefoneKeyPressed
-
-    private void jTextFieldCelularKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCelularKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldCelular.getText().equals("")) {
-            jTextFieldEmail.requestFocus();
-            jLabelCelular.setForeground(Color.BLACK);
-        } else {
-            jLabelCelular.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldCelularKeyPressed
-
-    private void jTextFieldEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmailKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldEmail.getText().equals("")) {
-            jComboBoxEstado.requestFocus();
-            jComboBoxEstado.showPopup();
-            jLabelEmail.setForeground(Color.BLACK);
-        } else {
-            jLabelEmail.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldEmailKeyPressed
-
-    private void jTextFieldBairroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBairroKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldBairro.getText().equals("")) {
-            jTextFieldEndereco.requestFocus();
-            jLabelBairro.setForeground(Color.BLACK);
-        } else {
-            jLabelBairro.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldBairroKeyPressed
-
-    private void jTextFieldEnderecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEnderecoKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldEndereco.getText().equals("")) {
-            jTextFieldNumero.requestFocus();
-            jLabelEndereco.setForeground(Color.BLACK);
-        } else {
-            jLabelEndereco.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldEnderecoKeyPressed
-
-    private void jTextFieldNumeroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldNumero.getText().equals("")) {
-            jTextFieldCep.requestFocus();
-            jLabelNumero.setForeground(Color.BLACK);
-        } else {
-            jLabelNumero.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldNumeroKeyPressed
-
-    private void jTextFieldCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCepKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextFieldCep.getText().equals("")) {
-            jButtonSalvar.requestFocus();
-            jLabelCep.setForeground(Color.BLACK);
-        } else {
-            jLabelCep.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTextFieldCepKeyPressed
-
     private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
         if (modificador == 1) {
             jButtonSalvar.setText("Salvar");
             cadastrarFornecedor();
-
+            
         } else if (modificador == 2) {
             jButtonSalvar.setText("Editar");
             editarFornecedor();
         } else {
-
+            
         }
     }//GEN-LAST:event_jButtonSalvarKeyPressed
+
+    private void jTextFieldFornecedorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldFornecedorFocusLost
+        ClassEvents.focusLostTextField(jLabelFornecedor, jTextFieldFornecedor);
+    }//GEN-LAST:event_jTextFieldFornecedorFocusLost
+
+    private void jTextFieldContatoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldContatoFocusLost
+        ClassEvents.focusLostTextField(jLabelContato, jTextFieldContato);
+    }//GEN-LAST:event_jTextFieldContatoFocusLost
+
+    private void jTextFieldTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldTelefoneFocusLost
+        ClassEvents.focusLostTextField(jLabelTelefone, jTextFieldTelefone);
+    }//GEN-LAST:event_jTextFieldTelefoneFocusLost
+
+    private void jTextFieldCelularFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldCelularFocusLost
+        ClassEvents.focusLostTextField(jLabelCelular, jTextFieldCelular);
+    }//GEN-LAST:event_jTextFieldCelularFocusLost
+
+    private void jTextFieldEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldEmailFocusLost
+        ClassEvents.focusLostTextField(jLabelEmail, jTextFieldEmail);
+    }//GEN-LAST:event_jTextFieldEmailFocusLost
+
+    private void jTextFieldBairroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBairroFocusLost
+        ClassEvents.focusLostTextField(jLabelBairro, jTextFieldBairro);
+    }//GEN-LAST:event_jTextFieldBairroFocusLost
+
+    private void jTextFieldEnderecoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldEnderecoFocusLost
+        ClassEvents.focusLostTextField(jLabelEndereco, jTextFieldEndereco);
+    }//GEN-LAST:event_jTextFieldEnderecoFocusLost
+
+    private void jTextFieldNumeroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNumeroFocusLost
+        ClassEvents.focusLostTextField(jLabelNumero, jTextFieldNumero);
+    }//GEN-LAST:event_jTextFieldNumeroFocusLost
+
+    private void jTextFieldCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldCepFocusLost
+        ClassEvents.focusLostTextField(jLabelCep, jTextFieldCep);
+    }//GEN-LAST:event_jTextFieldCepFocusLost
+
+    private void jComboBoxEstadoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxEstadoFocusLost
+        ClassEvents.focusLostCombobox(jLabelEstado, jComboBoxEstado);
+        preencherComboCidade();
+        jComboBoxCidade.setEnabled(true);
+    }//GEN-LAST:event_jComboBoxEstadoFocusLost
+
+    private void jComboBoxCidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxCidadeFocusLost
+        ClassEvents.focusLostCombobox(jLabelCidade, jComboBoxCidade);
+    }//GEN-LAST:event_jComboBoxCidadeFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -534,11 +511,8 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarFornecedor() {
-        if (!jTextFieldContato.getText().equals("") && !jTextFieldCelular.getText().equals("")
-                && !jTextFieldBairro.getText().equals("") && !jTextFieldFornecedor.getText().equals("")
-                && !jTextFieldNumero.getText().equals("") && !jTextFieldTelefone.getText().equals("")
-                && jComboBoxCidade.getSelectedIndex() != 0 && jComboBoxEstado.getSelectedIndex() != 0) {
-
+        if (valida()) {
+            
             fornecedorTemp.setNomeFornecedor(jTextFieldFornecedor.getText());
             fornecedorTemp.setBairro(jTextFieldBairro.getText());
             fornecedorTemp.setCelular(jTextFieldCelular.getText());
@@ -551,35 +525,22 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             fornecedorTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
             fornecedorTemp.setUsuarioAlt(ClassUtils.getIdUsuario());
             fornecedorTemp.setUsuarioCad(ClassUtils.getIdUsuario());
-
-            fornecedorDao.cadastra(fornecedorTemp,
-                    Integer.parseInt(cidadeDao.buscarIdcidade(jComboBoxCidade.getSelectedItem().toString())));
-            limparCampos();
-            preencherTabela();
-            jPanel2.setVisible(false);
-            jButtonNovo.setEnabled(true);
-
-        } else {
-            jLabelContato.setForeground(Color.red);
-            jLabelCelular.setForeground(Color.red);
-            jLabelBairro.setForeground(Color.red);
-            jLabelEstado.setForeground(Color.red);
-            jLabelFornecedor.setForeground(Color.red);
-            jLabelCidade.setForeground(Color.red);
-            jLabelNumero.setForeground(Color.red);
-            jLabelTelefone.setForeground(Color.red);
-            jLabelEndereco.setForeground(Color.red);
-            jLabelCep.setForeground(Color.red);
-            jLabelEmail.setForeground(Color.red);
+            
+            if (fornecedorDao.cadastra(fornecedorTemp,
+                    Integer.parseInt(cidadeDao.buscarIdcidade(jComboBoxCidade.getSelectedItem().toString())))) {
+                limparCampos();
+                preencherTabela();
+                jPanel2.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                
+            }
         }
-
+        
     }
-
+    
     private void editarFornecedor() {
-        if (!jTextFieldContato.getText().equals("") && !jTextFieldCelular.getText().equals("")
-                && !jTextFieldBairro.getText().equals("") && !jTextFieldFornecedor.getText().equals("")
-                && !jTextFieldNumero.getText().equals("") && !jTextFieldTelefone.getText().equals("")) {
-
+        if (valida()) {
+            
             fornecedorTemp.setNomeFornecedor(jTextFieldFornecedor.getText());
             fornecedorTemp.setBairro(jTextFieldBairro.getText());
             fornecedorTemp.setCelular(jTextFieldCelular.getText());
@@ -591,32 +552,21 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             fornecedorTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
             fornecedorTemp.setUsuarioAlt(ClassUtils.getIdUsuario());
             fornecedorTemp.setCep(jTextFieldCep.getText());
-            fornecedorTemp.setIdFornecedor(Integer.parseInt(jTextFieldIdFornecedor.getText()));           
-          
-            fornecedorDao.atualizar(fornecedorTemp,
-                    Integer.parseInt(cidadeDao.buscarIdcidade(jComboBoxCidade.getSelectedItem().toString())));
-            limparCampos();
-            preencherTabela();
-            jPanel2.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
-            jComboBoxCidade.setEnabled(false);
-        } else {
-            jLabelContato.setForeground(Color.red);
-            jLabelCelular.setForeground(Color.red);
-            jLabelBairro.setForeground(Color.red);
-            jLabelEstado.setForeground(Color.red);
-            jLabelFornecedor.setForeground(Color.red);
-            jLabelCidade.setForeground(Color.red);
-            jLabelNumero.setForeground(Color.red);
-            jLabelTelefone.setForeground(Color.red);
-            jLabelEndereco.setForeground(Color.red);
-            jLabelCep.setForeground(Color.red);
-            jLabelEmail.setForeground(Color.red);
+            fornecedorTemp.setIdFornecedor(Integer.parseInt(jTextFieldIdFornecedor.getText()));
+            
+            if (fornecedorDao.atualizar(fornecedorTemp,
+                    Integer.parseInt(cidadeDao.buscarIdcidade(jComboBoxCidade.getSelectedItem().toString())))) {
+                limparCampos();
+                preencherTabela();
+                jPanel2.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
+                jComboBoxCidade.setEnabled(false);
+            }
         }
-
+        
     }
-
+    
     private void limparCampos() {
         jComboBoxEstado.setSelectedIndex(0);
         jComboBoxCidade.setSelectedIndex(0);
@@ -630,20 +580,21 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jTextFieldNumero.setText("");
         jTextFieldTelefone.setText("");
     }
-
+    
     private void deletarFornecedor() {
         fornecedorTemp.setIdFornecedor(Integer.parseInt(jTextFieldIdFornecedor.getText()));
-
-        fornecedorDao.deletar(fornecedorTemp);
-        limparCampos();
-        preencherTabela();
-        jPanel2.setVisible(false);
-        jButtonNovo.setEnabled(true);
-        jButtonExcluir.setEnabled(false);
-        jComboBoxCidade.setEnabled(false);
-        modificador = 1;
+        
+        if (fornecedorDao.deletar(fornecedorTemp)) {
+            limparCampos();
+            preencherTabela();
+            jPanel2.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+            jComboBoxCidade.setEnabled(false);
+            modificador = 1;
+        }
     }
-
+    
     private void modificadorCampos() {
         jLabelContato.setForeground(Color.BLACK);
         jLabelCelular.setForeground(Color.BLACK);
@@ -657,7 +608,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jLabelCep.setForeground(Color.BLACK);
         jLabelEmail.setForeground(Color.BLACK);
     }
-
+    
     private void preencherComboCidade() {
         jComboBoxCidade.removeAllItems();
         jComboBoxCidade.addItem("Selecione uma Cidade");
@@ -666,71 +617,71 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             @SuppressWarnings("UnusedAssignment")
             ArrayList<Object> objetos = new ArrayList<>();
             objetos = cidadeDao.listarCidade(idEstado);
-
+            
             for (Object objeto : objetos) {
                 jComboBoxCidade.addItem(objeto);
             }
         }
     }
-
+    
     private void preencherComboEstado() {
         jComboBoxEstado.removeAllItems();
         jComboBoxEstado.addItem("Selecione um Estado");
-
+        
         @SuppressWarnings("UnusedAssignment")
         ArrayList<Object> objetos = new ArrayList<>();
         objetos = estadoDao.listarEstados();
-
+        
         for (Object objeto : objetos) {
             jComboBoxEstado.addItem(objeto);
         }
-
+        
     }
-
+    
     private void preencherTabela() {
-        String[] Colunas = new String[]{"Fornecedor", "Contato", "Celular","Telefone", "Estado", "Cidade", " Data Cadastro ", "Última Alteração"};
-
+        String[] Colunas = new String[]{"Fornecedor", "Contato", "Celular", "Telefone", "Estado", "Cidade", " Data Cadastro ", "Última Alteração"};
+        
         FornecedorDao fornecedorTempTabela = new FornecedorDao();
         dados = fornecedorTempTabela.listar();
         Tabela modelo = new TabelaFornecedor(dados, Colunas);
-
+        
         jTableFornecedor.setModel(modelo);
-
+        
         jTableFornecedor.getColumnModel().getColumn(0).setPreferredWidth(250);
         jTableFornecedor.getColumnModel().getColumn(0).setResizable(false);
-
+        
         jTableFornecedor.getColumnModel().getColumn(1).setPreferredWidth(165);
         jTableFornecedor.getColumnModel().getColumn(1).setResizable(false);
-
+        
         jTableFornecedor.getColumnModel().getColumn(2).setPreferredWidth(100);
         jTableFornecedor.getColumnModel().getColumn(2).setResizable(false);
         
         jTableFornecedor.getColumnModel().getColumn(3).setPreferredWidth(100);
         jTableFornecedor.getColumnModel().getColumn(3).setResizable(false);
-
+        
         jTableFornecedor.getColumnModel().getColumn(4).setPreferredWidth(100);
         jTableFornecedor.getColumnModel().getColumn(4).setResizable(false);
-
+        
         jTableFornecedor.getColumnModel().getColumn(5).setPreferredWidth(120);
         jTableFornecedor.getColumnModel().getColumn(5).setResizable(false);
-
+        
         jTableFornecedor.getColumnModel().getColumn(6).setPreferredWidth(300);
         jTableFornecedor.getColumnModel().getColumn(6).setResizable(false);
-
+        
         jTableFornecedor.getColumnModel().getColumn(7).setPreferredWidth(300);
         jTableFornecedor.getColumnModel().getColumn(7).setResizable(false);
-
+        
         jTableFornecedor.getTableHeader().setReorderingAllowed(false);
         jTableFornecedor.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         jTableFornecedor.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-
+    
     private void itensSelecionados() {
         limparCampos();
         jComboBoxCidade.setEnabled(true);
-
+        
         int seleciona = jTableFornecedor.getSelectedRow();
-
+        
         jTextFieldBairro.setText(dados.get(seleciona).getBairro());
         jTextFieldCelular.setText(dados.get(seleciona).getCelular());
         jTextFieldCep.setText(dados.get(seleciona).getCep());
@@ -742,14 +693,14 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jTextFieldTelefone.setText(dados.get(seleciona).getTelefone());
         jTextFieldIdFornecedor.setText(String.valueOf(dados.get(seleciona).getIdFornecedor()));
         jTextFieldCep.setText(dados.get(seleciona).getCep());
-
+        
         jComboBoxEstado.setSelectedItem(dados.get(seleciona).getEstado());
-                jComboBoxCidade.setSelectedItem(dados.get(seleciona).getCidade());
-
+        jComboBoxCidade.setSelectedItem(dados.get(seleciona).getCidade());
+        
         modificador = 2;
         modificadorCampos();
     }
-
+    
     private void validaCampos() {
         jTextFieldBairro.setDocument(new NumeroMaximoCaracters(45));
         jTextFieldCelular.setDocument(new SomenteNumero(11));
@@ -761,17 +712,90 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jTextFieldNumero.setDocument(new SomenteNumero(5));
         jTextFieldTelefone.setDocument(new SomenteNumero(10));
     }
-
+    
     private void comboCidade() {
         jComboBoxCidade.removeAllItems();
         jComboBoxCidade.addItem("Selecione uma Cidade");
-
+        
         @SuppressWarnings("UnusedAssignment")
         ArrayList<Object> objetos = new ArrayList<>();
         objetos = cidadeDao.listarTodasCidade();
-
+        
         for (Object objeto : objetos) {
             jComboBoxCidade.addItem(objeto);
         }
     }
+    
+    private boolean valida() {
+        boolean retorno = true;
+        if (jTextFieldBairro.getText().equals("")) {
+            retorno = false;
+            jLabelBairro.setForeground(Color.red);
+        }
+        if (jTextFieldCelular.getText().equals("")) {
+            retorno = false;
+            jLabelCelular.setForeground(Color.red);
+        }
+        if (jTextFieldCep.getText().equals("")) {
+            retorno = false;
+            jLabelCep.setForeground(Color.red);
+        }
+        if (jTextFieldContato.getText().equals("")) {
+            retorno = false;
+            jLabelContato.setForeground(Color.red);
+        }
+        if (jTextFieldEmail.getText().equals("")) {
+            retorno = false;
+            jLabelEmail.setForeground(Color.red);
+        }
+        if (jTextFieldEndereco.getText().equals("")) {
+            retorno = false;
+            jLabelEndereco.setForeground(Color.red);
+        }
+        if (jTextFieldFornecedor.getText().equals("")) {
+            retorno = false;
+            jLabelFornecedor.setForeground(Color.red);
+        }
+        if (jTextFieldNumero.getText().equals("")) {
+            retorno = false;
+            jLabelNumero.setForeground(Color.red);
+        }
+        if (jTextFieldTelefone.getText().equals("")) {
+            retorno = false;
+            jLabelTelefone.setForeground(Color.red);
+        }
+        if (jComboBoxEstado.getSelectedIndex() == 0) {
+            retorno = false;
+            jLabelEstado.setForeground(Color.red);
+        }
+        if (jComboBoxCidade.getSelectedIndex() == 0) {
+            retorno = false;
+            jLabelCidade.setForeground(Color.red);
+        }
+        if (retorno == false) {
+            JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
+        }
+        return retorno;
+    }
+    
+    private void eventFocus() {
+        ArrayList<Component> order = new ArrayList<>();
+        order.add(jTextFieldFornecedor);
+        order.add(jTextFieldContato);
+        order.add(jTextFieldTelefone);
+        order.add(jTextFieldCelular);
+        order.add(jTextFieldEmail);
+        order.add(jComboBoxEstado);
+        order.add(jComboBoxCidade);
+        order.add(jTextFieldBairro);
+        order.add(jTextFieldEndereco);
+        order.add(jTextFieldNumero);
+        order.add(jTextFieldCep);
+        order.add(jButtonSalvar);
+        order.add(jButtonCancelar);
+        
+        FocusLost focus = new FocusLost(order);
+        setFocusTraversalPolicy(focus);
+    }
+    
 }
