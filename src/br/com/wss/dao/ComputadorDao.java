@@ -9,6 +9,8 @@ import br.com.wss.modelo.Computador;
 import java.awt.HeadlessException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,10 +24,17 @@ public class ComputadorDao {
     ResultSet result;
     String sql;
 
+    /**
+     *
+     */
     public ComputadorDao() {
         conexao = ConectionFactory.getConnection();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Computador> listar() {
         ArrayList<Computador> lista;
         lista = new ArrayList<>();
@@ -68,7 +77,13 @@ public class ComputadorDao {
         return lista;
     }
 
-    public void cadastrarComputador(Computador computador) {
+    /**
+     *
+     * @param computador
+     * @return
+     */
+    public boolean cadastrarComputador(Computador computador) {
+        boolean logado;
         sql = ("insert into computador (nome_computador,mac_computador,"
                 + "data_cadastro,ultima_alteracao,id_usuario_cad,id_usuario_alt)values (?,?,?,?,?,?)");
         try {
@@ -82,14 +97,22 @@ public class ComputadorDao {
 
             stms.execute();
             stms.close();
+            logado = true;
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         } catch (SQLException | HeadlessException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao Gravar dados. \n Erro:" + error);
+            logado = false;
+            JOptionPane.showMessageDialog(null, "Computador  " + "'" + computador.getMac() + "'" + " já cadastrado...");
         }
+        return logado;
     }
 
-    public void atualizarComputador(Computador atualizar) {
-
+    /**
+     *
+     * @param atualizar
+     * @return
+     */
+    public boolean atualizarComputador(Computador atualizar) {
+        boolean retorno;
         sql = ("update computador set nome_computador = ?, mac_computador = ?,"
                 + " ultima_alteracao = ? ,Id_usuario_alt = ? where id_computador = ?");
 
@@ -103,15 +126,23 @@ public class ComputadorDao {
 
             stms.execute();
             stms.close();
+            retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
 
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados! " + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "Computador  " + "'" + atualizar.getMac() + "'" + " já cadastrado...");
         }
+        return retorno;
     }
 
-    public void deletar(Computador deletar) {
-
+    /**
+     *
+     * @param deletar
+     * @return
+     */
+    public boolean deletar(Computador deletar) {
+        boolean retorno = false;
         sql = "Delete from computador where id_computador = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -120,11 +151,32 @@ public class ComputadorDao {
             if (confirma == JOptionPane.YES_OPTION) {
                 stms.execute();
                 stms.close();
+                retorno = true;
                 JOptionPane.showMessageDialog(null, "Dados excluidos com sucesso!");
             }
-
         } catch (SQLException error) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar os dados!" + error);
+            retorno = false;
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
         }
+        return retorno;
+    }
+
+    /**
+     *
+     * @param mac
+     * @return 
+     */
+    public String buscarComputador(String mac){
+        String computador = "";
+        try {
+            sql = "select computador.nome_computador from computador where computador.mac_computador = '" + mac + "'";
+            stms = conexao.prepareStatement(sql);
+            result = stms.executeQuery();
+            result.next();
+            computador = result.getString("computador.nome_computador");
+        } catch (SQLException ex) {
+            Logger.getLogger(GrupoDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return computador;
     }
 }

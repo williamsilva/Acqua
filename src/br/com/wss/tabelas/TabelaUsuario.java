@@ -5,7 +5,6 @@
  */
 package br.com.wss.tabelas;
 
-import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Usuario;
 import java.util.ArrayList;
 
@@ -23,13 +22,17 @@ public class TabelaUsuario extends Tabela {
     public Object getValueAt(int numLin, int numCol) {
         Usuario usuario = (Usuario) getLinhas().get(numLin);
         Object[] linha = new String[colunas.length];
-
-        linha[0] = usuario.getNome();
-        linha[1] = usuario.getUsuario();
-        linha[2] = usuario.getLogado();
-        linha[3] = usuario.getAtivo();
-        linha[4] = "Em " + usuario.getDataCadastro() + " Por " + usuario.getIdUsuarioCad();
-        linha[5] = "Em " + usuario.getUltimaAlteracao() + " Por " + usuario.getIdUsuarioAlt();
+        if(usuario.getAtivo().equals("Sim")){
+            linha[0] = " ";
+        }else{
+            linha[0] = " X ";
+        }        
+        linha[1] = usuario.getNome();
+        linha[2] = usuario.getUsuario();
+        linha[3] = usuario.getLogado();
+        linha[4] = usuario.getAtivo();
+        linha[5] = "Em " + usuario.getDataCadastro() + " Por " + usuario.getIdUsuarioCad();
+        linha[6] = "Em " + usuario.getUltimaAlteracao() + " Por " + usuario.getIdUsuarioAlt();
         
         return linha[numCol];
     }

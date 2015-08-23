@@ -1,7 +1,9 @@
 package br.com.wss.viwer;
 
+import br.com.wss.dao.ComputadorDao;
 import br.com.wss.dao.UsuarioDao;
 import br.com.wss.modelo.Usuario;
+import br.com.wss.utilidades.ClassUtils;
 import java.sql.ResultSet;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -24,35 +26,50 @@ public final class frmLogin extends javax.swing.JFrame {
     }
 
     Usuario usuarioTemp = new Usuario();
-    UsuarioDao dao = new UsuarioDao();
+    UsuarioDao usuarioDao = new UsuarioDao();
+    ComputadorDao computadorDao = new ComputadorDao();
 
+    /**
+     *
+     * @throws SQLException
+     * @throws InterruptedException
+     */
     public void logar() throws SQLException, InterruptedException {
-        
+
         ResultSet result = null;
         usuarioTemp = new Usuario();
-        
+
         if (!jTUsuario.getText().equals("") || jTUsuario.getText().equals(result)
                 && !jtSenha.getPassword().equals("") || jtSenha.getPassword().equals(result)) {
 
             usuarioTemp.setUsuario(jTUsuario.getText());
             usuarioTemp.setSenha(new String(jtSenha.getPassword()));
-            
-            usuarioTemp = dao.logar(usuarioTemp);
+
+            usuarioTemp = usuarioDao.logar(usuarioTemp);
 
             if (usuarioTemp != null) {
-                frmPrincipal princiapl = new frmPrincipal(usuarioTemp);
-                princiapl.setVisible(true);
-                this.dispose();
+                if (usuarioTemp.getAtivo().equals("Sim")) {
+                    String mac = ClassUtils.getMac();
+                    String computador = computadorDao.buscarComputador(mac).toUpperCase();
 
+                    if (usuarioTemp.getLogado().equals("") || usuarioTemp.getLogado().equalsIgnoreCase(computador)) {
+                        frmPrincipal princiapl = new frmPrincipal(usuarioTemp);
+                        princiapl.setVisible(true);
+                        setLogado();
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Usuário Logado Em! \n\n" + usuarioTemp.getLogado(), "Falha No Login", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuário Bloqueado\n\n Consulte o Administrador do Sitema.!", "Falha No Login", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Usuário ou senha Invalidos!", "Falha No Login", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum Campo pode ser vazio!", "Falha No Login", JOptionPane.INFORMATION_MESSAGE);
         }
-        
     }
-   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -211,6 +228,17 @@ public final class frmLogin extends javax.swing.JFrame {
     private javax.swing.JButton jbSair;
     private javax.swing.JPasswordField jtSenha;
     // End of variables declaration//GEN-END:variables
+
+    private void setLogado() {
+        String mac = ClassUtils.getMac();
+        ComputadorDao computadorDao = new ComputadorDao();
+        String computador = computadorDao.buscarComputador(mac);
+
+        usuarioTemp.setLogado(computador);
+        usuarioTemp.setCodigo(usuarioTemp.getCodigo());
+        usuarioDao.setLogado(usuarioTemp);
+
+    }
 
     private void confirmaFechamento() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

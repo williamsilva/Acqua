@@ -715,6 +715,7 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
                 usuarioTemp.setSenha(new String(jPasswordFieldSenha.getPassword()));
                 usuarioTemp.setIdUsuarioCad((ClassUtils.getIdUsuario()));
                 usuarioTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
+                usuarioTemp.setLogado("");
                 usuarioTemp.setAtivo("Sim");
 
                 UsuarioDao dao = new UsuarioDao();
@@ -745,30 +746,33 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
 
     private void preencherTabela() {
 
-        String[] Colunas = new String[]{"Nome", "Usuário", "Logado Em", "Ativo", "Data Castro", "Ultima Alteração"};
+        String[] Colunas = new String[]{"  ","Nome", "Usuário", "Logado Em", "Ativo", "Data Castro", "Ultima Alteração"};
 
         UsuarioDao usuarioDao = new UsuarioDao();
         dados = usuarioDao.listar();
         Tabela modelo = new TabelaUsuario(dados, Colunas);
         jTabelaUsuario.setModel(modelo);
 
-        jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(210);
+        jTabelaUsuario.getColumnModel().getColumn(0).setPreferredWidth(30);
         jTabelaUsuario.getColumnModel().getColumn(0).setResizable(false);
-
-        jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(150);
+        
+        jTabelaUsuario.getColumnModel().getColumn(1).setPreferredWidth(210);
         jTabelaUsuario.getColumnModel().getColumn(1).setResizable(false);
 
         jTabelaUsuario.getColumnModel().getColumn(2).setPreferredWidth(150);
         jTabelaUsuario.getColumnModel().getColumn(2).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(3).setPreferredWidth(55);
+        jTabelaUsuario.getColumnModel().getColumn(3).setPreferredWidth(150);
         jTabelaUsuario.getColumnModel().getColumn(3).setResizable(false);
 
-        jTabelaUsuario.getColumnModel().getColumn(4).setPreferredWidth(325);
+        jTabelaUsuario.getColumnModel().getColumn(4).setPreferredWidth(55);
         jTabelaUsuario.getColumnModel().getColumn(4).setResizable(false);
 
         jTabelaUsuario.getColumnModel().getColumn(5).setPreferredWidth(325);
         jTabelaUsuario.getColumnModel().getColumn(5).setResizable(false);
+
+        jTabelaUsuario.getColumnModel().getColumn(6).setPreferredWidth(325);
+        jTabelaUsuario.getColumnModel().getColumn(6).setResizable(false);
 
         jTabelaUsuario.getTableHeader().setReorderingAllowed(false);
         jTabelaUsuario.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -793,6 +797,8 @@ public final class FrmUsuario extends javax.swing.JInternalFrame {
         if (jPasswordFieldSenha.getPassword().equals("")) {
             retorno = false;
             jLabelSenha.setForeground(Color.red);
+        }if (retorno == false) {
+            JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
         }
         return retorno;
     }

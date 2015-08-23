@@ -1,10 +1,10 @@
 package br.com.wss.utilidades;
 
+import br.com.wss.dao.ComputadorDao;
 import br.com.wss.dao.ConectionFactory;
 import br.com.wss.viwer.SpleshScreen;
 import br.com.wss.viwer.frmPrincipal;
 import java.io.*;
-import java.net.*;
 import java.sql.*;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -16,7 +16,7 @@ import javax.swing.*;
  * @author William
  */
 public class Principal {
-
+    ComputadorDao dao = new ComputadorDao();
     /**
      *
      * @param args
@@ -56,62 +56,12 @@ public class Principal {
     public Principal() {
         conexao = ConectionFactory.getConnection();
     }
-
-    /**
-     *
-     * @return
-     */
-    public static String getMac() {
-        StringBuilder sb = new StringBuilder();
-        String verifica = "";
-        try {
-            NetworkInterface network = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
-            byte[] mac = network.getHardwareAddress();
-
-            if (mac != null) {
-                for (int i = 0; i < mac.length; i++) {
-                    sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "" : ""));
-                    verifica = sb.toString();
-                }
-            } else {
-                verifica = "";
-            }
-
-        } catch (UnknownHostException | SocketException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        return verifica;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String verificaMac() {
-        String nome = "";
-        String mac = getMac();
-        sql = "select * from computador where mac_computador = ?";
-        try {
-            prepared = conexao.prepareStatement(sql);
-            prepared.setString(1, mac);
-            result = prepared.executeQuery();
-            if (result.next()) {
-                nome = result.getString("nome_computador");
-            } else {
-                nome = "";
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        return nome;
-    }
-
     /**
      *
      */
     public void chamar() {
-        String macComputador = getMac();
-        String macBanco = verificaMac();
+        String macComputador = ClassUtils.getMac();
+        String macBanco = dao.buscarComputador(macComputador);
         String VersaoAtual = getVersaoAtual();
         String VersaoNova = getNovaVersao();
 

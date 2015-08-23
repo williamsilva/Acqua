@@ -1,7 +1,7 @@
 package br.com.wss.viwer;
 
+import br.com.wss.dao.ComputadorDao;
 import br.com.wss.dao.UsuarioDao;
-import br.com.wss.utilidades.Principal;
 import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.modelo.Usuario;
 import br.com.wss.utilidades.ArquivosIni;
@@ -15,8 +15,11 @@ import javax.swing.JOptionPane;
 public final class frmPrincipal extends javax.swing.JFrame {
 
     UsuarioDao usuarioDao = new UsuarioDao();
+    Usuario usuarioTemp = new Usuario();
+    ComputadorDao computadorDao = new ComputadorDao();
     ClassUtils utilidades = new ClassUtils();
     String idUsuario;
+    String login;
 
     FrmUsuario frmUsuarios;
     FrmComputador frmComputador;
@@ -53,19 +56,19 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }
 
     private void computador() {
-        Principal principal = new Principal();
-        String computador = principal.verificaMac().toUpperCase();
+        String mac = ClassUtils.getMac();
+        String computador = computadorDao.buscarComputador(mac).toUpperCase();
         jLComputador.setText("Logado em: " + computador);
     }
 
     private void usuario(String codigo) {
         String usuario = usuarioDao.buscaUsuario(codigo);
-        jLUsuario.setText("Usúario: "+usuario);
+        jLUsuario.setText("Usúario: " + usuario);
     }
 
     frmPrincipal(Usuario usuarioTemp) throws InterruptedException {
         init();
-        String login = usuarioTemp.getUsuario();
+        login = usuarioTemp.getUsuario();
         idUsuario = usuarioTemp.getCodigo();
         ClassUtils.setIdUsuario(idUsuario);
         ClassUtils.setUsuario(login);
@@ -370,11 +373,13 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMDesconectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMDesconectarActionPerformed
-        frmLogin login = new frmLogin();
-        login.setSize(453, 348);
-        login.setLocationRelativeTo(null);
-        login.setVisible(true);
-        this.dispose();
+        if (deslogar()) {
+            frmLogin login = new frmLogin();
+            login.setSize(453, 348);
+            login.setLocationRelativeTo(null);
+            login.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jMDesconectarActionPerformed
 
     private void jMBloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMBloquearActionPerformed
@@ -404,7 +409,11 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Saída", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            if (deslogar()) {
+                System.exit(0);
+            } else {
+                repaint();
+            }
         } else {
             repaint();
         }
@@ -743,6 +752,18 @@ public final class frmPrincipal extends javax.swing.JFrame {
     private org.netbeans.examples.lib.timerbean.Timer timer1;
     // End of variables declaration//GEN-END:variables
 
+    private boolean deslogar() {
+        boolean retorno = false;
+        String computador = "";
+        usuarioTemp.setLogado(computador);
+        usuarioTemp.setCodigo(idUsuario);
+
+        if (usuarioDao.setLogado(usuarioTemp)) {
+            retorno = true;
+        }
+        return retorno;
+    }
+
     private void confirmaFechamento() {
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -751,7 +772,11 @@ public final class frmPrincipal extends javax.swing.JFrame {
             public void windowClosing(WindowEvent e) {
                 int confirma = JOptionPane.showConfirmDialog(null, "Tem Certeza que deseja sair?", "Saída", JOptionPane.YES_NO_OPTION);
                 if (confirma == JOptionPane.YES_OPTION) {
-                    System.exit(0);
+                    if (deslogar()) {
+                        System.exit(0);
+                    } else {
+                        repaint();
+                    }
                 } else {
                     repaint();
                 }

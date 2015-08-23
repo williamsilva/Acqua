@@ -4,6 +4,10 @@ import br.com.wss.dao.ConectionFactory;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,9 +38,9 @@ public class ClassUtils {
      */
     public void relatorio(String caminho, String titulo) {
         try {
-            HashMap parametros = new HashMap();
-            parametros.put("bens", "1");
-            JasperPrint jasperPrint = JasperFillManager.fillReport(caminho, parametros, ConectionFactory.getConnection());
+//            HashMap parametros = new HashMap();
+//            parametros.put("bens", "1");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(caminho, new HashMap(), ConectionFactory.getConnection());
             JasperViewer jrviewer = new JasperViewer(jasperPrint, false);
             jrviewer.setExtendedState(MAXIMIZED_BOTH);
             jrviewer.setTitle(titulo);
@@ -244,6 +248,28 @@ public class ClassUtils {
         int dias = Integer.parseInt(dataAtual) - Integer.parseInt(dataCompra);
         text.setText(String.valueOf(dias));
 
+    }
+    
+    public static String getMac (){
+         StringBuilder sb = new StringBuilder();
+        String mac = "";
+        try {
+            NetworkInterface network = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+            byte[] netWork = network.getHardwareAddress();
+
+            if (netWork != null) {
+                for (int i = 0; i < netWork.length; i++) {
+                    sb.append(String.format("%02X%s", netWork[i], (i < netWork.length - 1) ? "" : ""));
+                    mac = sb.toString();
+                }
+            } else {
+                mac = "";
+            }
+
+        } catch (UnknownHostException | SocketException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+         return mac;
     }
   
 }

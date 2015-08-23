@@ -42,6 +42,7 @@ public class UsuarioDao {
                     usuario.setCodigo(result.getString("id_login"));
                     usuario.setNome(result.getString("nome"));
                     usuario.setLogado(result.getString("logado"));
+                    usuario.setAtivo(result.getString("ativo"));
                 }
                 stms.close();
             }
@@ -57,9 +58,9 @@ public class UsuarioDao {
      * @return
      */
     public boolean cadastrarUsuario(Usuario usuario) {
-        boolean retorno ;
+        boolean retorno;
         sql = "insert into login (Nome,Login,Senha,data_cadastro,ultima_alteracao,"
-                + "ativo,id_usuario_cad,id_usuario_alt) values (?,?,?,?,?,?,?,?)";
+                + "ativo,id_usuario_cad,id_usuario_alt,logado) values (?,?,?,?,?,?,?,?,?)";
         try {
             stms = conexao.prepareStatement(sql);
             stms.setString(1, usuario.getNome());
@@ -70,6 +71,7 @@ public class UsuarioDao {
             stms.setString(6, usuario.getAtivo());
             stms.setString(7, usuario.getIdUsuarioCad());
             stms.setString(8, usuario.getIdUsuarioAlt());
+            stms.setString(9,usuario.getLogado());
 
             stms.execute();
             stms.close();
@@ -161,6 +163,24 @@ public class UsuarioDao {
         return retorno;
     }
 
+    public boolean setLogado(Usuario atualizar) {
+        boolean retorno;
+        sql = "update login set logado = ? where id_login = ?";
+
+        try {
+            stms = conexao.prepareStatement(sql);
+            stms.setString(1, atualizar.getLogado());
+            stms.setString(2, atualizar.getCodigo());
+            
+            stms.execute();
+            stms.close();
+            retorno = true;
+        } catch (SQLException error) {
+            retorno = false;
+        }
+        return retorno;
+    }
+
     /**
      *
      * @param atualizar
@@ -209,7 +229,7 @@ public class UsuarioDao {
 
         } catch (SQLException error) {
             retorno = false;
-            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"O item possui registros sendo utilizados!");
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
         }
         return retorno;
     }

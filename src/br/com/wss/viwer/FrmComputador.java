@@ -10,9 +10,11 @@ import br.com.wss.dao.ComputadorDao;
 import br.com.wss.tabelas.TabelaComputador;
 import br.com.wss.tabelas.Tabela;
 import br.com.wss.modelo.Computador;
+import br.com.wss.utilidades.ClassEvents;
+import br.com.wss.utilidades.FocusLost;
 import br.com.wss.utilidades.NumeroMaximoCaracters;
 import java.awt.Color;
-import java.awt.event.KeyEvent;
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -32,6 +34,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
      */
     public FrmComputador() {
         initComponents();
+        eventFocus();
 
         jTId.setVisible(false);
 
@@ -70,7 +73,6 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setTitle("Cadastro Computador");
         setToolTipText("");
-        setEnabled(false);
 
         jTabelaComputador.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -127,17 +129,17 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
             }
         });
 
-        jTNomeCoputador.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTNomeCoputadorKeyPressed(evt);
+        jTNomeCoputador.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTNomeCoputadorFocusLost(evt);
             }
         });
 
         jLabelMac.setText("Mac do Computador:");
 
-        jTMacCoputador.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTMacCoputadorKeyPressed(evt);
+        jTMacCoputador.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTMacCoputadorFocusLost(evt);
             }
         });
 
@@ -286,24 +288,6 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jBExcluirActionPerformed
 
-    private void jTNomeCoputadorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTNomeCoputadorKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTNomeCoputador.getText().equals("")) {
-            jTMacCoputador.requestFocus();
-            jLabelNomeComputador.setForeground(Color.BLACK);
-        } else {
-            jLabelNomeComputador.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTNomeCoputadorKeyPressed
-
-    private void jTMacCoputadorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTMacCoputadorKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTMacCoputador.getText().equals("")) {
-            jButtonSalvar.requestFocus();
-            jLabelMac.setForeground(Color.BLACK);
-        } else {
-            jLabelMac.setForeground(Color.red);
-        }
-    }//GEN-LAST:event_jTMacCoputadorKeyPressed
-
     private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
         if (modificador == 1) {
             jButtonSalvar.setText("Salvar");
@@ -313,6 +297,14 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
             atualizar();
         }
     }//GEN-LAST:event_jButtonSalvarKeyPressed
+
+    private void jTNomeCoputadorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTNomeCoputadorFocusLost
+        ClassEvents.focusLostTextField(jLabelNomeComputador, jTNomeCoputador);
+    }//GEN-LAST:event_jTNomeCoputadorFocusLost
+
+    private void jTMacCoputadorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTMacCoputadorFocusLost
+        ClassEvents.focusLostTextField(jLabelMac, jTMacCoputador);
+    }//GEN-LAST:event_jTMacCoputadorFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -374,8 +366,7 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
     }
 
     private void cadastrar() {
-        if (!jTNomeCoputador.getText().equals("") && !jTMacCoputador.getText().equals("")) {
-
+        if (valida()) {
             Computador computadorTemp = new Computador();
 
             computadorTemp.setComputador(jTNomeCoputador.getText());
@@ -386,46 +377,73 @@ public final class FrmComputador extends javax.swing.JInternalFrame {
             computadorTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
 
             ComputadorDao dao = new ComputadorDao();
-            dao.cadastrarComputador(computadorTemp);
-            limparCampos();
-            modificarCampos();
-            jBNovo.setEnabled(true);
-            jBExcluir.setEnabled(false);
-            jPComputador.setVisible(false);
-            preencherTabela();
+            if (dao.cadastrarComputador(computadorTemp)) {
+                limparCampos();
+                modificarCampos();
+                jBNovo.setEnabled(true);
+                jBExcluir.setEnabled(false);
+                jPComputador.setVisible(false);
+                preencherTabela();
 
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhun campo pode ser vazio!");
-            jLabelMac.setForeground(Color.red);
-            jLabelNomeComputador.setForeground(Color.red);
-            repaint();
+            }
         }
     }
 
     private void atualizar() {
-        Computador computadorTemp = new Computador();
+        if (valida()) {
+            Computador computadorTemp = new Computador();
 
-        computadorTemp.setComputador(jTNomeCoputador.getText());
-        computadorTemp.setMac(jTMacCoputador.getText());
-        computadorTemp.setId(Integer.parseInt(jTId.getText()));
-        computadorTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
-        computadorTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
+            computadorTemp.setComputador(jTNomeCoputador.getText());
+            computadorTemp.setMac(jTMacCoputador.getText());
+            computadorTemp.setId(Integer.parseInt(jTId.getText()));
+            computadorTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            computadorTemp.setIdUsuarioAlt((ClassUtils.getIdUsuario()));
 
-        ComputadorDao dao = new ComputadorDao();
-        dao.atualizarComputador(computadorTemp);
+            ComputadorDao dao = new ComputadorDao();
+            if (dao.atualizarComputador(computadorTemp)) {
 
-        limparCampos();
-        preencherTabela();
-        modificarCampos();
+                limparCampos();
+                preencherTabela();
+                modificarCampos();
 
-        jPComputador.setVisible(false);
-        jBNovo.setEnabled(true);
-        jBExcluir.setEnabled(false);
+                jPComputador.setVisible(false);
+                jBNovo.setEnabled(true);
+                jBExcluir.setEnabled(false);
+            }
+        }
     }
 
     private void modificarCampos() {
         jLabelMac.setForeground(Color.BLACK);
         jLabelNomeComputador.setForeground(Color.BLACK);
+    }
+
+    private void eventFocus() {
+
+        ArrayList<Component> order = new ArrayList<>();
+        order.add(jTNomeCoputador);
+        order.add(jTMacCoputador);
+        order.add(jButtonSalvar);
+        order.add(jBCancelar);
+
+        FocusLost focus = new FocusLost(order);
+        setFocusTraversalPolicy(focus);
+    }
+
+    private boolean valida() {
+        boolean retorno = true;
+        if (jTMacCoputador.getText().equals("")) {
+            retorno = false;
+            jLabelMac.setForeground(Color.red);
+        }
+        if (jTNomeCoputador.getText().equals("")) {
+            retorno = false;
+            jLabelNomeComputador.setForeground(Color.red);
+        }
+        if (retorno == false) {
+            JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
+        }
+        return retorno;
     }
 
 }
