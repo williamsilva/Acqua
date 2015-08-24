@@ -5,9 +5,7 @@
  */
 package br.com.wss.viwer;
 
-import java.awt.event.KeyEvent;
 import java.util.Date;
-import javax.swing.JTextField;
 
 /**
  *

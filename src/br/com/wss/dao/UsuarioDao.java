@@ -188,7 +188,7 @@ public class UsuarioDao {
      */
     public boolean atualizarSenha(Usuario atualizar) {
         boolean retorno;
-        sql = "update login set senha= ?, ultima_alteracao = ?,id_usuario_alt =? where login = ?";
+        sql = "update login set senha = ?, ultima_alteracao = ?,id_usuario_alt =? where id_login = ?";
 
         try {
             stms = conexao.prepareStatement(sql);
@@ -196,7 +196,6 @@ public class UsuarioDao {
             stms.setString(2, atualizar.getUltimaAlteracao());
             stms.setString(3, atualizar.getIdUsuarioAlt());
             stms.setString(4, atualizar.getCodigo());
-
             stms.execute();
             stms.close();
             retorno = true;

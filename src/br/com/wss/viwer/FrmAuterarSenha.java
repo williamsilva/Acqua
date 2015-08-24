@@ -184,13 +184,14 @@ public final class FrmAuterarSenha extends javax.swing.JDialog {
                 Usuario usuarioTemp = new Usuario();
 
                 usuarioTemp.setSenha(new String(jPasswordSenha.getPassword()));
-                usuarioTemp.setUltimaAlteracao("Em " + ClassUtils.mostraHoraData());
-                usuarioTemp.setUsuario(jTextFieldUsuario.getText());
+                usuarioTemp.setUltimaAlteracao( ClassUtils.setDateMsqy());
+                usuarioTemp.setCodigo(ClassUtils.getIdUsuario());
+                usuarioTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
 
                 UsuarioDao dao = new UsuarioDao();
-                dao.atualizarSenha(usuarioTemp);
-
-                this.dispose();
+                if (dao.atualizarSenha(usuarioTemp)) {
+                    this.dispose();
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "As senhas não correspondem");
             }

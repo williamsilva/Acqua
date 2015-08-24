@@ -451,7 +451,7 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItemRelatorioBensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRelatorioBensActionPerformed
-        String url = "C:\\WssSolutions\\br\\com\\wss\\relatorios\\relatorio bens.jasper";
+        String url = "C:\\WssSolutions\\br\\com\\wss\\relatorios/relatorio bens.jasper";
         utilidades.relatorio(url, "Relátorio Bens");
     }//GEN-LAST:event_jMenuItemRelatorioBensActionPerformed
 
@@ -460,8 +460,8 @@ public final class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-//        String url = "C:\\Users\\william\\JaspersoftWorkspace\\MyReports\\Relatorio Total Bens.jasper";
-//        utilidades.relatorio(url, "Relátorio Total Bens");
+       String url = "C:\\WssSolutions\\br\\com\\wss\\relatorios\\report1.jasper";
+        utilidades.relatorio(url, "Relátorio Total Bens");
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed

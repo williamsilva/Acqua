@@ -38,12 +38,14 @@ public class ClassUtils {
      */
     public void relatorio(String caminho, String titulo) {
         try {
+
 //            HashMap parametros = new HashMap();
 //            parametros.put("bens", "1");
             JasperPrint jasperPrint = JasperFillManager.fillReport(caminho, new HashMap(), ConectionFactory.getConnection());
             JasperViewer jrviewer = new JasperViewer(jasperPrint, false);
             jrviewer.setExtendedState(MAXIMIZED_BOTH);
             jrviewer.setTitle(titulo);
+
             jrviewer.setVisible(true);
             jrviewer.toFront();
         } catch (Exception ex) {
@@ -249,9 +251,9 @@ public class ClassUtils {
         text.setText(String.valueOf(dias));
 
     }
-    
-    public static String getMac (){
-         StringBuilder sb = new StringBuilder();
+
+    public static String getMac() {
+        StringBuilder sb = new StringBuilder();
         String mac = "";
         try {
             NetworkInterface network = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
@@ -269,7 +271,7 @@ public class ClassUtils {
         } catch (UnknownHostException | SocketException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-         return mac;
+        return mac;
     }
-  
+
 }
