@@ -9,14 +9,19 @@ import br.com.wss.dao.ProdutoDao;
 import br.com.wss.modelo.Produto;
 import br.com.wss.tabelas.Tabela;
 import br.com.wss.tabelas.TabelaProduto;
+import br.com.wss.utilidades.ClassEvents;
 import br.com.wss.utilidades.ClassUtils;
+import br.com.wss.utilidades.FocusLost;
 import br.com.wss.utilidades.FormatDouble;
 import br.com.wss.utilidades.NumeroMaximoCaracters;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
@@ -38,6 +43,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
      */
     public FrmProdutos() {
         initComponents();
+        eventFocus();
         jMenuItemAtivo.setEnabled(false);
         jMenuItemBloqueado.setEnabled(false);
         jTextFieldIdProduto.setVisible(false);
@@ -155,6 +161,11 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jTextFieldDesconto.setText("jTextField1");
         jTextFieldDesconto.setSelectionEnd(0);
         jTextFieldDesconto.setSelectionStart(0);
+        jTextFieldDesconto.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldDescontoFocusLost(evt);
+            }
+        });
         jPanelProdutos.add(jTextFieldDesconto);
         jTextFieldDesconto.setBounds(100, 110, 200, 26);
         jPanelProdutos.add(jDateChooserValidade);
@@ -164,6 +175,11 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
+            }
+        });
+        jButtonSalvar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonSalvarKeyPressed(evt);
             }
         });
         jPanelProdutos.add(jButtonSalvar);
@@ -183,10 +199,20 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         jTextFieldIdProduto.setBounds(10, 180, 40, 30);
 
         jTextFieldDescricao.setText("jTextField1");
+        jTextFieldDescricao.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldDescricaoFocusLost(evt);
+            }
+        });
         jPanelProdutos.add(jTextFieldDescricao);
         jTextFieldDescricao.setBounds(100, 20, 200, 26);
 
         jTextFieldValor.setText("jTextField1");
+        jTextFieldValor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldValorFocusLost(evt);
+            }
+        });
         jPanelProdutos.add(jTextFieldValor);
         jTextFieldValor.setBounds(100, 80, 200, 26);
 
@@ -249,6 +275,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             limparCampos();
             jButtonSalvar.setText("Salvar");
         }
+        jTextFieldDescricao.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
@@ -306,6 +333,32 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         desativarUsuario();
     }//GEN-LAST:event_jMenuItemBloqueadoActionPerformed
 
+    private void jTextFieldDescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldDescricaoFocusLost
+        ClassEvents.focusLostTextField(jLabelDescricao, jTextFieldDescricao);
+    }//GEN-LAST:event_jTextFieldDescricaoFocusLost
+
+    private void jTextFieldValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldValorFocusLost
+        ClassEvents.focusLostTextField(jLabelValor, jTextFieldValor);
+    }//GEN-LAST:event_jTextFieldValorFocusLost
+
+    private void jTextFieldDescontoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldDescontoFocusLost
+        ClassEvents.focusLostTextField(jLabelDesconto, jTextFieldDesconto);
+    }//GEN-LAST:event_jTextFieldDescontoFocusLost
+
+    private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrar();
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            editar();
+        } else {
+
+        }
+        }
+    }//GEN-LAST:event_jButtonSalvarKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancelar;
@@ -339,18 +392,18 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     private void deletar() {
         produtoTemp.setIdProduto(Integer.parseInt(jTextFieldIdProduto.getText()));
 
-        produtoDao.deletar(produtoTemp);
-        limparCampos();
-        preencherTabela();
-        jPanelProdutos.setVisible(false);
-        jButtonNovo.setEnabled(true);
-        jButtonExcluir.setEnabled(false);
-        modificador = 1;
+        if (produtoDao.deletar(produtoTemp)) {
+            limparCampos();
+            preencherTabela();
+            jPanelProdutos.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+            modificador = 1;
+        }
     }
 
     private void cadastrar() {
-        if (!jTextFieldDescricao.getText().equals("")
-                && !jTextFieldValor.getText().equals("")) {
+        if (valida()) {
             produtoTemp.setDescricao(jTextFieldDescricao.getText());
             produtoTemp.setDesconto(jTextFieldDesconto.getText());
             produtoTemp.setStatus("Sim");
@@ -361,23 +414,20 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             produtoTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
             produtoTemp.setIdUsuarioCad(ClassUtils.getIdUsuario());
 
-            produtoDao.cadastrar(produtoTemp);
-            limparCampos();
-            modificadorCampos();
-            preencherTabela();
-            jPanelProdutos.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
+            if (produtoDao.cadastrar(produtoTemp)) {
+                limparCampos();
+                modificadorCampos();
+                preencherTabela();
+                jPanelProdutos.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
 
-        } else {
-            jLabelDescricao.setForeground(Color.red);
-            jLabelValor.setForeground(Color.red);
+            }
         }
     }
 
     private void editar() {
-        if (!jTextFieldDescricao.getText().equals("")
-                && !jTextFieldValor.getText().equals("")) {
+        if (valida()) {
             produtoTemp.setDescricao(jTextFieldDescricao.getText());
             produtoTemp.setDesconto(jTextFieldDesconto.getText());
 
@@ -387,17 +437,14 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             produtoTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
             produtoTemp.setIdProduto(Integer.parseInt(jTextFieldIdProduto.getText()));
 
-            produtoDao.editar(produtoTemp);
-            limparCampos();
-            modificadorCampos();
-            preencherTabela();
-            jPanelProdutos.setVisible(false);
-            jButtonNovo.setEnabled(true);
-            jButtonExcluir.setEnabled(false);
-
-        } else {
-            jLabelDescricao.setForeground(Color.red);
-            jLabelValor.setForeground(Color.red);
+            if (produtoDao.editar(produtoTemp)) {
+                limparCampos();
+                modificadorCampos();
+                preencherTabela();
+                jPanelProdutos.setVisible(false);
+                jButtonNovo.setEnabled(true);
+                jButtonExcluir.setEnabled(false);
+            }
         }
     }
 
@@ -409,27 +456,30 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     }
 
     private void preencherTabela() {
-        String[] Colunas = new String[]{"Produto", "Validade", "Ativo", "Data Cadastro", "Ultima Alteração"};
+        String[] Colunas = new String[]{" ", "Produto", "Validade", "Ativo", "Data Cadastro", "Ultima Alteração"};
         ProdutoDao produtoDaoTabela = new ProdutoDao();
         dados = produtoDaoTabela.listar();
         Tabela modelo = new TabelaProduto(dados, Colunas);
 
         jTable1.setModel(modelo);
 
-        jTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
         jTable1.getColumnModel().getColumn(0).setResizable(false);
 
-        jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
         jTable1.getColumnModel().getColumn(1).setResizable(false);
 
-        jTable1.getColumnModel().getColumn(2).setPreferredWidth(50);
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
         jTable1.getColumnModel().getColumn(2).setResizable(false);
 
-        jTable1.getColumnModel().getColumn(3).setPreferredWidth(325);
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(50);
         jTable1.getColumnModel().getColumn(3).setResizable(false);
 
         jTable1.getColumnModel().getColumn(4).setPreferredWidth(325);
         jTable1.getColumnModel().getColumn(4).setResizable(false);
+
+        jTable1.getColumnModel().getColumn(5).setPreferredWidth(325);
+        jTable1.getColumnModel().getColumn(5).setResizable(false);
 
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -446,6 +496,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
 
         modificador = 2;
         modificadorCampos();
+        jTextFieldDescricao.requestFocus();
     }
 
     private void validaCampos() {
@@ -468,6 +519,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             }
         }
     }
+
     private void ativarUsuario() {
         if (!idProduto.equals("") && !ativo.equals("")) {
             Produto produtTemp = new Produto();
@@ -483,8 +535,9 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             }
         }
     }
+
     private void desativarUsuario() {
-       if (!idProduto.equals("") && !ativo.equals("")) {
+        if (!idProduto.equals("") && !ativo.equals("")) {
             Produto produtTemp = new Produto();
             produtTemp.setIdProduto(Integer.parseInt(idProduto));
             produtTemp.setStatus("Não");
@@ -497,5 +550,37 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
                 preencherTabela();
             }
         }
+    }
+
+    private void eventFocus() {
+        ArrayList<Component> order = new ArrayList<>();
+        order.add(jTextFieldDescricao);
+        order.add(jTextFieldValor);
+        order.add(jTextFieldDesconto);
+        order.add(jButtonSalvar);
+        order.add(jButtonCancelar);
+
+        FocusLost focus = new FocusLost(order);
+        setFocusTraversalPolicy(focus);
+    }
+
+    private boolean valida() {
+        boolean retorno = true;
+        if (jTextFieldDescricao.getText().equals("")) {
+            retorno = false;
+            jLabelDescricao.setForeground(Color.red);
+        }
+        if (jTextFieldValor.getText().equals("")) {
+            retorno = false;
+            jLabelValor.setForeground(Color.red);
+        }
+        if (jTextFieldDesconto.getText().equals("")) {
+            retorno = false;
+            jLabelDesconto.setForeground(Color.red);
+        }
+        if (retorno == false) {
+            JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
+        }
+        return retorno;
     }
 }

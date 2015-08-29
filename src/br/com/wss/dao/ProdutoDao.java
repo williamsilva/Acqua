@@ -110,8 +110,8 @@ public class ProdutoDao {
             retorno = true;
             JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
         } catch (SQLException | HeadlessException e) {
-            retorno = false;
-            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
+            retorno = false;            
+            JOptionPane.showMessageDialog(null, "Produto " + "'" + cadastra.getDescricao() + "'" + " já Cadastrado...");
         }
         return retorno;
     }
@@ -143,7 +143,7 @@ public class ProdutoDao {
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException | HeadlessException e) {
             retorno = false;
-            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
+            JOptionPane.showMessageDialog(null, "Produto " + "'" + editar.getDescricao() + "'" + " já Cadastrado...");
         }
         return retorno;
     }

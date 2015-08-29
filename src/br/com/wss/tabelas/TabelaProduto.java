@@ -23,12 +23,18 @@ public class TabelaProduto extends Tabela {
         Produto produto = (Produto) getLinhas().get(numLin);
         Object[] linha = new String[colunas.length];
 
-        linha[0] = produto.getDescricao();
-        linha[1] = produto.getValidade();
-        linha[2] = produto.getStatus();      
-        linha[3] = "Em " + produto.getDataCadastro() + " Por " + produto.getIdUsuarioCad();
-        linha[4] = "Em " + produto.getUltimaAlteracao() + " Por " + produto.getIdUsuarioAlt();
-        
+        if (produto.getStatus().equals("Sim")) {
+            linha[0] = "";
+        } else {
+            linha[0] = " X ";
+        }
+
+        linha[1] = produto.getDescricao();
+        linha[2] = produto.getValidade();
+        linha[3] = produto.getStatus();
+        linha[4] = "Em " + produto.getDataCadastro() + " Por " + produto.getIdUsuarioCad();
+        linha[5] = "Em " + produto.getUltimaAlteracao() + " Por " + produto.getIdUsuarioAlt();
+
         return linha[numCol];
     }
 

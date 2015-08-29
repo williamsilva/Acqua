@@ -51,7 +51,7 @@ public class SpleshScreen extends javax.swing.JFrame {
     }
 
     private void mostrar() {
-        frmLogin login = new frmLogin();
+        FrmLogin login = new FrmLogin();
         login.setSize(453, 348);
         login.setLocationRelativeTo(null);
         login.setVisible(true);

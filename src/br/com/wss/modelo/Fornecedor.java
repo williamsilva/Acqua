@@ -9,133 +9,42 @@ package br.com.wss.modelo;
  *
  * @author William
  */
-public class Fornecedor {
+public class Fornecedor extends Endereco{
 
-    private String UsuarioCad;
-    private String UsuarioAlt;
-    private int idFornecedor;
-    private String nomeFornecedor;
-    private String telefone;
-    private String contato;
-    private String email;
-    private String cidade;
-    private String endereco;
-    private String numero;
-    private String ultimaAlteracao;
+    private long celular;
+    private long cnpj;
     private String dataCadastro;
-    private String celular;
-    private String bairro;
-    private String estado;
-    private String cep;
+    private String email;
+    private int idEnderecoFornecedor;
+    private int idFornecedor;
+    private String UsuarioAlt;
+    private String UsuarioCad;
+    private String razaoSocial;
+    private String responsavel;
+    private String telefone;
+    private String ultimaAlteracao;
+    private int numero;
+    private String referencia;
+    private Endereco endereco;    
 
     public Fornecedor() {
+        endereco = new Endereco();
     }
 
-    public Fornecedor(String UsuarioCad, String UsuarioAlt, int idFornecedor, String nomeFornecedor, String telefone, String contato, String email, String cidade, String endereco, String numero, String ultimaAlteracao, String dataCadastro, String celular, String bairro, String estado, String cep) {
-        this.UsuarioCad = UsuarioCad;
-        this.UsuarioAlt = UsuarioAlt;
-        this.idFornecedor = idFornecedor;
-        this.nomeFornecedor = nomeFornecedor;
-        this.telefone = telefone;
-        this.contato = contato;
-        this.email = email;
-        this.cidade = cidade;
-        this.endereco = endereco;
-        this.numero = numero;
-        this.ultimaAlteracao = ultimaAlteracao;
-        this.dataCadastro = dataCadastro;
+    public long getCelular() {
+        return celular;
+    }
+
+    public void setCelular(long celular) {
         this.celular = celular;
-        this.bairro = bairro;
-        this.estado = estado;
-        this.cep = cep;
     }
 
-    public String getUsuarioCad() {
-        return UsuarioCad;
+    public long getCnpj() {
+        return cnpj;
     }
 
-    public void setUsuarioCad(String UsuarioCad) {
-        this.UsuarioCad = UsuarioCad;
-    }
-
-    public String getUsuarioAlt() {
-        return UsuarioAlt;
-    }
-
-    public void setUsuarioAlt(String UsuarioAlt) {
-        this.UsuarioAlt = UsuarioAlt;
-    }
-
-    public int getIdFornecedor() {
-        return idFornecedor;
-    }
-
-    public void setIdFornecedor(int idFornecedor) {
-        this.idFornecedor = idFornecedor;
-    }
-
-    public String getNomeFornecedor() {
-        return nomeFornecedor;
-    }
-
-    public void setNomeFornecedor(String nomeFornecedor) {
-        this.nomeFornecedor = nomeFornecedor;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getContato() {
-        return contato;
-    }
-
-    public void setContato(String contato) {
-        this.contato = contato;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getUltimaAlteracao() {
-        return ultimaAlteracao;
-    }
-
-    public void setUltimaAlteracao(String ultimaAlteracao) {
-        this.ultimaAlteracao = ultimaAlteracao;
+    public void setCnpj(long cnpj) {
+        this.cnpj = cnpj;
     }
 
     public String getDataCadastro() {
@@ -146,36 +55,100 @@ public class Fornecedor {
         this.dataCadastro = dataCadastro;
     }
 
-    public String getCelular() {
-        return celular;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCelular(String celular) {
-        this.celular = celular;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getBairro() {
-        return bairro;
+    public int getIdEnderecoFornecedor() {
+        return idEnderecoFornecedor;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public void setIdEnderecoFornecedor(int idEnderecoFornecedor) {
+        this.idEnderecoFornecedor = idEnderecoFornecedor;
     }
 
-    public String getEstado() {
-        return estado;
+    public int getIdFornecedor() {
+        return idFornecedor;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setIdFornecedor(int idFornecedor) {
+        this.idFornecedor = idFornecedor;
     }
 
-    public String getCep() {
-        return cep;
+    public String getUsuarioAlt() {
+        return UsuarioAlt;
     }
 
-    public void setCep(String cep) {
-        this.cep = cep;
+    public void setUsuarioAlt(String UsuarioAlt) {
+        this.UsuarioAlt = UsuarioAlt;
+    }
+
+    public String getUsuarioCad() {
+        return UsuarioCad;
+    }
+
+    public void setUsuarioCad(String UsuarioCad) {
+        this.UsuarioCad = UsuarioCad;
+    }
+
+    public String getRazaoSocial() {
+        return razaoSocial;
+    }
+
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public String getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(String responsavel) {
+        this.responsavel = responsavel;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getUltimaAlteracao() {
+        return ultimaAlteracao;
+    }
+
+    public void setUltimaAlteracao(String ultimaAlteracao) {
+        this.ultimaAlteracao = ultimaAlteracao;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
 }

@@ -76,7 +76,6 @@ public class GrupoDao {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
         return lista;
     }
 

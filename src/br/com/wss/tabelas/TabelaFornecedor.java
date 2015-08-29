@@ -26,14 +26,14 @@ public class TabelaFornecedor extends Tabela {
     @Override
     public Object getValueAt(int numLin, int numCol) {
         Fornecedor fornecedor = (Fornecedor) getLinhas().get(numLin);
-
+        
         Object[] linha = new String[colunas.length];
-        linha[0] = fornecedor.getNomeFornecedor();
-        linha[1] = fornecedor.getContato();
-        linha[2] = fornecedor.getCelular();
+        linha[0] = fornecedor.getRazaoSocial();
+        linha[1] = fornecedor.getResponsavel();
+        linha[2] = "" + fornecedor.getCelular();
         linha[3] = fornecedor.getTelefone();
-        linha[4] = fornecedor.getEstado();
-        linha[5] = fornecedor.getCidade();
+        linha[4] = fornecedor.getNomeEstado();
+        linha[5] = fornecedor.getNomeCidade();
         linha[6] = "Em " + fornecedor.getDataCadastro() + " Por " + fornecedor.getUsuarioCad();
         linha[7] = "Em " + fornecedor.getUltimaAlteracao() + " Por " + fornecedor.getUsuarioAlt();
 

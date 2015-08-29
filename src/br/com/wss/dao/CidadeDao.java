@@ -36,7 +36,7 @@ public class CidadeDao {
             stms = conexao.prepareStatement(sql);
 
             if (conexao != null) {
-                stms.setString(1, cidade.getNome());
+                stms.setString(1, cidade.getNomeCidade());
                 stms.setString(2, cidade.getIdEstado());
 
                 stms.execute();
@@ -62,6 +62,7 @@ public class CidadeDao {
         }
         return objetos;
     }
+   
     public ArrayList listarTodasCidade() {
         ArrayList<Object> objetos = new ArrayList<>();
         try {
@@ -78,7 +79,7 @@ public class CidadeDao {
         return objetos;
     }
 
-    public String buscarIdcidade(String cidade) {
+    public String getIdCidade(String cidade) {
         String idCidade = "";
         try {
             sql = "select id_Cidade from cidade where nome = '" + cidade + "'";
@@ -90,7 +91,6 @@ public class CidadeDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(EstadoDao.class.getName()).log(Level.SEVERE, null, ex);
-
         }
         return idCidade;
     }
@@ -103,15 +103,11 @@ public class CidadeDao {
             stms = conexao.prepareStatement(sql);
             result = stms.executeQuery();
             result.next();
-
             cidade = (result.getString("nome"));
-
         } catch (SQLException ex) {
             Logger.getLogger(EstadoDao.class.getName()).log(Level.SEVERE, null, ex);
-
         }
-        System.out.println("cidade "+cidade);
-        return cidade;
+           return cidade;
     }
 
 }

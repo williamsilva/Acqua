@@ -9,19 +9,32 @@ package br.com.wss.modelo;
  *
  * @author Estatica
  */
-public class Cidade {
+public class Cidade extends Estado{
 
-    int idCidade;
-    String nome;
-    String idEstado;
-
+    
+    private int idCidade;
+    private String nomeCidade;
+    private String idEstadoCidade;
+    private Estado estado;
+    
     public Cidade() {
+        estado = new Estado();
     }
 
-    public Cidade(int idCidade, String nome, String idEstado) {
-        this.idCidade = idCidade;
-        this.nome = nome;
-        this.idEstado = idEstado;
+    public String getNomeCidade() {
+        return nomeCidade;
+    }
+
+    public void setNomeCidade(String nomeCidade) {
+        this.nomeCidade = nomeCidade;
+    }
+
+    public String getIdEstadoCidade() {
+        return idEstadoCidade;
+    }
+
+    public void setIdEstadoCidade(String idEstadoCidade) {
+        this.idEstadoCidade = idEstadoCidade;
     }
 
     public int getIdCidade() {
@@ -32,22 +45,12 @@ public class Cidade {
         this.idCidade = idCidade;
     }
 
-    public String getNome() {
-        return nome;
+    public Estado getEstado() {
+        return estado;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
-
-    public String getIdEstado() {
-        return idEstado;
-    }
-
-    public void setIdEstado(String idEstado) {
-        this.idEstado = idEstado;
-    }
-
-    
 
 }

@@ -47,87 +47,101 @@ public class FornecedorDao {
 
         try {
             Statement statmen = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = statmen.executeQuery("select\n"
-                    + "		fornecedor.nome_fornecedor,\n"
-                    + "		fornecedor.id_usuario_cad,\n"
-                    + "		fornecedor.id_usuario_alt,\n"
-                    + "		fornecedor.numero,\n"
-                    + "		fornecedor.contato,\n"
-                    + "		fornecedor.email,\n"
-                    + "		fornecedor.telefone,\n"
-                    + "		fornecedor.endereco,\n"
-                    + "		fornecedor.ultima_alteracao,\n"
-                    + "		fornecedor.data_cadastro,\n"
-                    + "		fornecedor.celular,"
-                    + "         fornecedor.id_fornecedor,\n"
-                    + "		fornecedor.bairro,\n"
-                    + "		fornecedor.cep,\n"
-                    + "		cidade.nome,\n"
-                    + "		estado.nome,\n"
-                    + "		login.nome,"
-                    + " (select login.nome from login where login.id_login = fornecedor.id_usuario_cad) as usuario_cad "
-                    + " from fornecedor left join cidade on fornecedor.id_cidade = cidade.id_cidade\n"
-                    + "				left join estado on cidade.idEstado = estado.idestado\n"
-                    + "				left join login  on fornecedor.id_usuario_alt = login.id_login\n"
-                    + "order by nome_fornecedor");
+            ResultSet rs = statmen.executeQuery("select \n"
+                    + "    fornecedor.celular,\n"
+                    + "    fornecedor.cnpj,\n"
+                    + "    fornecedor.data_cadastro,\n"
+                    + "    fornecedor.email,\n"
+                    + "    fornecedor.id_endereco,\n"
+                    + "    fornecedor.id_fornecedor,\n"
+                    + "    fornecedor.id_usuario_alt,\n"
+                    + "    fornecedor.id_usuario_cad,\n"
+                    + "    fornecedor.razao_social,\n"
+                    + "    fornecedor.responsavel,\n"
+                    + "    fornecedor.telefone,\n"
+                    + "    fornecedor.ultima_alteracao,\n"
+                    + "    endereco.bairro,\n"
+                    + "    endereco.cep,\n"
+                    + "    endereco.rua,\n"
+                    + "    cidade.nome as cidade,\n"
+                    + "    estado.nome as estado,\n"
+                    + "    pais.nome as pais,\n"
+                    + "    login.nome as usuario_alt,\n"
+                    + "    (select login.nome from login where login.id_login = fornecedor.id_usuario_cad) as usuario_cad\n"
+                    + "from fornecedor left join endereco on fornecedor.id_endereco = endereco.id_endereco\n"
+                    + "				left join cidade on endereco.id_cidade = cidade.id_cidade\n"
+                    + "                left join estado on cidade.idEstado = estado.idestado\n"
+                    + "                left join pais on estado.id_pais = pais.id_Pais\n"
+                    + "                left join login on fornecedor.id_usuario_alt = login.id_login");
 
             rs.first();
             do {
                 fornecedorTemp = new Fornecedor();
-                fornecedorTemp.setNomeFornecedor(rs.getString("nome_fornecedor"));
+
+                fornecedorTemp.setCelular(rs.getLong("fornecedor.celular"));
+                fornecedorTemp.setCnpj(rs.getLong("fornecedor.cnpj"));
+                fornecedorTemp.setDataCadastro(rs.getString("fornecedor.data_cadastro"));
+                fornecedorTemp.setEmail(rs.getString("fornecedor.email"));
+                fornecedorTemp.setIdEndereco(rs.getInt("fornecedor.id_endereco"));
+                fornecedorTemp.setIdFornecedor(rs.getInt("fornecedor.id_fornecedor"));
                 fornecedorTemp.setUsuarioCad(rs.getString("usuario_cad"));
-                fornecedorTemp.setUsuarioAlt(rs.getString("login.nome"));
-                fornecedorTemp.setCidade(rs.getString("cidade.nome"));
-                fornecedorTemp.setEstado(rs.getString("estado.nome"));
-                fornecedorTemp.setNumero(rs.getString("numero"));
-                fornecedorTemp.setContato(rs.getString("contato"));
-                fornecedorTemp.setEmail(rs.getString("email"));
-                fornecedorTemp.setTelefone(rs.getString("telefone"));
-                fornecedorTemp.setEndereco(rs.getString("endereco"));
-                fornecedorTemp.setUltimaAlteracao(rs.getString("ultima_alteracao"));
-                fornecedorTemp.setDataCadastro(rs.getString("data_cadastro"));
-                fornecedorTemp.setCelular(rs.getString("celular"));
-                fornecedorTemp.setBairro(rs.getString("bairro"));
-                fornecedorTemp.setIdFornecedor(rs.getInt("id_fornecedor"));
-                fornecedorTemp.setCep(rs.getString("cep"));
+                fornecedorTemp.setUsuarioAlt(rs.getString("usuario_alt"));
+                fornecedorTemp.setRazaoSocial(rs.getString("fornecedor.razao_social"));
+                fornecedorTemp.setResponsavel(rs.getString("fornecedor.responsavel"));
+                fornecedorTemp.setTelefone(rs.getString("fornecedor.telefone"));
+                fornecedorTemp.setUltimaAlteracao(rs.getString("fornecedor.ultima_alteracao"));
+                fornecedorTemp.setBairro(rs.getString("endereco.bairro"));
+                fornecedorTemp.setCep(rs.getInt("endereco.cep"));
+                fornecedorTemp.setRua(rs.getString("endereco.rua"));
+                fornecedorTemp.setNomeCidade(rs.getString("cidade"));
+                fornecedorTemp.setNomeEstado(rs.getString("estado"));
+                fornecedorTemp.setNomePais(rs.getString("pais"));
 
                 lista.add(fornecedorTemp);
+
             } while (rs.next());
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
         return lista;
     }
 
     /**
      *
      * @param cadastrar
-     * @param idCidade
      * @return
      */
-    public boolean cadastra(Fornecedor cadastrar, int idCidade) {
+    public boolean cadastra(Fornecedor cadastrar) {
         boolean retorno;
-        sql = "insert into fornecedor (nome_fornecedor,id_usuario_cad,id_usuario_alt,"
-                + "id_cidade,numero,contato,email,telefone,endereco,"
-                + "ultima_alteracao,data_cadastro,celular, bairro,cep)values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        sql = "insert into fornecedor (fornecedor.celular,\n"
+                + "    fornecedor.cnpj,\n"
+                + "    fornecedor.data_cadastro,\n"
+                + "    fornecedor.email,\n"
+                + "    fornecedor.id_endereco,\n"
+                + "    fornecedor.id_usuario_alt,\n"
+                + "    fornecedor.id_usuario_cad,\n"
+                + "    fornecedor.razao_social,\n"
+                + "    fornecedor.responsavel,\n"
+                + "    fornecedor.numero,\n"
+                + "    fornecedor.referencia,\n"
+                + "    fornecedor.telefone,\n"
+                + "    fornecedor.ultima_alteracao)values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             stms = conexao.prepareStatement(sql);
 
-            stms.setString(1, cadastrar.getNomeFornecedor());
-            stms.setString(2, cadastrar.getUsuarioCad());
-            stms.setString(3, cadastrar.getUsuarioAlt());
-            stms.setInt(4, idCidade);
-            stms.setString(5, cadastrar.getNumero());
-            stms.setString(6, cadastrar.getContato());
-            stms.setString(7, cadastrar.getEmail());
-            stms.setString(8, cadastrar.getTelefone());
-            stms.setString(9, cadastrar.getEndereco());
-            stms.setString(10, cadastrar.getUltimaAlteracao());
-            stms.setString(11, cadastrar.getDataCadastro());
-            stms.setString(12, cadastrar.getCelular());
-            stms.setString(13, cadastrar.getBairro());
-            stms.setString(14, cadastrar.getCep());
+            stms.setLong(1, cadastrar.getCelular());
+            stms.setLong(2, cadastrar.getCnpj());
+            stms.setString(3, cadastrar.getDataCadastro());
+            stms.setString(4, cadastrar.getEmail());
+            stms.setInt(5, cadastrar.getIdEndereco());
+            stms.setString(6, cadastrar.getUsuarioAlt());
+            stms.setString(7, cadastrar.getUsuarioCad());
+            stms.setString(8, cadastrar.getRazaoSocial());
+            stms.setString(9, cadastrar.getResponsavel());
+            stms.setInt(10, cadastrar.getNumero());
+            stms.setString(11, cadastrar.getReferencia());
+            stms.setString(12, cadastrar.getTelefone());
+            stms.setString(13, cadastrar.getUltimaAlteracao());
 
             stms.execute();
             stms.close();
@@ -136,7 +150,7 @@ public class FornecedorDao {
 
         } catch (SQLException | HeadlessException error) {
             retorno = false;
-            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"Numero de registro " + "'" + cadastrar.getNomeFornecedor()+ "'" + " já existe...");
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "A Empresa " + "'" + cadastrar.getRazaoSocial()+ "'" + " já Cadastrada..");
         }
         return retorno;
     }
@@ -144,53 +158,53 @@ public class FornecedorDao {
     /**
      *
      * @param atualizar
-     * @param idCidade
      * @return
      */
-    public boolean atualizar(Fornecedor atualizar, int idCidade) {
+    public boolean atualizar(Fornecedor atualizar) {
         boolean retorno;
-        sql = "update fornecedor set "
-                + "nome_fornecedor = ?,"
-                + "id_usuario_alt = ?,"
-                + "id_cidade = ?,"
-                + "numero = ?,"
-                + "contato = ?,"
-                + "email = ?,"
-                + "telefone = ?,"
-                + "endereco = ?,"
-                + "ultima_alteracao = ?,"
-                + "celular = ?,"
-                + "bairro = ?,"
-                + "cep = ?"
-                + "where id_fornecedor = ?";
+        sql = "update fornecedor set"
+                + "    fornecedor.celular = ?,\n"
+                + "    fornecedor.cnpj= ?,\n"
+                + "    fornecedor.data_cadastro= ?,\n"
+                + "    fornecedor.email= ?,\n"
+                + "    fornecedor.id_endereco= ?,\n"
+                + "    fornecedor.id_usuario_alt= ?,\n"
+                + "    fornecedor.id_usuario_cad= ?,\n"
+                + "    fornecedor.razao_social= ?,\n"
+                + "    fornecedor.responsavel= ?,\n"
+                + "    fornecedor.numero= ?,\n"
+                + "    fornecedor.referencia= ?,\n"
+                + "    fornecedor.telefone= ?,\n"
+                + "    fornecedor.ultima_alteracao= ?"
+                + "    where id_fornecedor = ?";
         try {
             stms = conexao.prepareStatement(sql);
-
-            stms.setString(1, atualizar.getNomeFornecedor());
-            stms.setString(2, atualizar.getUsuarioAlt());
-            stms.setInt(3, idCidade);
-            stms.setString(4, atualizar.getNumero());
-            stms.setString(5, atualizar.getContato());
-            stms.setString(6, atualizar.getEmail());
-            stms.setString(7, atualizar.getTelefone());
-            stms.setString(8, atualizar.getEndereco());
-            stms.setString(9, atualizar.getUltimaAlteracao());
-            stms.setString(10, atualizar.getCelular());
-            stms.setString(11, atualizar.getBairro());
-            stms.setString(12, atualizar.getCep());
-            stms.setInt(13, atualizar.getIdFornecedor());
-
+            stms.setLong(1, atualizar.getCelular());
+            stms.setLong(2, atualizar.getCnpj());
+            stms.setString(3,atualizar.getDataCadastro());
+            stms.setString(4, atualizar.getEmail());
+            stms.setInt(5, atualizar.getIdEnderecoFornecedor());
+            stms.setString(6, atualizar.getUsuarioAlt());
+            stms.setString(7, atualizar.getUsuarioCad());
+            stms.setString(8, atualizar.getRazaoSocial());
+            stms.setString(9, atualizar.getResponsavel());
+            stms.setInt(10, atualizar.getNumero());
+            stms.setString(11, atualizar.getReferencia());
+            stms.setString(12, atualizar.getTelefone());
+            stms.setString(13, atualizar.getUltimaAlteracao());
+            stms.setInt(14, atualizar.getIdFornecedor());           
+            
             stms.execute();
             stms.close();
             retorno = true;
             JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
         } catch (SQLException error) {
             retorno = false;
-            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"Numero de registro " + "'" + atualizar.getNomeFornecedor() + "'" + " já existe...");
+            JOptionPane.showMessageDialog(null, error);
+            //JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "Numero de registro " + "'" + atualizar.getRazaoSocial()+ "'" + " já existe...");
         }
         return retorno;
     }
-
     /**
      *
      * @param deletar
@@ -211,7 +225,7 @@ public class FornecedorDao {
             }
         } catch (SQLException error) {
             retorno = false;
-            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"O item possui registros sendo utilizados!");
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
         }
         return retorno;
     }

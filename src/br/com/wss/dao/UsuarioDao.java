@@ -1,7 +1,11 @@
 package br.com.wss.dao;
 
 import br.com.wss.modelo.Usuario;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.*;
 

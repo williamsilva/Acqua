@@ -3,9 +3,13 @@ package br.com.wss.utilidades;
 import br.com.wss.dao.ComputadorDao;
 import br.com.wss.dao.ConectionFactory;
 import br.com.wss.viwer.SpleshScreen;
-import br.com.wss.viwer.frmPrincipal;
-import java.io.*;
-import java.sql.*;
+import br.com.wss.viwer.FrmPrincipal;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,7 +114,7 @@ public class Principal {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         SpleshScreen splesh = new SpleshScreen();
         splesh.setSize(480, 290);

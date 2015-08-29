@@ -9,17 +9,15 @@ package br.com.wss.modelo;
  *
  * @author Estatica
  */
-public class Estado {
+public class Estado extends Pais{
 
-    String idEstado;
-    String nome;
+    private String idEstado;
+    private String nomeEstado;
+    private int idPaisEstado;
+    private Pais pais;
 
     public Estado() {
-    }
-
-    public Estado(String idEstado, String nome) {
-        this.idEstado = idEstado;
-        this.nome = nome;
+        pais = new Pais();
     }
 
     public String getIdEstado() {
@@ -30,18 +28,28 @@ public class Estado {
         this.idEstado = idEstado;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeEstado() {
+        return nomeEstado;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeEstado(String nomeEstado) {
+        this.nomeEstado = nomeEstado;
     }
-// gerar a sigla pelo nome. 
-    public String SiglaEstado(String nomeEstado){
-        if (nomeEstado.equals("teste")) {
-            
-        }
-        return "";
+
+    public int getIdPaisEstado() {
+        return idPaisEstado;
     }
+
+    public void setIdPaisEstado(int idPaisEstado) {
+        this.idPaisEstado = idPaisEstado;
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+    
 }
