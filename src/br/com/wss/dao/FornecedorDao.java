@@ -78,7 +78,7 @@ public class FornecedorDao {
             do {
                 fornecedorTemp = new Fornecedor();
 
-                fornecedorTemp.setCelular(rs.getLong("fornecedor.celular"));
+                fornecedorTemp.setCelular(rs.getString("fornecedor.celular"));
                 fornecedorTemp.setCnpj(rs.getLong("fornecedor.cnpj"));
                 fornecedorTemp.setDataCadastro(rs.getString("fornecedor.data_cadastro"));
                 fornecedorTemp.setEmail(rs.getString("fornecedor.email"));
@@ -129,7 +129,7 @@ public class FornecedorDao {
         try {
             stms = conexao.prepareStatement(sql);
 
-            stms.setLong(1, cadastrar.getCelular());
+            stms.setString(1, cadastrar.getCelular());
             stms.setLong(2, cadastrar.getCnpj());
             stms.setString(3, cadastrar.getDataCadastro());
             stms.setString(4, cadastrar.getEmail());
@@ -179,7 +179,7 @@ public class FornecedorDao {
                 + "    where id_fornecedor = ?";
         try {
             stms = conexao.prepareStatement(sql);
-            stms.setLong(1, atualizar.getCelular());
+            stms.setString(1, atualizar.getCelular());
             stms.setLong(2, atualizar.getCnpj());
             stms.setString(3,atualizar.getDataCadastro());
             stms.setString(4, atualizar.getEmail());
