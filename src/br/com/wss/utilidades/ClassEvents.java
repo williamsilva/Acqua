@@ -28,7 +28,7 @@ public class ClassEvents {
             label.setForeground(Color.red);
         }
     }
-    
+
     /**
      *
      * @param label

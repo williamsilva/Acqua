@@ -30,7 +30,7 @@ public class TabelaFornecedor extends Tabela {
         Object[] linha = new String[colunas.length];
         linha[0] = fornecedor.getRazaoSocial();
         linha[1] = fornecedor.getResponsavel();
-        linha[2] = ""+fornecedor.getCelular();
+        linha[2] = "" + fornecedor.getCelular();
         linha[3] = fornecedor.getTelefone();
         linha[4] = fornecedor.getNomeEstado();
         linha[5] = fornecedor.getNomeCidade();

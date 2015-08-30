@@ -11,7 +11,7 @@ package br.com.wss.modelo;
  */
 public class Fornecedor extends Endereco{
 
-    private String celular;
+    private long celular;
     private long cnpj;
     private String dataCadastro;
     private String email;
@@ -31,11 +31,11 @@ public class Fornecedor extends Endereco{
         endereco = new Endereco();
     }
 
-    public String getCelular() {
+    public long getCelular() {
         return celular;
     }
 
-    public void setCelular(String celular) {
+    public void setCelular(long celular) {
         this.celular = celular;
     }
 
