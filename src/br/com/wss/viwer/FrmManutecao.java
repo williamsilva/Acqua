@@ -404,9 +404,9 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonSalvarKeyPressed
 
     private void jTextFieldNumeroRegistroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNumeroRegistroFocusLost
-        if(buscaBen()){
+        if (buscaBen()) {
             jTextFieldResponsavel.requestFocus();
-        ClassEvents.focusLostTextField(jLabelNumeroRegistro, jTextFieldNumeroRegistro);
+            ClassEvents.focusLostTextField(jLabelNumeroRegistro, jTextFieldNumeroRegistro);
         }
     }//GEN-LAST:event_jTextFieldNumeroRegistroFocusLost
 
@@ -651,7 +651,7 @@ public class FrmManutecao extends javax.swing.JInternalFrame {
     private boolean buscaBen() {
         boolean retorno = false;
         if (!jTextFieldNumeroRegistro.getText().equals("")) {
-            String equip = bensDao.getNomeBens(Integer.parseInt(jTextFieldNumeroRegistro.getText()));
+            String equip = bensDao.getNomeBens(jTextFieldNumeroRegistro.getText());
             if (!equip.equalsIgnoreCase("")) {
                 retorno = true;
                 jTextFieldEquipamento.setText(equip);

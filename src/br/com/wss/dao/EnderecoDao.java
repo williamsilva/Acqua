@@ -111,4 +111,21 @@ public class EnderecoDao {
         }
         return retorno;
     }
+
+    public boolean verifica(int cep) {
+        boolean retorno = false;
+        try {
+            sql = "select * from endereco where cep = '" + cep + "'";
+
+            stms = conexao.prepareStatement(sql);
+            result = stms.executeQuery();
+
+            if (result.first()) {
+                retorno = true;
+            }
+        } catch (SQLException ex) {
+            retorno = false;
+        }
+        return retorno;
+    }
 }

@@ -392,7 +392,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelPias">
+        <Component class="javax.swing.JLabel" name="jLabelPais">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pais:"/>
           </Properties>

@@ -15,7 +15,6 @@ public class Fornecedor extends Endereco{
     private long cnpj;
     private String dataCadastro;
     private String email;
-    private int idEnderecoFornecedor;
     private int idFornecedor;
     private String UsuarioAlt;
     private String UsuarioCad;
@@ -61,14 +60,6 @@ public class Fornecedor extends Endereco{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getIdEnderecoFornecedor() {
-        return idEnderecoFornecedor;
-    }
-
-    public void setIdEnderecoFornecedor(int idEnderecoFornecedor) {
-        this.idEnderecoFornecedor = idEnderecoFornecedor;
     }
 
     public int getIdFornecedor() {

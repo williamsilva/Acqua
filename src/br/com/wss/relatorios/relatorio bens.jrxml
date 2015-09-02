@@ -28,7 +28,7 @@
                             bens.id_usuario_cad,
                             grupo.nome_grupo,
 						login.nome,
-                        fornecedor.nome_fornecedor
+                        fornecedor.razao_social
                     from bens left join grupo on bens.id_grupo_bens = grupo.id_grupo
                     		  left join login on bens.id_usuario_alt = login.id_login
                               left join fornecedor on bens.id_fornecedor = fornecedor.id_fornecedor
@@ -97,7 +97,7 @@
 	<field name="nome_grupo" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="nome_fornecedor" class="java.lang.String">
+	<field name="razao_social" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<group name="nome">
@@ -230,12 +230,12 @@
 				<textFieldExpression><![CDATA[$F{nota_fiscal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="329" y="3" width="76" height="20" uuid="d8071300-4499-4b36-94ca-556241c51420"/>
-				<textFieldExpression><![CDATA[$F{nome_fornecedor}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
 				<reportElement x="502" y="2" width="62" height="20" uuid="346ca32a-2bde-42ef-976d-27048a765b46"/>
 				<textFieldExpression><![CDATA[$F{nome_grupo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="3" width="100" height="20" uuid="931bc217-26a7-4373-b179-e790a8e66dc1"/>
+				<textFieldExpression><![CDATA[$F{razao_social}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

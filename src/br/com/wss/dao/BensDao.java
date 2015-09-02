@@ -220,7 +220,7 @@ public class BensDao {
             }
         } catch (SQLException error) {
             retorno = false;
-            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n"+"O item possui registros sendo utilizados!");
+            JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
         }
         return retorno;
     }
@@ -250,17 +250,18 @@ public class BensDao {
      * @param registro
      * @return
      */
-    public String getNomeBens(int registro) {
+    public String getNomeBens(String registro) {
         String nomeBen = "";
         try {
-            sql = "select nome from bens where numero_controle = '" + registro + "'";
+            sql = "select nome from bens where numero_controle ='" + registro + "'";
             stms = conexao.prepareStatement(sql);
             result = stms.executeQuery();
-            if (result.first()) {
-                nomeBen = result.getString("nome");
-            }
+            result.next();
+           // if(result.first()){
+            nomeBen = result.getString("nome");
+            //}
         } catch (SQLException ex) {
-            Logger.getLogger(GrupoDao.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(BensDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return nomeBen;
     }

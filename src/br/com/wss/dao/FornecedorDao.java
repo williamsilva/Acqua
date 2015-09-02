@@ -183,7 +183,7 @@ public class FornecedorDao {
             stms.setLong(2, atualizar.getCnpj());
             stms.setString(3,atualizar.getDataCadastro());
             stms.setString(4, atualizar.getEmail());
-            stms.setInt(5, atualizar.getIdEnderecoFornecedor());
+            stms.setInt(5, atualizar.getIdEndereco());
             stms.setString(6, atualizar.getUsuarioAlt());
             stms.setString(7, atualizar.getUsuarioCad());
             stms.setString(8, atualizar.getRazaoSocial());
@@ -238,13 +238,13 @@ public class FornecedorDao {
         ArrayList<Object> objetos = new ArrayList<>();
 
         try {
-            sql = "select nome_fornecedor from fornecedor order by nome_fornecedor";
+            sql = "select razao_social from fornecedor order by razao_social";
             stms = conexao.prepareStatement(sql);
 
             result = stms.executeQuery();
 
             while (result.next()) {
-                objetos.add(result.getString("nome_fornecedor"));
+                objetos.add(result.getString("razao_social"));
             }
             stms.close();
         } catch (SQLException ex) {
@@ -261,7 +261,7 @@ public class FornecedorDao {
     public String getIdFornecedor(String fornecedor) {
         String idFornecedor = "";
         try {
-            sql = "select id_fornecedor from fornecedor where nome_fornecedor = '" + fornecedor + "'";
+            sql = "select id_fornecedor from fornecedor where razao_social = '" + fornecedor + "'";
 
             stms = conexao.prepareStatement(sql);
             result = stms.executeQuery();
@@ -281,11 +281,11 @@ public class FornecedorDao {
     public String getNomeFornecedor(String fornecedor) {
         String idFornecedor = "";
         try {
-            sql = "select nome_fornecedor from fornecedor where id_fornecedor = '" + fornecedor + "'";
+            sql = "select razao_social from fornecedor where id_fornecedor = '" + fornecedor + "'";
             stms = conexao.prepareStatement(sql);
             result = stms.executeQuery();
             result.next();
-            idFornecedor = result.getString("nome_fornecedor");
+            idFornecedor = result.getString("razao_social");
 
         } catch (SQLException ex) {
             Logger.getLogger(GrupoDao.class.getName()).log(Level.SEVERE, null, ex);

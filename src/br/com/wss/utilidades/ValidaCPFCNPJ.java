@@ -25,7 +25,11 @@ public class ValidaCPFCNPJ {
     }
 
     public static boolean isValidCPF(String cpf) {
-        if ((cpf == null) || (cpf.length() != 11)) {
+        if ((cpf == null) || (cpf.length() != 11) || cpf.equals("00000000000")
+                || cpf.equals("22222222222") || cpf.equals("33333333333")
+                || cpf.equals("44444444444") || cpf.equals("55555555555")
+                || cpf.equals("66666666666") || cpf.equals("77777777777")
+                || cpf.equals("88888888888") || cpf.equals("99999999999")) {
             return false;
         }
 
@@ -35,7 +39,7 @@ public class ValidaCPFCNPJ {
     }
 
     public static boolean isValidCNPJ(String cnpj) {
-        if ((cnpj == null) || (cnpj.length() != 14)|| cnpj.equals("00000000000000")
+        if ((cnpj == null) || (cnpj.length() != 14) || cnpj.equals("00000000000000")
                 || cnpj.equals("22222222222222") || cnpj.equals("33333333333333")
                 || cnpj.equals("44444444444444") || cnpj.equals("55555555555555")
                 || cnpj.equals("66666666666666") || cnpj.equals("77777777777777")
@@ -44,8 +48,7 @@ public class ValidaCPFCNPJ {
         } else {
             Integer digito1 = calcularDigito(cnpj.substring(0, 12), pesoCNPJ);
             Integer digito2 = calcularDigito(cnpj.substring(0, 12) + digito1, pesoCNPJ);
-            //return cnpj.equals(cnpj.substring(0, 12) + digito1.toString() + digito2.toString());
-            return true;
+            return cnpj.equals(cnpj.substring(0, 12) + digito1.toString() + digito2.toString());
         }
     }
 }

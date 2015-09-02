@@ -5,17 +5,73 @@
  */
 package br.com.wss.viwer;
 
+import br.com.wss.dao.CidadeDao;
+import br.com.wss.dao.ClientesDao;
+import br.com.wss.dao.EnderecoDao;
+import br.com.wss.dao.EstadoDao;
+import br.com.wss.dao.PaisDao;
+import br.com.wss.modelo.Clientes;
+import br.com.wss.modelo.Endereco;
+import br.com.wss.tabelas.Tabela;
+import br.com.wss.tabelas.TabelaClientes;
+import br.com.wss.utilidades.ClassEvents;
+import br.com.wss.utilidades.ClassUtils;
+import br.com.wss.utilidades.FocusLost;
+import br.com.wss.utilidades.ValidaCPFCNPJ;
+import br.com.wss.utilidades.WebServiceCep;
+import java.awt.Color;
+import java.awt.Component;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+
 /**
  *
  * @author William
  */
 public class FrmClientes extends javax.swing.JInternalFrame {
 
+    int modificador = 1;
+
+    CidadeDao cidadeDao = new CidadeDao();
+    EstadoDao estadoDao = new EstadoDao();
+    PaisDao paisDao = new PaisDao();
+    EnderecoDao enderecoDao = new EnderecoDao();
+    Endereco enderecoTemp = new Endereco();
+    Clientes clienteTemp = new Clientes();
+    ClientesDao clientesDao = new ClientesDao();
+    ArrayList<Clientes> dados;
+
     /**
      * Creates new form FrmClientes
      */
     public FrmClientes() {
         initComponents();
+
+        preencherComboEstado();
+        preencherComboPais();
+        preencherTabela();
+
+        jDateChooserDataNascimento.setDate(new Date());
+        jDateChooserDataNascimento.setEnabled(false);
+        jDateChooserDataNascimento.getCalendarButton().setEnabled(true);
+
+        jPanelClientes.setVisible(false);
+        jButtonExcluir.setEnabled(false);
+        jComboBoxCidade.setEnabled(false);
+        jComboBoxEstado.setEnabled(false);
+        jTextFieldIdCliente.setVisible(false);
+
+        jComboBoxCidade.removeAllItems();
+        jComboBoxCidade.addItem("Selecione uma Cidade");
+
+        validaCampos();
+        eventFocus();
     }
 
     /**
@@ -27,21 +83,963 @@ public class FrmClientes extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableClientes = new javax.swing.JTable();
+        jPanelClientes = new javax.swing.JPanel();
+        jTextFieldNome = new javax.swing.JTextField();
+        jLabelNome = new javax.swing.JLabel();
+        jTextFieldEmail = new javax.swing.JTextField();
+        jLabelCpf = new javax.swing.JLabel();
+        jLabelDataNascimento = new javax.swing.JLabel();
+        jLabelEmail = new javax.swing.JLabel();
+        jLabelTelefone = new javax.swing.JLabel();
+        jLabelCelular = new javax.swing.JLabel();
+        jLabelCep = new javax.swing.JLabel();
+        jFormattedTextFieldCep = new javax.swing.JFormattedTextField();
+        jButtonBuscar = new javax.swing.JButton();
+        jFormattedTextFieldCpf = new javax.swing.JFormattedTextField();
+        jFormattedTextFieldTelefone = new javax.swing.JFormattedTextField();
+        jFormattedTextFieldCelular = new javax.swing.JFormattedTextField();
+        jLabelPais = new javax.swing.JLabel();
+        jComboBoxPais = new javax.swing.JComboBox();
+        jLabelEstado = new javax.swing.JLabel();
+        jComboBoxEstado = new javax.swing.JComboBox();
+        jLabelCidade = new javax.swing.JLabel();
+        jComboBoxCidade = new javax.swing.JComboBox();
+        jLabelBairro = new javax.swing.JLabel();
+        jTextFieldBairro = new javax.swing.JTextField();
+        jLabelRua = new javax.swing.JLabel();
+        jTextFieldRua = new javax.swing.JTextField();
+        jTextFieldIdCliente = new javax.swing.JTextField();
+        jLabelNumero = new javax.swing.JLabel();
+        jTextFieldNumero = new javax.swing.JTextField();
+        jButtonSalvar = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
+        jDateChooserDataNascimento = new com.toedter.calendar.JDateChooser();
+        jButtonNovo = new javax.swing.JButton();
+        jButtonExcluir = new javax.swing.JButton();
+
+        setClosable(true);
+        setIconifiable(true);
+
+        jTableClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableClientesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableClientes);
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+        );
+        jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jPanelClientes.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Clientes"));
+        jPanelClientes.setLayout(null);
+
+        jTextFieldNome.setText("jTextField1");
+        jTextFieldNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldNomeFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jTextFieldNome);
+        jTextFieldNome.setBounds(135, 30, 190, 26);
+
+        jLabelNome.setText("Nome:");
+        jPanelClientes.add(jLabelNome);
+        jLabelNome.setBounds(10, 30, 105, 26);
+
+        jTextFieldEmail.setText("jTextField1");
+        jTextFieldEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldEmailFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jTextFieldEmail);
+        jTextFieldEmail.setBounds(135, 120, 190, 26);
+
+        jLabelCpf.setText("CPF:");
+        jPanelClientes.add(jLabelCpf);
+        jLabelCpf.setBounds(10, 60, 105, 26);
+
+        jLabelDataNascimento.setText("Data Nascimento:");
+        jPanelClientes.add(jLabelDataNascimento);
+        jLabelDataNascimento.setBounds(10, 90, 105, 26);
+
+        jLabelEmail.setText("E-mail:");
+        jPanelClientes.add(jLabelEmail);
+        jLabelEmail.setBounds(10, 120, 105, 26);
+
+        jLabelTelefone.setText("Telefone:");
+        jPanelClientes.add(jLabelTelefone);
+        jLabelTelefone.setBounds(10, 150, 105, 26);
+
+        jLabelCelular.setText("Celular:");
+        jPanelClientes.add(jLabelCelular);
+        jLabelCelular.setBounds(10, 180, 105, 26);
+
+        jLabelCep.setText("Cep:");
+        jPanelClientes.add(jLabelCep);
+        jLabelCep.setBounds(350, 30, 100, 26);
+
+        try {
+            jFormattedTextFieldCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldCep.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFormattedTextFieldCepFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jFormattedTextFieldCep);
+        jFormattedTextFieldCep.setBounds(470, 30, 105, 26);
+
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+        jPanelClientes.add(jButtonBuscar);
+        jButtonBuscar.setBounds(585, 30, 75, 26);
+
+        try {
+            jFormattedTextFieldCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFormattedTextFieldCpfFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jFormattedTextFieldCpf);
+        jFormattedTextFieldCpf.setBounds(135, 60, 190, 26);
+
+        try {
+            jFormattedTextFieldTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFormattedTextFieldTelefoneFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jFormattedTextFieldTelefone);
+        jFormattedTextFieldTelefone.setBounds(135, 150, 190, 26);
+
+        try {
+            jFormattedTextFieldCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFormattedTextFieldCelular.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFormattedTextFieldCelularFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jFormattedTextFieldCelular);
+        jFormattedTextFieldCelular.setBounds(135, 180, 190, 26);
+
+        jLabelPais.setText("Pais:");
+        jPanelClientes.add(jLabelPais);
+        jLabelPais.setBounds(350, 60, 100, 26);
+
+        jComboBoxPais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxPais.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxPaisFocusLost(evt);
+            }
+        });
+        jComboBoxPais.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBoxPaisPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        jPanelClientes.add(jComboBoxPais);
+        jComboBoxPais.setBounds(470, 60, 190, 26);
+
+        jLabelEstado.setText("Estado:");
+        jPanelClientes.add(jLabelEstado);
+        jLabelEstado.setBounds(350, 90, 100, 26);
+
+        jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxEstado.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxEstadoFocusLost(evt);
+            }
+        });
+        jComboBoxEstado.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBoxEstadoPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        jPanelClientes.add(jComboBoxEstado);
+        jComboBoxEstado.setBounds(470, 90, 190, 26);
+
+        jLabelCidade.setText("Cidade:");
+        jPanelClientes.add(jLabelCidade);
+        jLabelCidade.setBounds(350, 120, 100, 26);
+
+        jComboBoxCidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxCidade.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jComboBoxCidadeFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jComboBoxCidade);
+        jComboBoxCidade.setBounds(470, 120, 190, 26);
+
+        jLabelBairro.setText("Bairro:");
+        jPanelClientes.add(jLabelBairro);
+        jLabelBairro.setBounds(350, 150, 100, 26);
+
+        jTextFieldBairro.setText("jTextField1");
+        jTextFieldBairro.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldBairroFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jTextFieldBairro);
+        jTextFieldBairro.setBounds(470, 150, 190, 26);
+
+        jLabelRua.setText("Rua:");
+        jPanelClientes.add(jLabelRua);
+        jLabelRua.setBounds(350, 180, 100, 26);
+
+        jTextFieldRua.setText("jTextField1");
+        jTextFieldRua.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldRuaFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jTextFieldRua);
+        jTextFieldRua.setBounds(470, 180, 190, 26);
+
+        jTextFieldIdCliente.setText("ID");
+        jPanelClientes.add(jTextFieldIdCliente);
+        jTextFieldIdCliente.setBounds(20, 220, 50, 26);
+
+        jLabelNumero.setText("Numero:");
+        jPanelClientes.add(jLabelNumero);
+        jLabelNumero.setBounds(350, 210, 100, 26);
+
+        jTextFieldNumero.setText("jTextField1");
+        jPanelClientes.add(jTextFieldNumero);
+        jTextFieldNumero.setBounds(470, 210, 190, 26);
+
+        jButtonSalvar.setText("Variavel");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
+        jButtonSalvar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButtonSalvarKeyPressed(evt);
+            }
+        });
+        jPanelClientes.add(jButtonSalvar);
+        jButtonSalvar.setBounds(140, 220, 71, 28);
+
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
+        jPanelClientes.add(jButtonCancelar);
+        jButtonCancelar.setBounds(240, 220, 80, 28);
+        jPanelClientes.add(jDateChooserDataNascimento);
+        jDateChooserDataNascimento.setBounds(135, 90, 190, 26);
+
+        jButtonNovo.setText("Novo");
+        jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovoActionPerformed(evt);
+            }
+        });
+
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addComponent(jDesktopPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 162, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jButtonNovo)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonExcluir)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jDesktopPane1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNovo)
+                    .addComponent(jButtonExcluir))
+                .addGap(18, 18, 18)
+                .addComponent(jPanelClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        buscaCep();
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrarClientes();
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            editarClientes();
+        } else {
+
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButtonSalvarKeyPressed
+        if (modificador == 1) {
+            jButtonSalvar.setText("Salvar");
+            cadastrarClientes();
+
+        } else if (modificador == 2) {
+            jButtonSalvar.setText("Editar");
+            editarClientes();
+        } else {
+
+        }
+    }//GEN-LAST:event_jButtonSalvarKeyPressed
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        jPanelClientes.setVisible(false);
+        jButtonNovo.setEnabled(true);
+        jButtonExcluir.setEnabled(false);
+        jComboBoxCidade.setEnabled(false);
+        jComboBoxEstado.setEnabled(false);
+        limparCampos();
+        modificador = 1;
+
+        modificadorCampos();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
+    private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
+        if (modificador == 1) {
+            jPanelClientes.setVisible(true);
+            jButtonExcluir.setEnabled(false);
+            jButtonNovo.setEnabled(false);
+            limparCampos();
+            jButtonSalvar.setText("Salvar");
+        } else {
+            modificador = 1;
+            jPanelClientes.setVisible(true);
+            jButtonExcluir.setEnabled(false);
+            jButtonNovo.setEnabled(false);
+            limparCampos();
+            jButtonSalvar.setText("Salvar");
+        }
+    }//GEN-LAST:event_jButtonNovoActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        deletarFornecedor();
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void jTextFieldNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNomeFocusLost
+        ClassEvents.focusLostTextField(jLabelNome, jTextFieldNome);
+    }//GEN-LAST:event_jTextFieldNomeFocusLost
+
+    private void jFormattedTextFieldCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextFieldCpfFocusLost
+        String cpf = jFormattedTextFieldCpf.getText().replace(" ", "").replace(".", "").replace("/", "").replace("-", "");
+        if (ValidaCPFCNPJ.isValidCPF(cpf)) {
+            jLabelCpf.setForeground(Color.BLACK);
+        } else {
+            jLabelCpf.setForeground(Color.red);
+            jFormattedTextFieldCpf.setText("");
+        }
+    }//GEN-LAST:event_jFormattedTextFieldCpfFocusLost
+
+    private void jTextFieldEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldEmailFocusLost
+        ClassEvents.focusLostTextField(jLabelEmail, jTextFieldEmail);
+    }//GEN-LAST:event_jTextFieldEmailFocusLost
+
+    private void jFormattedTextFieldTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextFieldTelefoneFocusLost
+        String celular = jFormattedTextFieldTelefone.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+        if (celular.length() < 10
+                || celular.equals("00000000000") || celular.equals("22222222222") || celular.equals("33333333333")
+                || celular.equals("44444444444") || celular.equals("55555555555") || celular.equals("66666666666")
+                || celular.equals("77777777777") || celular.equals("88888888888") || celular.equals("99999999999")) {
+            jLabelTelefone.setForeground(Color.red);
+            jFormattedTextFieldTelefone.setText("");
+
+        } else if (!jFormattedTextFieldTelefone.getText().equals("(  )       -    ")) {
+            jLabelTelefone.setForeground(Color.BLACK);
+        } else {
+            jLabelTelefone.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jFormattedTextFieldTelefoneFocusLost
+
+    private void jFormattedTextFieldCelularFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextFieldCelularFocusLost
+        String celular = jFormattedTextFieldCelular.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+        if (celular.length() < 11
+                || celular.equals("00000000000") || celular.equals("22222222222") || celular.equals("33333333333")
+                || celular.equals("44444444444") || celular.equals("55555555555") || celular.equals("66666666666")
+                || celular.equals("77777777777") || celular.equals("88888888888") || celular.equals("99999999999")) {
+            jLabelCelular.setForeground(Color.red);
+            jFormattedTextFieldCelular.setText("");
+
+        } else if (!jFormattedTextFieldCelular.getText().equals("(  )       -    ")) {
+            jLabelCelular.setForeground(Color.BLACK);
+        } else {
+            jLabelCelular.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jFormattedTextFieldCelularFocusLost
+
+    private void jFormattedTextFieldCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextFieldCepFocusLost
+        String cep = jFormattedTextFieldCep.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+        if (cep.length() < 8
+                || cep.equals("11111111") || cep.equals("22222222") || cep.equals("33333333")
+                || cep.equals("44444444") || cep.equals("55555555") || cep.equals("66666666")
+                || cep.equals("77777777") || cep.equals("88888888") || cep.equals("99999999")) {
+            jLabelCep.setForeground(Color.red);
+            jFormattedTextFieldCep.setText("");
+        } else if (!jFormattedTextFieldCep.getText().equals("     -   ")) {
+            jLabelCep.setForeground(Color.BLACK);
+        } else {
+            jLabelCep.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jFormattedTextFieldCepFocusLost
+
+    private void jComboBoxPaisFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxPaisFocusLost
+        ClassEvents.focusLostCombobox(jLabelPais, jComboBoxPais);
+        preencherComboEstado();
+        jComboBoxEstado.setEnabled(true);
+    }//GEN-LAST:event_jComboBoxPaisFocusLost
+
+    private void jComboBoxEstadoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxEstadoFocusLost
+        ClassEvents.focusLostCombobox(jLabelEstado, jComboBoxEstado);
+        preencherComboCidade();
+        jComboBoxCidade.setEnabled(true);
+    }//GEN-LAST:event_jComboBoxEstadoFocusLost
+
+    private void jComboBoxCidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxCidadeFocusLost
+        ClassEvents.focusLostCombobox(jLabelCidade, jComboBoxCidade);
+    }//GEN-LAST:event_jComboBoxCidadeFocusLost
+
+    private void jComboBoxPaisPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxPaisPopupMenuWillBecomeInvisible
+        ClassEvents.focusLostCombobox(jLabelPais, jComboBoxPais);
+        preencherComboEstado();
+        jComboBoxEstado.setEnabled(true);
+    }//GEN-LAST:event_jComboBoxPaisPopupMenuWillBecomeInvisible
+
+    private void jComboBoxEstadoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxEstadoPopupMenuWillBecomeInvisible
+        preencherComboCidade();
+        jComboBoxCidade.setEnabled(true);
+    }//GEN-LAST:event_jComboBoxEstadoPopupMenuWillBecomeInvisible
+
+    private void jTextFieldBairroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldBairroFocusLost
+        ClassEvents.focusLostTextField(jLabelBairro, jTextFieldBairro);
+    }//GEN-LAST:event_jTextFieldBairroFocusLost
+
+    private void jTextFieldRuaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldRuaFocusLost
+        ClassEvents.focusLostTextField(jLabelRua, jTextFieldRua);
+    }//GEN-LAST:event_jTextFieldRuaFocusLost
+
+    private void jTableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClientesMouseClicked
+        if (evt.getClickCount() == 2) {
+            try {
+                comboCidade();
+                comboEstado();
+                itensSelecionados();
+            } catch (Exception ex) {
+                Logger.getLogger(FrmBens.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jPanelClientes.setVisible(true);
+            jButtonNovo.setEnabled(false);
+            jButtonExcluir.setEnabled(true);
+            modificador = 2;
+            jButtonSalvar.setText("Editar");
+        }
+    }//GEN-LAST:event_jTableClientesMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonBuscar;
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonExcluir;
+    private javax.swing.JButton jButtonNovo;
+    private javax.swing.JButton jButtonSalvar;
+    private javax.swing.JComboBox jComboBoxCidade;
+    private javax.swing.JComboBox jComboBoxEstado;
+    private javax.swing.JComboBox jComboBoxPais;
+    private com.toedter.calendar.JDateChooser jDateChooserDataNascimento;
+    private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JFormattedTextField jFormattedTextFieldCelular;
+    private javax.swing.JFormattedTextField jFormattedTextFieldCep;
+    private javax.swing.JFormattedTextField jFormattedTextFieldCpf;
+    private javax.swing.JFormattedTextField jFormattedTextFieldTelefone;
+    private javax.swing.JLabel jLabelBairro;
+    private javax.swing.JLabel jLabelCelular;
+    private javax.swing.JLabel jLabelCep;
+    private javax.swing.JLabel jLabelCidade;
+    private javax.swing.JLabel jLabelCpf;
+    private javax.swing.JLabel jLabelDataNascimento;
+    private javax.swing.JLabel jLabelEmail;
+    private javax.swing.JLabel jLabelEstado;
+    private javax.swing.JLabel jLabelNome;
+    private javax.swing.JLabel jLabelNumero;
+    private javax.swing.JLabel jLabelPais;
+    private javax.swing.JLabel jLabelRua;
+    private javax.swing.JLabel jLabelTelefone;
+    private javax.swing.JPanel jPanelClientes;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableClientes;
+    private javax.swing.JTextField jTextFieldBairro;
+    private javax.swing.JTextField jTextFieldEmail;
+    private javax.swing.JTextField jTextFieldIdCliente;
+    private javax.swing.JTextField jTextFieldNome;
+    private javax.swing.JTextField jTextFieldNumero;
+    private javax.swing.JTextField jTextFieldRua;
     // End of variables declaration//GEN-END:variables
+
+    private void cadastrarClientes() {
+        if (valida()) {
+            clienteTemp.setNomeCliente(jTextFieldNome.getText());
+            String cpf = jFormattedTextFieldCpf.getText().replace(" ", "").replace(".", "").replace("-", "");
+            clienteTemp.setCpf(cpf);
+            clienteTemp.setDataNascimento(ClassUtils.setDateChooserMysql(jDateChooserDataNascimento));
+            clienteTemp.setEmail(jTextFieldEmail.getText());
+            String telefone = jFormattedTextFieldTelefone.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+            clienteTemp.setTelefone(telefone);
+            String celular = jFormattedTextFieldCelular.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+            clienteTemp.setCelular(celular);
+            clienteTemp.setNumero(Integer.parseInt(jTextFieldNumero.getText()));
+            clienteTemp.setUsuarioAltClientes(ClassUtils.getIdUsuario());
+            clienteTemp.setUsuarioCadClientes(ClassUtils.getIdUsuario());
+            clienteTemp.setDataCadastro(ClassUtils.setDateMsqy());
+            clienteTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+
+            //Tabela Endereco    
+            String cep = jFormattedTextFieldCep.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+            enderecoTemp.setCep(Integer.parseInt(cep));
+            enderecoTemp.setBairro(jTextFieldBairro.getText());
+            enderecoTemp.setRua(jTextFieldRua.getText());
+            enderecoTemp.setIdCidade(Integer.parseInt(cidadeDao.getIdCidade((String) jComboBoxCidade.getSelectedItem())));
+
+            if (enderecoDao.getEndereco(Integer.parseInt(cep))) {
+                clienteTemp.setIdEndereco(Integer.parseInt(enderecoDao.getIdEndereco(cep)));
+                if (clientesDao.cadastra(clienteTemp)) {
+                    limparCampos();
+                    preencherTabela();
+                    jPanelClientes.setVisible(false);
+                    jButtonNovo.setEnabled(true);
+                }
+            } else {
+                if (enderecoDao.cadastra(enderecoTemp)) {
+                    clienteTemp.setIdEndereco(Integer.parseInt(enderecoDao.getIdEndereco(cep)));
+                    if (clientesDao.cadastra(clienteTemp)) {
+                        limparCampos();
+                        preencherTabela();
+                        jPanelClientes.setVisible(false);
+                        jButtonNovo.setEnabled(true);
+                    }
+                }
+            }
+        }
+    }
+
+    private void editarClientes() {
+        if (valida()) {
+            clienteTemp.setIdCliente(Integer.parseInt(jTextFieldIdCliente.getText()));
+            clienteTemp.setNomeCliente(jTextFieldNome.getText());
+            String cpf = jFormattedTextFieldCpf.getText().replace(" ", "").replace(".", "").replace("-", "");
+            clienteTemp.setCpf(cpf);
+            clienteTemp.setDataNascimento(ClassUtils.setDateChooserMysql(jDateChooserDataNascimento));
+            clienteTemp.setEmail(jTextFieldEmail.getText());
+            String telefone = jFormattedTextFieldTelefone.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+            clienteTemp.setTelefone(telefone);
+            String celular = jFormattedTextFieldCelular.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+            clienteTemp.setCelular(celular);
+            clienteTemp.setNumero(Integer.parseInt(jTextFieldNumero.getText()));
+            clienteTemp.setUsuarioAltClientes(ClassUtils.getIdUsuario());
+            clienteTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+
+            //Tabela Endereco    
+            String cep = jFormattedTextFieldCep.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+            enderecoTemp.setCep(Integer.parseInt(cep));
+            enderecoTemp.setBairro(jTextFieldBairro.getText());
+            enderecoTemp.setRua(jTextFieldRua.getText());
+            enderecoTemp.setIdCidade(Integer.parseInt(cidadeDao.getIdCidade((String) jComboBoxCidade.getSelectedItem())));
+
+            if (enderecoDao.verifica(Integer.parseInt(cep))) {
+                clienteTemp.setIdEndereco(Integer.parseInt(enderecoDao.getIdEndereco(cep)));
+                if (enderecoDao.atualizar(enderecoTemp)) {
+                    if (clientesDao.Atualizar(clienteTemp)) {
+                        limparCampos();
+                        preencherTabela();
+                        jPanelClientes.setVisible(false);
+                        jButtonNovo.setEnabled(true);
+                    }
+                }
+            } else {
+                if (enderecoDao.cadastra(enderecoTemp)) {
+                    clienteTemp.setIdEndereco(Integer.parseInt(enderecoDao.getIdEndereco(cep)));
+                    if (clientesDao.Atualizar(clienteTemp)) {
+                        limparCampos();
+                        preencherTabela();
+                        jPanelClientes.setVisible(false);
+                        jButtonNovo.setEnabled(true);
+                    }
+                }
+            }
+        }
+    }
+
+    private void limparCampos() {
+        jComboBoxEstado.setSelectedIndex(0);
+        jComboBoxCidade.setSelectedIndex(0);
+        jComboBoxPais.setSelectedIndex(0);
+        jTextFieldBairro.setText("");
+        jFormattedTextFieldCelular.setText("");
+        jFormattedTextFieldCep.setText("");
+        jFormattedTextFieldCpf.setText("");
+        jTextFieldEmail.setText("");
+        jTextFieldRua.setText("");
+        jTextFieldNome.setText("");
+        jTextFieldNumero.setText("");
+        jFormattedTextFieldTelefone.setText("");
+
+    }
+
+    private void deletarFornecedor() {
+        clienteTemp.setIdCliente(Integer.parseInt(jTextFieldIdCliente.getText()));
+
+        if (clientesDao.deletar(clienteTemp)) {
+            limparCampos();
+            preencherTabela();
+            jPanelClientes.setVisible(false);
+            jButtonNovo.setEnabled(true);
+            jButtonExcluir.setEnabled(false);
+            jComboBoxCidade.setEnabled(false);
+            modificador = 1;
+        }
+    }
+
+    private void modificadorCampos() {
+        jLabelCpf.setForeground(Color.BLACK);
+        jLabelNome.setForeground(Color.BLACK);
+        jLabelCelular.setForeground(Color.BLACK);
+        jLabelBairro.setForeground(Color.BLACK);
+        jLabelEstado.setForeground(Color.BLACK);
+        jLabelCidade.setForeground(Color.BLACK);
+        jLabelNumero.setForeground(Color.BLACK);
+        jLabelTelefone.setForeground(Color.BLACK);
+        jLabelRua.setForeground(Color.BLACK);
+        jLabelCep.setForeground(Color.BLACK);
+        jLabelEmail.setForeground(Color.BLACK);
+        jLabelPais.setForeground(Color.BLACK);
+
+    }
+
+    private void preencherComboCidade() {
+        jComboBoxCidade.removeAllItems();
+        jComboBoxCidade.addItem("Selecione uma Cidade");
+        if (jComboBoxEstado.getSelectedIndex() != 0) {
+            String idCidade = (String) estadoDao.buscarIdEstado(jComboBoxEstado.getSelectedItem().toString());
+            @SuppressWarnings("UnusedAssignment")
+            ArrayList<Object> objetos = new ArrayList<>();
+            objetos = cidadeDao.listarCidade(idCidade);
+
+            for (Object objeto : objetos) {
+                jComboBoxCidade.addItem(objeto);
+            }
+        }
+    }
+
+    private void preencherComboEstado() {
+        jComboBoxEstado.removeAllItems();
+        jComboBoxEstado.addItem("Selecione um Estado");
+        if (jComboBoxPais.getSelectedIndex() != 0) {
+            String idPais = (String) paisDao.buscarIdPais(jComboBoxPais.getSelectedItem().toString());
+            @SuppressWarnings("UnusedAssignment")
+            ArrayList<Object> objetos = new ArrayList<>();
+            objetos = estadoDao.listarEstado(idPais);
+
+            for (Object objeto : objetos) {
+                jComboBoxEstado.addItem(objeto);
+            }
+        }
+    }
+
+    private void preencherComboPais() {
+        jComboBoxPais.removeAllItems();
+        jComboBoxPais.addItem("Selecione um Pais");
+
+        @SuppressWarnings("UnusedAssignment")
+        ArrayList<Object> objetos = new ArrayList<>();
+        objetos = paisDao.listarPais();
+
+        for (Object objeto : objetos) {
+            jComboBoxPais.addItem(objeto);
+        }
+    }
+
+    private void preencherTabela() {
+        String[] Colunas = new String[]{"Nome", "CPF", "Celular", "Telefone", "Estado", "Cidade", " Data Cadastro ", "Última Alteração"};
+
+        ClientesDao TabelaModel = new ClientesDao();
+        dados = TabelaModel.listar();
+        Tabela modelo = new TabelaClientes(dados, Colunas);
+
+        jTableClientes.setModel(modelo);
+
+        jTableClientes.getColumnModel().getColumn(0).setPreferredWidth(250);
+        jTableClientes.getColumnModel().getColumn(0).setResizable(false);
+
+        jTableClientes.getColumnModel().getColumn(1).setPreferredWidth(165);
+        jTableClientes.getColumnModel().getColumn(1).setResizable(false);
+
+        jTableClientes.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTableClientes.getColumnModel().getColumn(2).setResizable(false);
+
+        jTableClientes.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTableClientes.getColumnModel().getColumn(3).setResizable(false);
+
+        jTableClientes.getColumnModel().getColumn(4).setPreferredWidth(100);
+        jTableClientes.getColumnModel().getColumn(4).setResizable(false);
+
+        jTableClientes.getColumnModel().getColumn(5).setPreferredWidth(120);
+        jTableClientes.getColumnModel().getColumn(5).setResizable(false);
+
+        jTableClientes.getColumnModel().getColumn(6).setPreferredWidth(300);
+        jTableClientes.getColumnModel().getColumn(6).setResizable(false);
+
+        jTableClientes.getColumnModel().getColumn(7).setPreferredWidth(300);
+        jTableClientes.getColumnModel().getColumn(7).setResizable(false);
+
+        jTableClientes.getTableHeader().setReorderingAllowed(false);
+        jTableClientes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        jTableClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void itensSelecionados() {
+        limparCampos();
+        jComboBoxCidade.setEnabled(true);
+        jComboBoxEstado.setEnabled(true);
+
+        int seleciona = jTableClientes.getSelectedRow();
+        jFormattedTextFieldCpf.setText(String.valueOf(dados.get(seleciona).getCpf()));
+        jFormattedTextFieldCelular.setText(String.valueOf(dados.get(seleciona).getCelular()));
+        jTextFieldEmail.setText(dados.get(seleciona).getEmail());
+        jTextFieldNome.setText(dados.get(seleciona).getNomeCliente());
+        jTextFieldNumero.setText(String.valueOf(dados.get(seleciona).getNumero()));
+        jFormattedTextFieldTelefone.setText(dados.get(seleciona).getTelefone());
+        jTextFieldIdCliente.setText(String.valueOf(dados.get(seleciona).getIdCliente()));
+        jTextFieldRua.setText(dados.get(seleciona).getRua());
+        jFormattedTextFieldCep.setText(String.valueOf(dados.get(seleciona).getCep()));
+        jTextFieldBairro.setText(dados.get(seleciona).getBairro());
+        jComboBoxEstado.setSelectedItem(dados.get(seleciona).getNomeEstado());
+        jComboBoxCidade.setSelectedItem(dados.get(seleciona).getNomeCidade());
+        jComboBoxPais.setSelectedItem(dados.get(seleciona).getNomePais());
+        try {
+            jDateChooserDataNascimento.setDate(ClassUtils.setDateChoose(dados.get(seleciona).getDataNascimento()));
+        } catch (ParseException ex) {
+            Logger.getLogger(FrmClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        modificador = 2;
+        modificadorCampos();
+    }
+
+    private void validaCampos() {
+
+    }
+
+    private void eventFocus() {
+        jTextFieldNome.requestFocus();
+        ArrayList<Component> order = new ArrayList<>();
+        order.add(jTextFieldNome);
+        order.add(jFormattedTextFieldCpf);
+        order.add(jTextFieldEmail);
+        order.add(jFormattedTextFieldTelefone);
+        order.add(jFormattedTextFieldCelular);
+        order.add(jFormattedTextFieldCep);
+        order.add(jComboBoxPais);
+        order.add(jComboBoxEstado);
+        order.add(jComboBoxCidade);
+        order.add(jTextFieldBairro);
+        order.add(jTextFieldRua);
+        order.add(jTextFieldNumero);
+
+        order.add(jButtonSalvar);
+        order.add(jButtonCancelar);
+
+        FocusLost focus = new FocusLost(order);
+        setFocusTraversalPolicy(focus);
+    }
+
+    private boolean valida() {
+        String celular = jFormattedTextFieldCelular.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+        String cpf = jFormattedTextFieldCpf.getText().replace(" ", "").replace(".", "").replace("/", "").replace("-", "");
+        String telefone = jFormattedTextFieldTelefone.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+        String cep = jFormattedTextFieldCep.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+        boolean retorno;
+        if (ValidaCPFCNPJ.isValidCPF(cpf)) {
+            jLabelCpf.setForeground(Color.BLACK);
+            retorno = true;
+        } else {
+            retorno = false;
+            jLabelCpf.setForeground(Color.red);
+            jFormattedTextFieldCpf.setText("");
+        }
+        if (jTextFieldBairro.getText().equals("")) {
+            jLabelBairro.setForeground(Color.red);
+            retorno = false;
+        }
+        if (jTextFieldEmail.getText().equals("")) {
+            jLabelEmail.setForeground(Color.red);
+            retorno = false;
+        }
+        if (jTextFieldNome.getText().equals("")) {
+            jLabelNome.setForeground(Color.red);
+            retorno = false;
+        }
+        if (jTextFieldNumero.getText().equals("")) {
+            jLabelNumero.setForeground(Color.red);
+            retorno = false;
+        }
+        if (jTextFieldRua.getText().equals("")) {
+            jLabelRua.setForeground(Color.red);
+            retorno = false;
+        }
+        if (jComboBoxCidade.getSelectedIndex() == 0) {
+            jLabelCidade.setForeground(Color.red);
+            retorno = false;
+        }
+        if (jComboBoxEstado.getSelectedIndex() == 0) {
+            jLabelEstado.setForeground(Color.red);
+            retorno = false;
+        }
+        if (jComboBoxPais.getSelectedIndex() == 0) {
+            jLabelPais.setForeground(Color.red);
+            retorno = false;
+        }
+        if (celular.equals("")) {
+            jLabelCelular.setForeground(Color.red);
+            retorno = false;
+        }
+        if (cep.equals("")) {
+            jLabelCep.setForeground(Color.red);
+            retorno = false;
+        }
+        if (telefone.equals("")) {
+            jLabelTelefone.setForeground(Color.red);
+            retorno = false;
+        }
+        if (retorno == false) {
+            JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
+        }
+        return retorno;
+    }
+
+    private void buscaCep() {
+        WebServiceCep webServiceCep = WebServiceCep.searchCep(jFormattedTextFieldCep.getText());
+
+        if (webServiceCep.wasSuccessful()) {
+            jComboBoxCidade.setEnabled(true);
+            jComboBoxEstado.setEnabled(true);
+            String pais = estadoDao.buscarPais(webServiceCep.getUf());
+            String nomePais = paisDao.buscarPais(pais);
+            jComboBoxPais.setSelectedItem(nomePais);
+            preencherComboEstado();
+            jComboBoxEstado.setSelectedItem(estadoDao.buscarEstado(webServiceCep.getUf()));
+            preencherComboCidade();
+            jComboBoxCidade.setSelectedItem(webServiceCep.getCidade());
+            jTextFieldRua.setText(webServiceCep.getLogradouroFull());
+            jTextFieldBairro.setText(webServiceCep.getBairro());
+            jLabelCep.setForeground(Color.BLACK);
+            jLabelPais.setForeground(Color.BLACK);
+            jLabelEstado.setForeground(Color.BLACK);
+            jLabelCidade.setForeground(Color.BLACK);
+            jLabelBairro.setForeground(Color.BLACK);
+            jLabelRua.setForeground(Color.BLACK);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Cep Não Encontrado \n" + jFormattedTextFieldCep.getText());
+            jLabelCep.setForeground(Color.red);
+            jFormattedTextFieldCep.setText("");
+        }
+    }
+
+    private void comboCidade() {
+        jComboBoxCidade.removeAllItems();
+        jComboBoxCidade.addItem("Selecione uma Cidade");
+
+        @SuppressWarnings("UnusedAssignment")
+        ArrayList<Object> objetos = new ArrayList<>();
+        objetos = cidadeDao.listarTodasCidade();
+
+        for (Object objeto : objetos) {
+            jComboBoxCidade.addItem(objeto);
+        }
+    }
+
+    private void comboEstado() {
+        jComboBoxEstado.removeAllItems();
+        jComboBoxEstado.addItem("Selecione um Estado");
+
+        @SuppressWarnings("UnusedAssignment")
+        ArrayList<Object> objetos = new ArrayList<>();
+        objetos = estadoDao.listarEstados();
+
+        for (Object objeto : objetos) {
+            jComboBoxEstado.addItem(objeto);
+        }
+    }
+
 }

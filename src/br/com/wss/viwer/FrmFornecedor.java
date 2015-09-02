@@ -106,7 +106,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jLabelCnpj = new javax.swing.JLabel();
         jLabelComplemento = new javax.swing.JLabel();
         jTextFieldComplemento = new javax.swing.JTextField();
-        jLabelPias = new javax.swing.JLabel();
+        jLabelPais = new javax.swing.JLabel();
         jComboBoxPais = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
         jTextFieldCep = new javax.swing.JFormattedTextField();
@@ -310,9 +310,9 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jPanel2.add(jTextFieldComplemento);
         jTextFieldComplemento.setBounds(700, 120, 180, 26);
 
-        jLabelPias.setText("Pais:");
-        jPanel2.add(jLabelPias);
-        jLabelPias.setBounds(310, 90, 80, 20);
+        jLabelPais.setText("Pais:");
+        jPanel2.add(jLabelPais);
+        jLabelPais.setBounds(310, 90, 80, 20);
 
         jComboBoxPais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPais.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -554,13 +554,13 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jComboBoxCidadeFocusLost
 
     private void jComboBoxPaisFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxPaisFocusLost
-        ClassEvents.focusLostCombobox(jLabelPias, jComboBoxPais);
+        ClassEvents.focusLostCombobox(jLabelPais, jComboBoxPais);
         preencherComboEstado();
         jComboBoxEstado.setEnabled(true);
     }//GEN-LAST:event_jComboBoxPaisFocusLost
 
     private void jComboBoxPaisPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxPaisPopupMenuWillBecomeInvisible
-        ClassEvents.focusLostCombobox(jLabelPias, jComboBoxPais);
+        ClassEvents.focusLostCombobox(jLabelPais, jComboBoxPais);
         preencherComboEstado();
         jComboBoxEstado.setEnabled(true);
     }//GEN-LAST:event_jComboBoxPaisPopupMenuWillBecomeInvisible
@@ -646,7 +646,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabelEndereco;
     private javax.swing.JLabel jLabelEstado;
     private javax.swing.JLabel jLabelNumero;
-    private javax.swing.JLabel jLabelPias;
+    private javax.swing.JLabel jLabelPais;
     private javax.swing.JLabel jLabelRazaoSocial;
     private javax.swing.JLabel jLabelResponsavel;
     private javax.swing.JLabel jLabelTelefone;
@@ -741,10 +741,8 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             enderecoTemp.setRua(jTextFieldEndereco.getText());
             enderecoTemp.setIdCidade(Integer.parseInt(cidadeDao.getIdCidade((String) jComboBoxCidade.getSelectedItem())));
 
-            fornecedorTemp.setEndereco(enderecoTemp);
-
-            if (enderecoDao.getEndereco(Integer.parseInt(cep))) {
-                fornecedorTemp.setIdEnderecoFornecedor(Integer.parseInt(enderecoDao.getIdEndereco(cep)));
+            if (enderecoDao.verifica(Integer.parseInt(cep))) {
+                fornecedorTemp.setIdEndereco(Integer.parseInt(enderecoDao.getIdEndereco(cep)));
                 if (fornecedorDao.atualizar(fornecedorTemp)) {
                     limparCampos();
                     preencherTabela();
@@ -753,8 +751,8 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
                 }
             } else {
                 if (enderecoDao.atualizar(enderecoTemp)) {
-                    enderecoDao.cadastra(enderecoTemp);
-                    fornecedorTemp.setIdEnderecoFornecedor(Integer.parseInt(enderecoDao.getIdEndereco(cep)));
+                    //enderecoDao.cadastra(enderecoTemp);
+                    fornecedorTemp.setIdEndereco(Integer.parseInt(enderecoDao.getIdEndereco(cep)));
                     if (fornecedorDao.atualizar(fornecedorTemp)) {
                         limparCampos();
                         preencherTabela();
@@ -813,7 +811,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jLabelCep.setForeground(Color.BLACK);
         jLabelEmail.setForeground(Color.BLACK);
         jLabelCnpj.setForeground(Color.BLACK);
-        jLabelPias.setForeground(Color.BLACK);
+        jLabelPais.setForeground(Color.BLACK);
         jLabelComplemento.setForeground(Color.BLACK);
     }
 
@@ -836,7 +834,6 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         jComboBoxEstado.removeAllItems();
         jComboBoxEstado.addItem("Selecione um Estado");
         if (jComboBoxPais.getSelectedIndex() != 0) {
-            System.out.println("pais " + (String) paisDao.buscarIdPais(jComboBoxPais.getSelectedItem().toString()));
             String idPais = (String) paisDao.buscarIdPais(jComboBoxPais.getSelectedItem().toString());
             @SuppressWarnings("UnusedAssignment")
             ArrayList<Object> objetos = new ArrayList<>();
@@ -964,12 +961,21 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
     }
 
     private boolean valida() {
-        boolean retorno = true;
+        boolean retorno;
 
         String celular = jTextFieldCelular.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
         String cnpj = jTextFieldCnpj.getText().replace(" ", "").replace(".", "").replace("/", "").replace("-", "");
         String telefone = jTextFieldTelefone.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
         String cep = jTextFieldCep.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+
+        if (ValidaCPFCNPJ.isValidCNPJ(cnpj)) {
+            jLabelCnpj.setForeground(Color.BLACK);
+            retorno = true;
+        } else {
+            retorno = false;
+            jLabelCnpj.setForeground(Color.red);
+            jTextFieldCnpj.setText("");
+        }
 
         if (jTextFieldBairro.getText().equals("")) {
             retorno = false;
@@ -1019,12 +1025,6 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             jTextFieldTelefone.setText("");
             jLabelTelefone.setForeground(Color.red);
         }
-        if (ValidaCPFCNPJ.isValidCNPJ(cnpj)) {
-            jLabelCnpj.setForeground(Color.BLACK);
-        } else {
-            jLabelCnpj.setForeground(Color.red);
-            jTextFieldCnpj.setText("");
-        }
         if (jComboBoxEstado.getSelectedIndex() == 0) {
             retorno = false;
             jLabelEstado.setForeground(Color.red);
@@ -1035,7 +1035,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         }
         if (jComboBoxPais.getSelectedIndex() == 0) {
             retorno = false;
-            jLabelPias.setForeground(Color.red);
+            jLabelPais.setForeground(Color.red);
         }
         if (retorno == false) {
             JOptionPane.showMessageDialog(null, "Existe campos obrigatorios em branco");
@@ -1068,7 +1068,7 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
         setFocusTraversalPolicy(focus);
     }
 
-    public void buscaCep() {
+    private void buscaCep() {
         WebServiceCep webServiceCep = WebServiceCep.searchCep(jTextFieldCep.getText());
 
         if (webServiceCep.wasSuccessful()) {
@@ -1083,6 +1083,12 @@ public class FrmFornecedor extends javax.swing.JInternalFrame {
             jComboBoxCidade.setSelectedItem(webServiceCep.getCidade());
             jTextFieldEndereco.setText(webServiceCep.getLogradouroFull());
             jTextFieldBairro.setText(webServiceCep.getBairro());
+            jLabelCep.setForeground(Color.BLACK);
+            jLabelPais.setForeground(Color.BLACK);
+            jLabelEstado.setForeground(Color.BLACK);
+            jLabelCidade.setForeground(Color.BLACK);
+            jLabelBairro.setForeground(Color.BLACK);
+            jLabelEndereco.setForeground(Color.BLACK);
 
         } else {
             JOptionPane.showMessageDialog(null, "Cep Não Encontrado \n" + jTextFieldCep.getText());
