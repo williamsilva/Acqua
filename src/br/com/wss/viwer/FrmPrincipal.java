@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public final class FrmPrincipal1 extends javax.swing.JFrame {
+public final class FrmPrincipal extends javax.swing.JFrame {
 
     UsuarioDao usuarioDao = new UsuarioDao();
     Usuario usuarioTemp = new Usuario();
@@ -31,7 +31,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
     FrmVoucher voucher;
     FrmProdutos produtos;
 
-    public FrmPrincipal1() throws InterruptedException {
+    public FrmPrincipal() throws InterruptedException {
         init();
     }
 
@@ -67,7 +67,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
         jLUsuario.setText("Usúario: " + usuario);
     }
 
-    FrmPrincipal1(Usuario usuarioTemp) throws InterruptedException {
+    FrmPrincipal(Usuario usuarioTemp) throws InterruptedException {
         init();
         login = usuarioTemp.getUsuario();
         idUsuario = usuarioTemp.getCodigo();
@@ -412,7 +412,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
             mostraHora();
             mostraData();
         } catch (InterruptedException ex) {
-            Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_timer1OnTime
 
@@ -495,7 +495,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 grupoBens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         } else if (grupoBens != null) {
             grupoBens.dispose();
@@ -506,7 +506,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 grupoBens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         grupoBens.show();
@@ -520,7 +520,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 frmComputador.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (frmComputador != null) {
@@ -532,7 +532,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 frmComputador.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         frmComputador.show();
@@ -546,7 +546,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 bens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (bens != null) {
@@ -558,7 +558,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 bens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         }
@@ -573,7 +573,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 frmUsuarios.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (frmUsuarios != null) {
@@ -585,7 +585,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 frmUsuarios.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         frmUsuarios.show();
@@ -600,7 +600,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 manutencao.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (manutencao != null) {
@@ -612,7 +612,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 manutencao.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         manutencao.show();
@@ -627,7 +627,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 fornecedor.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (fornecedor != null) {
@@ -639,7 +639,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 fornecedor.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         fornecedor.show();
@@ -654,7 +654,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 voucher.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (voucher != null) {
@@ -666,7 +666,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 voucher.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         voucher.show();
@@ -681,7 +681,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 produtos.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (produtos != null) {
@@ -693,7 +693,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 produtos.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         produtos.show();
@@ -707,7 +707,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 clientes.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (clientes != null) {
@@ -719,7 +719,7 @@ public final class FrmPrincipal1 extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 clientes.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         clientes.show();
