@@ -17,6 +17,8 @@ import br.com.wss.tabelas.TabelaClientes;
 import br.com.wss.utilidades.ClassEvents;
 import br.com.wss.utilidades.ClassUtils;
 import br.com.wss.utilidades.FocusLost;
+import br.com.wss.utilidades.NumeroMaximoCaracters;
+import br.com.wss.utilidades.SomenteNumero;
 import br.com.wss.utilidades.ValidaCPFCNPJ;
 import br.com.wss.utilidades.WebServiceCep;
 import java.awt.Color;
@@ -117,6 +119,8 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         jButtonSalvar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
         jDateChooserDataNascimento = new com.toedter.calendar.JDateChooser();
+        jLabelSexo = new javax.swing.JLabel();
+        jTextFieldSexo = new javax.swing.JTextField();
         jButtonNovo = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
 
@@ -145,11 +149,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
         );
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -163,7 +167,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jTextFieldNome);
-        jTextFieldNome.setBounds(135, 30, 190, 26);
+        jTextFieldNome.setBounds(135, 30, 220, 26);
 
         jLabelNome.setText("Nome:");
         jPanelClientes.add(jLabelNome);
@@ -176,7 +180,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jTextFieldEmail);
-        jTextFieldEmail.setBounds(135, 120, 190, 26);
+        jTextFieldEmail.setBounds(135, 120, 220, 26);
 
         jLabelCpf.setText("CPF:");
         jPanelClientes.add(jLabelCpf);
@@ -200,7 +204,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
 
         jLabelCep.setText("Cep:");
         jPanelClientes.add(jLabelCep);
-        jLabelCep.setBounds(350, 30, 100, 26);
+        jLabelCep.setBounds(380, 30, 100, 26);
 
         try {
             jFormattedTextFieldCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
@@ -213,7 +217,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jFormattedTextFieldCep);
-        jFormattedTextFieldCep.setBounds(470, 30, 105, 26);
+        jFormattedTextFieldCep.setBounds(500, 30, 105, 26);
 
         jButtonBuscar.setText("Buscar");
         jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -222,7 +226,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jButtonBuscar);
-        jButtonBuscar.setBounds(585, 30, 75, 26);
+        jButtonBuscar.setBounds(615, 30, 75, 26);
 
         try {
             jFormattedTextFieldCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
@@ -235,7 +239,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jFormattedTextFieldCpf);
-        jFormattedTextFieldCpf.setBounds(135, 60, 190, 26);
+        jFormattedTextFieldCpf.setBounds(135, 60, 100, 26);
 
         try {
             jFormattedTextFieldTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
@@ -248,7 +252,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jFormattedTextFieldTelefone);
-        jFormattedTextFieldTelefone.setBounds(135, 150, 190, 26);
+        jFormattedTextFieldTelefone.setBounds(135, 150, 220, 26);
 
         try {
             jFormattedTextFieldCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
@@ -261,11 +265,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jFormattedTextFieldCelular);
-        jFormattedTextFieldCelular.setBounds(135, 180, 190, 26);
+        jFormattedTextFieldCelular.setBounds(135, 180, 220, 26);
 
         jLabelPais.setText("Pais:");
         jPanelClientes.add(jLabelPais);
-        jLabelPais.setBounds(350, 60, 100, 26);
+        jLabelPais.setBounds(380, 60, 100, 26);
 
         jComboBoxPais.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPais.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -283,11 +287,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jComboBoxPais);
-        jComboBoxPais.setBounds(470, 60, 190, 26);
+        jComboBoxPais.setBounds(500, 60, 190, 26);
 
         jLabelEstado.setText("Estado:");
         jPanelClientes.add(jLabelEstado);
-        jLabelEstado.setBounds(350, 90, 100, 26);
+        jLabelEstado.setBounds(380, 90, 100, 26);
 
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxEstado.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -305,11 +309,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jComboBoxEstado);
-        jComboBoxEstado.setBounds(470, 90, 190, 26);
+        jComboBoxEstado.setBounds(500, 90, 190, 26);
 
         jLabelCidade.setText("Cidade:");
         jPanelClientes.add(jLabelCidade);
-        jLabelCidade.setBounds(350, 120, 100, 26);
+        jLabelCidade.setBounds(380, 120, 100, 26);
 
         jComboBoxCidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxCidade.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -318,11 +322,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jComboBoxCidade);
-        jComboBoxCidade.setBounds(470, 120, 190, 26);
+        jComboBoxCidade.setBounds(500, 120, 190, 26);
 
         jLabelBairro.setText("Bairro:");
         jPanelClientes.add(jLabelBairro);
-        jLabelBairro.setBounds(350, 150, 100, 26);
+        jLabelBairro.setBounds(380, 150, 100, 26);
 
         jTextFieldBairro.setText("jTextField1");
         jTextFieldBairro.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -331,11 +335,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jTextFieldBairro);
-        jTextFieldBairro.setBounds(470, 150, 190, 26);
+        jTextFieldBairro.setBounds(500, 150, 190, 26);
 
         jLabelRua.setText("Rua:");
         jPanelClientes.add(jLabelRua);
-        jLabelRua.setBounds(350, 180, 100, 26);
+        jLabelRua.setBounds(380, 180, 100, 26);
 
         jTextFieldRua.setText("jTextField1");
         jTextFieldRua.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -344,7 +348,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             }
         });
         jPanelClientes.add(jTextFieldRua);
-        jTextFieldRua.setBounds(470, 180, 190, 26);
+        jTextFieldRua.setBounds(500, 180, 190, 26);
 
         jTextFieldIdCliente.setText("ID");
         jPanelClientes.add(jTextFieldIdCliente);
@@ -352,11 +356,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
 
         jLabelNumero.setText("Numero:");
         jPanelClientes.add(jLabelNumero);
-        jLabelNumero.setBounds(350, 210, 100, 26);
+        jLabelNumero.setBounds(380, 210, 100, 26);
 
         jTextFieldNumero.setText("jTextField1");
         jPanelClientes.add(jTextFieldNumero);
-        jTextFieldNumero.setBounds(470, 210, 190, 26);
+        jTextFieldNumero.setBounds(500, 210, 190, 26);
 
         jButtonSalvar.setText("Variavel");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -381,7 +385,20 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         jPanelClientes.add(jButtonCancelar);
         jButtonCancelar.setBounds(240, 220, 80, 28);
         jPanelClientes.add(jDateChooserDataNascimento);
-        jDateChooserDataNascimento.setBounds(135, 90, 190, 26);
+        jDateChooserDataNascimento.setBounds(135, 90, 220, 26);
+
+        jLabelSexo.setText("Sexo:");
+        jPanelClientes.add(jLabelSexo);
+        jLabelSexo.setBounds(250, 60, 50, 26);
+
+        jTextFieldSexo.setText("jTextField1");
+        jTextFieldSexo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldSexoFocusLost(evt);
+            }
+        });
+        jPanelClientes.add(jTextFieldSexo);
+        jTextFieldSexo.setBounds(304, 60, 50, 26);
 
         jButtonNovo.setText("Novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -403,14 +420,14 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jDesktopPane1)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 162, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jButtonNovo)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonExcluir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,7 +504,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        deletarFornecedor();
+        deletar();
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jTextFieldNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldNomeFocusLost
@@ -607,6 +624,17 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTableClientesMouseClicked
 
+    private void jTextFieldSexoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldSexoFocusLost
+        if (jTextFieldSexo.getText().equalsIgnoreCase("M")) {
+            jLabelSexo.setForeground(Color.BLACK);
+        } else if (jTextFieldSexo.getText().equalsIgnoreCase("F")) {
+            jLabelSexo.setForeground(Color.BLACK);
+        } else {
+            jLabelSexo.setForeground(Color.red);
+            jTextFieldSexo.setText("");
+        }
+    }//GEN-LAST:event_jTextFieldSexoFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonBuscar;
@@ -635,6 +663,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabelNumero;
     private javax.swing.JLabel jLabelPais;
     private javax.swing.JLabel jLabelRua;
+    private javax.swing.JLabel jLabelSexo;
     private javax.swing.JLabel jLabelTelefone;
     private javax.swing.JPanel jPanelClientes;
     private javax.swing.JScrollPane jScrollPane1;
@@ -645,6 +674,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextFieldNome;
     private javax.swing.JTextField jTextFieldNumero;
     private javax.swing.JTextField jTextFieldRua;
+    private javax.swing.JTextField jTextFieldSexo;
     // End of variables declaration//GEN-END:variables
 
     private void cadastrarClientes() {
@@ -663,6 +693,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             clienteTemp.setUsuarioCadClientes(ClassUtils.getIdUsuario());
             clienteTemp.setDataCadastro(ClassUtils.setDateMsqy());
             clienteTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            clienteTemp.setSexo(jTextFieldSexo.getText().toUpperCase());
 
             //Tabela Endereco    
             String cep = jFormattedTextFieldCep.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
@@ -708,6 +739,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             clienteTemp.setNumero(Integer.parseInt(jTextFieldNumero.getText()));
             clienteTemp.setUsuarioAltClientes(ClassUtils.getIdUsuario());
             clienteTemp.setUltimaAlteracao(ClassUtils.setDateMsqy());
+            clienteTemp.setSexo(jTextFieldSexo.getText().toUpperCase());
 
             //Tabela Endereco    
             String cep = jFormattedTextFieldCep.getText().replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
@@ -753,10 +785,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         jTextFieldNome.setText("");
         jTextFieldNumero.setText("");
         jFormattedTextFieldTelefone.setText("");
+        jTextFieldSexo.setText("");
 
     }
 
-    private void deletarFornecedor() {
+    private void deletar() {
         clienteTemp.setIdCliente(Integer.parseInt(jTextFieldIdCliente.getText()));
 
         if (clientesDao.deletar(clienteTemp)) {
@@ -783,6 +816,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         jLabelCep.setForeground(Color.BLACK);
         jLabelEmail.setForeground(Color.BLACK);
         jLabelPais.setForeground(Color.BLACK);
+        jLabelSexo.setForeground(Color.BLACK);
 
     }
 
@@ -886,6 +920,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         jComboBoxEstado.setSelectedItem(dados.get(seleciona).getNomeEstado());
         jComboBoxCidade.setSelectedItem(dados.get(seleciona).getNomeCidade());
         jComboBoxPais.setSelectedItem(dados.get(seleciona).getNomePais());
+        jTextFieldSexo.setText(dados.get(seleciona).getSexo());
         try {
             jDateChooserDataNascimento.setDate(ClassUtils.setDateChoose(dados.get(seleciona).getDataNascimento()));
         } catch (ParseException ex) {
@@ -897,7 +932,12 @@ public class FrmClientes extends javax.swing.JInternalFrame {
     }
 
     private void validaCampos() {
-
+        jTextFieldBairro.setDocument(new NumeroMaximoCaracters(45));
+        jTextFieldEmail.setDocument(new NumeroMaximoCaracters(45));
+        jTextFieldNome.setDocument(new NumeroMaximoCaracters(45));
+        jTextFieldNumero.setDocument(new SomenteNumero(5));
+        jTextFieldRua.setDocument(new NumeroMaximoCaracters(80));
+        jTextFieldSexo.setDocument(new NumeroMaximoCaracters(1));
     }
 
     private void eventFocus() {
@@ -905,6 +945,7 @@ public class FrmClientes extends javax.swing.JInternalFrame {
         ArrayList<Component> order = new ArrayList<>();
         order.add(jTextFieldNome);
         order.add(jFormattedTextFieldCpf);
+        order.add(jTextFieldSexo);
         order.add(jTextFieldEmail);
         order.add(jFormattedTextFieldTelefone);
         order.add(jFormattedTextFieldCelular);
@@ -936,6 +977,11 @@ public class FrmClientes extends javax.swing.JInternalFrame {
             retorno = false;
             jLabelCpf.setForeground(Color.red);
             jFormattedTextFieldCpf.setText("");
+        }
+        if (jTextFieldSexo.getText().equalsIgnoreCase("M")) {
+        } else if (jTextFieldSexo.getText().equalsIgnoreCase("F")) {
+        } else {
+            retorno = false;
         }
         if (jTextFieldBairro.getText().equals("")) {
             jLabelBairro.setForeground(Color.red);

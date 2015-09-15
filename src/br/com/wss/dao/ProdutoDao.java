@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -173,7 +175,7 @@ public class ProdutoDao {
         return retorno;
     }
 
-    public boolean ativarUsuario(Produto ativar) {
+    public boolean ativarProduto(Produto ativar) {
         boolean retorno;
         sql = "update produto set ultima_alteracao = ?,status = ?, id_usuario_alt =? where id_produto = ?";
         try {
@@ -191,5 +193,21 @@ public class ProdutoDao {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar os dados!" + error);
         }
         return retorno;
+    }
+    
+     public ArrayList listarProduto() {
+        ArrayList<Object> objetos = new ArrayList<>();
+        try {
+            sql = "select descricao from produto where produto.status = 'sim' order by descricao";
+            stms = conexao.prepareStatement(sql);
+            rs = stms.executeQuery();
+            while (rs.next()) {
+                objetos.add(rs.getString("descricao"));
+            }
+            stms.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(EstadoDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return objetos;
     }
 }

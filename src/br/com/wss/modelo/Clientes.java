@@ -23,6 +23,7 @@ public class Clientes extends Endereco{
     private Endereco endereco;
     private String dataCadastro;
     private String UltimaAlteracao;
+    private String sexo;
         
     public void Clientes(){
         endereco = new Endereco();
@@ -130,6 +131,14 @@ public class Clientes extends Endereco{
 
     public void setUltimaAlteracao(String UltimaAlteracao) {
         this.UltimaAlteracao = UltimaAlteracao;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
     
 }

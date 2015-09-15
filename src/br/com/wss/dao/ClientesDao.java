@@ -57,6 +57,7 @@ public class ClientesDao {
                     + "    cliente.data_cadastro,\n"
                     + "    cliente.ultima_alteracao,\n"
                     + "    cliente.numero,\n"
+                    + "    cliente.sexo,"
                     + "    login.nome as usuario_alt,\n"
                     + "    endereco.rua,\n"
                     + "    endereco.cep,\n"
@@ -93,6 +94,7 @@ public class ClientesDao {
                 clientesTemp.setNomeEstado(rs.getString("estado"));
                 clientesTemp.setNomePais(rs.getString("pais"));
                 clientesTemp.setNumero(rs.getInt("cliente.numero"));
+                clientesTemp.setSexo(rs.getString("cliente.sexo"));
 
                 lista.add(clientesTemp);
             } while (rs.next());
@@ -116,8 +118,9 @@ public class ClientesDao {
                 + "    cliente.id_usuario_alt,\n"
                 + "    cliente.data_cadastro,\n"
                 + "    cliente.ultima_alteracao,"
-                + "    cliente.numero)\n"
-                + "    values(?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "    cliente.numero,"
+                + "    cliente.sexo)\n"
+                + "    values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             stms = conexao.prepareStatement(sql);
 
@@ -133,6 +136,7 @@ public class ClientesDao {
             stms.setString(10, cadastrar.getDataCadastro());
             stms.setString(11, cadastrar.getUltimaAlteracao());
             stms.setInt(12, cadastrar.getNumero());
+            stms.setString(13,cadastrar.getSexo());
 
             stms.execute();
             stms.close();
@@ -159,7 +163,8 @@ public class ClientesDao {
                 + "    cliente.celular = ?,\n"
                 + "    cliente.id_usuario_alt = ?,\n"
                 + "    cliente.ultima_alteracao = ?,"
-                + "    cliente.numero = ?\n"
+                + "    cliente.numero = ?,\n"
+                + "    cliente.sexo = ?\n"
                 + "     where cliente.id_cliente = ?";
         try {
             stms = conexao.prepareStatement(sql);
@@ -174,7 +179,8 @@ public class ClientesDao {
             stms.setString(8, atualizar.getUsuarioAltClientes());
             stms.setString(9, atualizar.getUltimaAlteracao());
             stms.setInt(10, atualizar.getNumero());
-            stms.setInt(11,atualizar.getIdCliente());
+            stms.setString(11,atualizar.getSexo());
+            stms.setInt(12,atualizar.getIdCliente());
 
             stms.execute();
             stms.close();
@@ -188,7 +194,8 @@ public class ClientesDao {
         }
         return retorno;
     }
-     public boolean deletar(Clientes deletar) {
+    
+    public boolean deletar(Clientes deletar) {
         boolean retorno = false;
         sql = "Delete from cliente where id_cliente = ?";
         try {
@@ -206,5 +213,21 @@ public class ClientesDao {
             JOptionPane.showMessageDialog(null, "NÃO FOI POSÍVEL CONCLUIR!\n\n" + "O item possui registros sendo utilizados!");
         }
         return retorno;
+    }
+    
+    public String getCliente(String cpf) {
+        String nome = "";
+        try {
+            sql = "select nome from cliente where cpf = '" + cpf + "'";
+
+            stms = conexao.prepareStatement(sql);
+            rs = stms.executeQuery();
+            rs.next();
+            nome = rs.getString("nome");
+
+        } catch (SQLException ex) {
+           // Logger.getLogger(EstadoDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nome;
     }
 }

@@ -326,11 +326,11 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTable1MouseReleased
 
     private void jMenuItemAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAtivoActionPerformed
-        ativarUsuario();
+        ativarProduto();
     }//GEN-LAST:event_jMenuItemAtivoActionPerformed
 
     private void jMenuItemBloqueadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBloqueadoActionPerformed
-        desativarUsuario();
+        desativarProduto();
     }//GEN-LAST:event_jMenuItemBloqueadoActionPerformed
 
     private void jTextFieldDescricaoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldDescricaoFocusLost
@@ -520,7 +520,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
         }
     }
 
-    private void ativarUsuario() {
+    private void ativarProduto() {
         if (!idProduto.equals("") && !ativo.equals("")) {
             Produto produtTemp = new Produto();
             produtTemp.setIdProduto(Integer.parseInt(idProduto));
@@ -529,14 +529,14 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             produtTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
 
             ProdutoDao dao = new ProdutoDao();
-            if (dao.ativarUsuario(produtTemp)) {
+            if (dao.ativarProduto(produtTemp)) {
                 jMenuItemAtivo.setEnabled(false);
                 preencherTabela();
             }
         }
     }
 
-    private void desativarUsuario() {
+    private void desativarProduto() {
         if (!idProduto.equals("") && !ativo.equals("")) {
             Produto produtTemp = new Produto();
             produtTemp.setIdProduto(Integer.parseInt(idProduto));
@@ -545,7 +545,7 @@ public class FrmProdutos extends javax.swing.JInternalFrame {
             produtTemp.setIdUsuarioAlt(ClassUtils.getIdUsuario());
 
             ProdutoDao dao = new ProdutoDao();
-            if (dao.ativarUsuario(produtTemp)) {
+            if (dao.ativarProduto(produtTemp)) {
                 jMenuItemBloqueado.setEnabled(false);
                 preencherTabela();
             }

@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public final class FrmPrincipal extends javax.swing.JFrame {
+public final class FrmPrincipal1 extends javax.swing.JFrame {
 
     UsuarioDao usuarioDao = new UsuarioDao();
     Usuario usuarioTemp = new Usuario();
@@ -27,10 +27,11 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     FrmGrupoBens grupoBens;
     FrmManutecao manutencao;
     FrmFornecedor fornecedor;
+    FrmClientes clientes;
     FrmVoucher voucher;
     FrmProdutos produtos;
 
-    public FrmPrincipal() throws InterruptedException {
+    public FrmPrincipal1() throws InterruptedException {
         init();
     }
 
@@ -66,7 +67,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jLUsuario.setText("Usúario: " + usuario);
     }
 
-    FrmPrincipal(Usuario usuarioTemp) throws InterruptedException {
+    FrmPrincipal1(Usuario usuarioTemp) throws InterruptedException {
         init();
         login = usuarioTemp.getUsuario();
         idUsuario = usuarioTemp.getCodigo();
@@ -102,6 +103,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItemRelatorioBens = new javax.swing.JMenuItem();
@@ -177,7 +179,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jPSecundario.setLayout(jPSecundarioLayout);
         jPSecundarioLayout.setHorizontalGroup(
             jPSecundarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPSecundarioLayout.setVerticalGroup(
             jPSecundarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,6 +284,14 @@ public final class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem7);
+
+        jMenuItem9.setText("Clientes");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem9);
 
         jMenuItem8.setText("Produtos");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -402,7 +412,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
             mostraHora();
             mostraData();
         } catch (InterruptedException ex) {
-            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_timer1OnTime
 
@@ -460,8 +470,8 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-       String url = "C:\\WssSolutions\\br\\com\\wss\\relatorios\\report1.jasper";
-        utilidades.relatorio(url, "Relátorio Total Bens");
+//       String url = "C:\\WssSolutions\\br\\com\\wss\\relatorios\\report1.jasper";
+//        utilidades.relatorio(url, "Relátorio Total Bens");
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -472,6 +482,10 @@ public final class FrmPrincipal extends javax.swing.JFrame {
         jInternalProdutos();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        jIntenalClientes();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
     private void jInternalGrupoBens() {
 
         if (grupoBens == null) {
@@ -481,9 +495,8 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 grupoBens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
-
         } else if (grupoBens != null) {
             grupoBens.dispose();
             grupoBens = null;
@@ -493,7 +506,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 grupoBens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         grupoBens.show();
@@ -507,7 +520,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 frmComputador.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (frmComputador != null) {
@@ -519,7 +532,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 frmComputador.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         frmComputador.show();
@@ -533,7 +546,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 bens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (bens != null) {
@@ -545,7 +558,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 bens.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
 
         }
@@ -560,7 +573,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 frmUsuarios.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (frmUsuarios != null) {
@@ -572,7 +585,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 frmUsuarios.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         frmUsuarios.show();
@@ -587,7 +600,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 manutencao.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (manutencao != null) {
@@ -599,7 +612,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 manutencao.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         manutencao.show();
@@ -614,7 +627,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 fornecedor.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (fornecedor != null) {
@@ -626,7 +639,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 fornecedor.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         fornecedor.show();
@@ -641,7 +654,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 voucher.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (voucher != null) {
@@ -653,7 +666,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 voucher.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         voucher.show();
@@ -668,7 +681,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 // set o tamanho máximo dela, que depende da janela pai     
                 produtos.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
 
         } else if (produtos != null) {
@@ -680,10 +693,36 @@ public final class FrmPrincipal extends javax.swing.JFrame {
                 //set o tamanho máximo dela, que depende da janela pai     
                 produtos.setMaximum(true);
             } catch (java.beans.PropertyVetoException e) {
-                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         produtos.show();
+    }
+    
+    private void jIntenalClientes() {
+        if (clientes == null) {
+            clientes = new FrmClientes();
+            this.jPPrincipal.add(clientes);
+            try {
+                // set o tamanho máximo dela, que depende da janela pai     
+                clientes.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+        } else if (clientes != null) {
+            clientes.dispose();
+            clientes = null;
+            clientes = new FrmClientes();
+            this.jPPrincipal.add(clientes);
+            try {
+                //set o tamanho máximo dela, que depende da janela pai     
+                clientes.setMaximum(true);
+            } catch (java.beans.PropertyVetoException e) {
+                Logger.getLogger(FrmPrincipal1.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        clientes.show();
     }
 
 //    public static void main(String args[]) {
@@ -742,6 +781,7 @@ public final class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItemRelatorioBens;
     private javax.swing.JDesktopPane jPPrincipal;
     private javax.swing.JPanel jPSecundario;
@@ -783,4 +823,5 @@ public final class FrmPrincipal extends javax.swing.JFrame {
             }
         });
     }
+
 }

@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public final class FrmLogin extends javax.swing.JFrame {
+public final class FrmLogin1 extends javax.swing.JFrame {
 
     /**
      *
      */
-    public FrmLogin() {
+    public FrmLogin1() {
         initComponents();
         this.setResizable(false);
         confirmaFechamento();
@@ -182,7 +182,7 @@ public final class FrmLogin extends javax.swing.JFrame {
         try {
             logar();
         } catch (SQLException | InterruptedException ex) {
-            Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmLogin1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbLogarActionPerformed
 
@@ -191,7 +191,7 @@ public final class FrmLogin extends javax.swing.JFrame {
             try {
                 logar();
             } catch (SQLException | InterruptedException ex) {
-                Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FrmLogin1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jbLogarKeyPressed
@@ -205,7 +205,7 @@ public final class FrmLogin extends javax.swing.JFrame {
             try {
                 logar();
             } catch (SQLException | InterruptedException ex) {
-                Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FrmLogin1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jtSenhaKeyPressed
@@ -254,5 +254,4 @@ public final class FrmLogin extends javax.swing.JFrame {
             }
         });
     }
-
 }
